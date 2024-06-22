@@ -7,6 +7,7 @@ import Topbar from "@/Components/Topbar/Topbar";
 const inter = Inter({ subsets: ["latin"] });
 
 import { Assistant } from 'next/font/google'
+import Footer from "@/Components/Footer/Footer";
  
 // If loading a variable font, you don't need to specify the font weight
 const assistant = Assistant({
@@ -31,6 +32,7 @@ export default function RootLayout({
           <Topbar />
           <Navbar />
           {children}
+          <Footer/>
         </div>
       </body>
     </html>

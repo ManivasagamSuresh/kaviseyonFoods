@@ -2,43 +2,41 @@
 import Image from "next/image";
 import "../../styles/AnimationStyles.css"
 import React, { useEffect, useState } from "react";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
-import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import SearchInput from "../SearchInput";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { MdClear } from "react-icons/md";
 import { useRouter, usePathname } from "next/navigation";
-import ClearIcon from "@mui/icons-material/Clear";
 import Link from "next/link";
+import MobNavbar from "../MobileNav/MobNavbar";
+import { IoSearchOutline } from "react-icons/io5";
+import { FaRegHeart } from "react-icons/fa";
+import { MdOutlineShoppingCart } from "react-icons/md";
+import { IoPersonSharp } from "react-icons/io5";
+
+
 
 function Navbar() {
   const [search, setSearch] = useState<boolean>(false);
   const [pathName, setPathName] = useState("");
+  const [MobNav, setMobNav] = useState<boolean>(false);
   const router = useRouter();
   const pathname = usePathname();
 
-  const handleRouteMobMenu = () => {
-    router.push("/navMobile");
-  };
-
-  const handleClearRoute = () => {
-    router.back();
-  };
-
-  const isNavMobile = pathname === "/navMobile";
+  const HandleNavigation = (url: string) =>{
+    router.push(`/${url}`)
+  }
 
   useEffect(() => {
     setPathName(pathname);
   }, [pathname]);
 
   return (
-    <div className="w-full bg-white text-themeGreen flex items-center justify-between  h-16 lg:h-16 xl:h-20 sticky top-6 lg:top-10 z-50  gap-6 px-5 py-3 sm:px-10 lg:px-14 xl:px-20 shadow-md shadow-lightThemeGreen">
+    <div className="w-full bg-white text-themeGreen flex items-center justify-between  h-16 lg:h-16 xl:h-20 sticky top-6 lg:top-10 z-50  gap-6 px-5 py-3 sm:px-10 lg:px-8 xl:px-16 shadow-lg shadow-greenShadow">
       {search ? (
         <div className="flex gap-1 justify-end items-center w-full SearchInputAnimation">
-          <div className="bg-white rounded-lg w-full flex gap-2 px-2 py-2 border border-themeGreen">
+          <div className="bg-white rounded-lg w-full flex items-center gap-2 px-2 py-2 border border-themeGreen">
             <div>
-              <SearchOutlinedIcon className="text-themeGreen" />
+              <IoSearchOutline className="text-themeGreen w-5 h-5" />
             </div>
             <div className="w-full sm:w-[350px]">
               <SearchInput />
@@ -49,7 +47,7 @@ function Navbar() {
               setSearch(false);
             }}
           >
-            <ClearIcon />
+            <MdClear className="text-themeGreen w-5 h-5"/>
           </div>
         </div>
       ) : (
@@ -66,6 +64,15 @@ function Navbar() {
             >
               Home
             </Link>
+            
+            <Link
+              href="/Contact"
+              className={`cursor-pointer text-themeGreen lg:text-sm xl:text-base hover:underline decoration-themeGreen underline-offset-4 ${
+                pathName === "/Contact" && "bg-themeGreen rounded-md py-1 px-3 text-white"
+              }`}
+            >
+              Categories
+            </Link>
             <Link
               href="/About"
               className={`cursor-pointer text-themeGreen lg:text-sm xl:text-base hover:underline decoration-themeGreen underline-offset-4 ${
@@ -74,27 +81,27 @@ function Navbar() {
             >
               About Us
             </Link>
-            <Link
+            {/* <Link
               href="/Contact"
               className={`cursor-pointer text-themeGreen lg:text-sm xl:text-base hover:underline decoration-themeGreen underline-offset-4 ${
                 pathName === "/Contact" && "bg-themeGreen rounded-md py-1 px-3 text-white"
               }`}
             >
-              Contact Us
-            </Link>
+              FAQs
+            </Link> */}
           </div>
           <div
             className="block lg:hidden flex-1"
-            onClick={isNavMobile ? handleClearRoute : handleRouteMobMenu}
+            onClick={()=>{setMobNav(!MobNav)}}
           >
-            {isNavMobile ? <ClearIcon /> : <MenuOutlinedIcon />}
+            {MobNav ? <MdClear className="text-themeGreen w-5 h-5" /> : <GiHamburgerMenu className="text-themeGreen w-5 h-5" />}
           </div>
-
-          <div className="bg-white hidden rounded-full lg:flex gap-2 px-2 py-1 xl:py-2 border border-themeGreen flex-1">
+              
+          <div className="bg-white hidden rounded-full lg:flex items-center gap-2 px-2 py-1 xl:py-2 border border-themeGreen flex-1">
             <div>
-              <SearchOutlinedIcon className="text-themeGreen" />
+              <IoSearchOutline className="text-themeGreen" />
             </div>
-            <div className="w-full lg:w-60 xl:w-[280px]">
+            <div className="w-full lg:w-48 xl:w-[240px] relative">
               <SearchInput />
             </div>
           </div>
@@ -107,27 +114,31 @@ function Navbar() {
 
           <div className="flex gap-4 xl:gap-6 items-center justify-end h-full flex-1 ">
             <div
-              className="lg:hidden"
+              className="lg:hidden cursor-pointer"
               onClick={() => {
                 setSearch(true);
               }}
             >
-              <SearchOutlinedIcon />
+              <IoSearchOutline className="w-5 h-5"/>
             </div>
-            <div className="hidden lg:block">
-              <FavoriteBorderOutlinedIcon />
+            <div className="hidden lg:block cursor-pointer" onClick={()=>{HandleNavigation('Wishlist')}}>
+              <FaRegHeart className="lg:w-4 lg:h-4 xl:w-5 xl:h-5"/>
             </div>
-            <div onClick={()=>{
-              router.push("/Cart")
+            <div className="cursor-pointer" onClick={()=>{
+              HandleNavigation("Cart")
             }}>
-              <ShoppingCartOutlinedIcon />
+              <MdOutlineShoppingCart className="w-5 h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5"/>
             </div>
-            <div className="hidden lg:block">
-              <PermIdentityOutlinedIcon />
+            <div className="hidden lg:block cursor-pointer" onClick={()=>{HandleNavigation('Profile')}}>
+              <IoPersonSharp  className="w-5 h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5"/>
             </div>
           </div>
         </>
       )}
+      {
+        MobNav &&  <MobNavbar setMobNav={setMobNav}/>
+      }
+      
     </div>
   );
 }

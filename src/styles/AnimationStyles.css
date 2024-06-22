@@ -1,42 +1,128 @@
-.SearchInputAnimation{
-    transition: 1s;
-    animation: mount 1s ease ;
+.SearchInputAnimation {
+  transition: 1s;
+  animation: mount 1s ease;
 }
 
-@keyframes mount{
-    0%{
-        transform: translateY(-10vw);
-    }
-    100%{
-        transform: translateY(0);
-    }
+@keyframes mount {
+  0% {
+    transform: translateY(-10vw);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
-.pageMountAnimation{
-    transition: 1s;
-    animation: pageMount 1.5s ease ;
+/* Animation for page mount */
+
+.pageMountAnimation {
+  transition: 1s;
+  animation: pageMount 1.5s ease;
 }
 
 @keyframes pageMount {
-    0%{
-        transform: translateY(-100vw);
-    }
-    100%{
-        transform: translateY(0);
-    }
+  0% {
+    transform: translateY(-100vw);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 
-.mobileMenuAnimation{
-    transition: 1s;
-    animation: mobileMenuMount 0.8s ease ;
+
+/* Animation for mobile Menu */
+
+.mobileMenuAnimation {
+  transition: 1s;
+  animation: mobileMenuMount 0.8s ease;
 }
 
 @keyframes mobileMenuMount {
-    0%{
+  0% {
+    transform: translateX(-100vw);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.MobileMenuAnimeFirst {
+  animation: MenuAnimeFirst 0.8s ease;
+}
+
+@keyframes MenuAnimeFirst {
+  0% {
+    opacity: 0;
+    transform: translateX(-100vw);
+  }
+  
+  100% {
+    opacity: 100;
+    transform: translateX(0);
+  }
+}
+
+.MobileMenuAnimeSecond {
+  animation: MenuAnimeSecond 0.9s ease;
+}
+
+@keyframes MenuAnimeSecond {
+    0% {
+        opacity: 0;
         transform: translateX(-100vw);
-    }
-    100%{
+      }
+      
+      100% {
+        opacity: 100;
         transform: translateX(0);
-    }
+      }
+}
+
+.MobileMenuAnimeThird {
+  animation: MenuAnimeThird 1s ease;
+}
+
+@keyframes MenuAnimeThird {
+    0% {
+        opacity: 0;
+        transform: translateX(-100vw);
+      }
+      
+      100% {
+        opacity: 100;
+        transform: translateX(0);
+      }
+}
+
+.MobileMenuAnimeFourth {
+  animation: MenuAnimeFirst 1.1s ease;
+}
+
+@keyframes MenuAnimeFourth {
+    0% {
+        opacity: 0;
+        transform: translateX(-100vw);
+      }
+      
+      100% {
+        opacity: 100;
+        transform: translateX(0);
+      }
+}
+
+.MobileMenuAnimeFifth {
+  animation: MenuAnimeFifth 1.2s ease;
+ 
+}
+
+@keyframes MenuAnimeFifth {
+    0% {
+        opacity: 0;
+        transform: translateX(-100vw);
+      }
+      
+      100% {
+        opacity: 100;
+        transform: translateX(0);
+      }
 }

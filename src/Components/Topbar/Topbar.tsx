@@ -9,7 +9,7 @@ const assistant = Assistant({
 
 function Topbar() {
   return (
-    <div className={`w-full h-6 lg:h-10 text-xs lg:text-sm text-white bg-themeGreen py-1 lg:py-2 text-center tracking-wide ${assistant.className} sticky top-0 z-50`}>Our delivery time is 5-7 working days.</div>
+    <div className={`w-full h-6 lg:h-10 text-xs lg:text-sm text-white bg-themeGreen py-1 lg:py-2 text-center tracking-wide ${assistant.className} sticky top-0 z-50`}>Carefully curated by a Mom</div>
   )
 }
 
