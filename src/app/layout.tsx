@@ -2,8 +2,17 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/Components/Navbar/Navbar";
+import Topbar from "@/Components/Topbar/Topbar";
 
 const inter = Inter({ subsets: ["latin"] });
+
+import { Assistant } from 'next/font/google'
+ 
+// If loading a variable font, you don't need to specify the font weight
+const assistant = Assistant({
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: "Kavi Seyon Foods",
@@ -17,12 +26,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={assistant.className}>
         <div>
-        <Navbar />
-        {children}
+          <Topbar />
+          <Navbar />
+          {children}
         </div>
-        </body>
+      </body>
     </html>
   );
 }

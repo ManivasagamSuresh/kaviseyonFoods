@@ -1,0 +1,42 @@
+.SearchInputAnimation{
+    transition: 1s;
+    animation: mount 1s ease ;
+}
+
+@keyframes mount{
+    0%{
+        transform: translateY(-10vw);
+    }
+    100%{
+        transform: translateY(0);
+    }
+}
+
+.pageMountAnimation{
+    transition: 1s;
+    animation: pageMount 1.5s ease ;
+}
+
+@keyframes pageMount {
+    0%{
+        transform: translateY(-100vw);
+    }
+    100%{
+        transform: translateY(0);
+    }
+}
+
+
+.mobileMenuAnimation{
+    transition: 1s;
+    animation: mobileMenuMount 0.8s ease ;
+}
+
+@keyframes mobileMenuMount {
+    0%{
+        transform: translateX(-100vw);
+    }
+    100%{
+        transform: translateX(0);
+    }
+}
