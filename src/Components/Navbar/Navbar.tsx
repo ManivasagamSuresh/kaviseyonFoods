@@ -12,6 +12,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { IoPersonSharp } from "react-icons/io5";
+import Categories from "../Categories/Categories";
 
 
 
@@ -19,6 +20,7 @@ function Navbar() {
   const [search, setSearch] = useState<boolean>(false);
   const [pathName, setPathName] = useState("");
   const [MobNav, setMobNav] = useState<boolean>(false);
+  const [Category,setCategory] = useState<boolean>(false)
   const router = useRouter();
   const pathname = usePathname();
 
@@ -31,7 +33,10 @@ function Navbar() {
   }, [pathname]);
 
   return (
-    <div className="w-full bg-white text-themeGreen flex items-center justify-between  h-16 lg:h-16 xl:h-20 sticky top-6 lg:top-10 z-50  gap-6 px-5 py-3 sm:px-10 lg:px-8 xl:px-16 shadow-lg shadow-greenShadow">
+    <div className="w-full flex justify-center">
+
+   
+    <div className="w-full bg-white text-themeGreen flex items-center justify-between  h-16 lg:h-16 xl:h-20 sticky top-6 lg:top-10 z-50 px-5 py-3 sm:px-10 lg:px-8 xl:px-16 shadow-lg shadow-greenShadow max-w-[1850px]">
       {search ? (
         <div className="flex gap-1 justify-end items-center w-full SearchInputAnimation">
           <div className="bg-white rounded-lg w-full flex items-center gap-2 px-2 py-2 border border-themeGreen">
@@ -52,7 +57,7 @@ function Navbar() {
         </div>
       ) : (
         <>
-          <div className="hidden lg:flex gap-4 items-center justify-start h-full xl:gap-8 flex-1">
+          <div className="hidden lg:flex gap-4 items-center justify-start h-full xl:gap-8 2xl:gap-10 flex-1">
             <div className="w-10 h-14 relative xl:w-14 xl:h-20">
               <Image src="/Images/kaviSeyonLogo.png" fill alt="logo" />
             </div>
@@ -64,15 +69,18 @@ function Navbar() {
             >
               Home
             </Link>
-            
-            <Link
-              href="/Contact"
-              className={`cursor-pointer text-themeGreen lg:text-sm xl:text-base hover:underline decoration-themeGreen underline-offset-4 ${
-                pathName === "/Contact" && "bg-themeGreen rounded-md py-1 px-3 text-white"
+            <div className="relative">
+
+            <div
+              onClick={()=>{setCategory(!Category)}}
+              className={`cursor-pointer text-themeGreen lg:text-sm xl:text-base hover:underline decoration-themeGreen underline-offset-4  ${
+                pathName === "/Category" && "bg-themeGreen rounded-md py-1 px-3 text-white"
               }`}
-            >
+              >
               Categories
-            </Link>
+            </div>
+            {Category && <Categories setCategory={setCategory}/>}
+            </div>
             <Link
               href="/About"
               className={`cursor-pointer text-themeGreen lg:text-sm xl:text-base hover:underline decoration-themeGreen underline-offset-4 ${
@@ -139,6 +147,7 @@ function Navbar() {
         MobNav &&  <MobNavbar setMobNav={setMobNav}/>
       }
       
+    </div>
     </div>
   );
 }

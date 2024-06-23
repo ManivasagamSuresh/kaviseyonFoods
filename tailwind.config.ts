@@ -16,9 +16,10 @@ const config: Config = {
       colors: {
         themeGreen : "#4F7942",
         lightThemeGreen:"#F7FFF4",
-        greenShadow: "#F9FEF7"
+        greenShadow: "#F9FEF7",
+        bgLightGreen: "#F0FFF0",
 
-      }
+      },
     },
   },
   plugins: [],
