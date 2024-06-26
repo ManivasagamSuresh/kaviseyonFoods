@@ -42,7 +42,7 @@ const MobNavbar: React.FC<MobNavbarProps> = ({ setMobNav }) => {
             name="category"
             id="category"
             value={category}
-            className="w-full  px-2 rounded-lg"
+            className="w-full  px-2 rounded-lg bg-transparent"
             onChange={(e) => {
               handleCategoryChange(e);
             }}

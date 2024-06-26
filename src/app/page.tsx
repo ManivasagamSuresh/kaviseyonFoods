@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from "@/Components/ProductCard/ProductCard";
+import ProductCardH from "@/Components/ProductCardH/ProductCardH";
 
 export default function Home() {
   const [products,setProducts] = useState([]);
@@ -41,14 +42,30 @@ export default function Home() {
     <div className="w-full flex justify-center p-4" >
       <div className="text-lg text-center flex flex-col  items-center gap-4 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)] w-full max-w-[1850px]">
       <span> Hello All, Welcome to Kavi Seyon foods </span> 
-      <div className=" w-full flex flex-col flex-wrap gap-4 justify-center items-center sm:w-3/4 lg:w-5/6 2xl:w-[1400px]  lg:gap-2 sm:flex-row sm:items-start  lg:justify-start">
+      
+      
+
+      <div className=" w-full flex-col flex flex-wrap gap-4 justify-center items-center min-[560px]:w-3/4  lg:w-5/6 xl:w-[75%] min-[1600px]:w-[1400px]  lg:gap-2 sm:flex-row sm:items-start  lg:justify-start">
+      {
+        products?.map((prod)=>{
+          console.log(prod)
+          return <ProductCardH prod={prod} />
+        })
+      }
+      </div>
+
+      
+      <div className=" w-full flex flex-wrap gap-4 justify-center items-center min-[560px]:w-3/4  lg:w-5/6 xl:w-[75%] min-[1600px]:w-[1400px]  lg:gap-2 sm:flex-row sm:items-start  lg:justify-start">
       {
         products?.map((prod)=>{
           console.log(prod)
           return <ProductCard prod={prod} />
         })
       }
+      
       </div>
+
+     
        {/* <button onClick={postproduct}>POST</button> <button onClick={getAllProducts}>GET</button>  */}
 
       </div>

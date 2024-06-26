@@ -5,7 +5,7 @@ import "../../styles/AnimationStyles.css"
 import { FaCartPlus } from "react-icons/fa6";
 
 
-function ProductCard({ prod }:any) {
+function ProductCardH({ prod }:any) {
   const [isHovered, setIsHovered] = useState(false); // State to track hover
 
   // Function to get direct image URL from Google Drive link
@@ -16,11 +16,11 @@ function ProductCard({ prod }:any) {
 
   return (
     <div 
-      className={`border border-none h-fit w-40 min-[560px]:w-60 lg:w-[24%] mb-4 rounded-md shadow-lg overflow-hidden text-black hover:text-themeGreen productCardImage bg-[#fff]`}
+      className={`border border-none p-4 sm:p-0 flex sm:flex-col h-fit w-full max-w-[420px] min-[560px]:w-60 lg:w-[24%] mb-4 rounded-md shadow-lg overflow-hidden text-black hover:text-themeGreen productCardImage bg-[#fff]`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="w-full h-44 min-[560px]:h-64 relative lg:h-56 xl:h-72 2xl:h-80 overflow-hidden">
+      <div className="w-[30%] h-32 min-[560px]:w-60 min-[560px]:h-64 relative lg:h-56 xl:h-72 2xl:h-80 overflow-hidden">
         <Image 
           src={getImageSrc(prod.image)} 
           alt="Product Image" 
@@ -28,16 +28,16 @@ function ProductCard({ prod }:any) {
           layout="fill" // Ensures the Image fills its container
         />
       </div>
-      <div className='px-4 py-2 sm:py-4 text-left flex flex-col gap-2'>
-        <div className='text-xs sm:text-sm font-semibold'>{prod.name}</div>
+      <div className='px-4 py-3 w-[70%] sm:py-4 text-left flex flex-col gap-2'>
+        <div className='text-base sm:text-sm font-semibold'>{prod.name}</div>
         <div className='flex items-center justify-between'>
           <div className='flex items-center'>
             <LiaRupeeSignSolid className='w-[14px] h-[14px]'/>
-            <span className='text-xs sm:text-sm'>{prod.price}</span>
+            <span className='text-sm sm:text-sm'>{prod.price}</span>
           </div>
-          <div className='text-xs sm:text-sm'>Net Wt: {prod.weight_in_grams}g</div>
+          <div className='text-sm sm:text-sm'>Net Wt: {prod.weight_in_grams}g</div>
         </div>
-        <div className='flex justify-center items-center w-full h-fit gap-2 sm:mt-4 text-xs sm:text-sm font-semibold bg-lightThemeGreen text-[#fefefa] rounded-sm px-2 py-1 text-center'>
+        <div className='flex justify-center items-center w-full h-fit gap-2 mt-8 sm:mt-4 text-xs sm:text-sm font-semibold bg-lightThemeGreen text-[#fefefa] rounded-sm px-2 py-1 text-center'>
           <div>Add To Cart</div>
           <FaCartPlus/>
         </div>
@@ -46,4 +46,4 @@ function ProductCard({ prod }:any) {
   );
 }
 
-export default ProductCard;
+export default ProductCardH;

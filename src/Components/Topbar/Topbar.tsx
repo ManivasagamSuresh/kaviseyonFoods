@@ -9,7 +9,7 @@ const assistant = Assistant({
 
 function Topbar() {
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center sticky top-0 z-50 ">
       <div
         className={`w-full h-6 lg:h-10 text-xs lg:text-sm text-white bg-themeGreen py-1 lg:py-2 text-center tracking-wide ${assistant.className} sticky top-0 z-50 max-w-[1850px]`}
       >
