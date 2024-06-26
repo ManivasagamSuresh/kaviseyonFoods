@@ -16,7 +16,7 @@ function Footer() {
 
   return (
     <div className=' w-full flex justify-center'>
-    <div className='h-fit bg-bgLightGreen  px-3 sm:px-10 lg:px-40 py-5 flex justify-around text-black w-full max-w-[1850px]'>
+    <div className='h-fit bg-bgLightGreen  px-3 sm:px-10 lg:px-40 py-5 flex justify-around text-[#fefefa] w-full max-w-[1850px]'>
       <div className='flex flex-col gap-4'>
         <div className='relative w-20 h-14 lg:w-24 lg:h-16'>
           <Image src='/Images/KvLogo.png' alt='logo' fill/>

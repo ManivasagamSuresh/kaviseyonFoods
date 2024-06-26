@@ -34,7 +34,7 @@ const Categories: React.FC<CategoriesProps> = ({ setCategory }) => {
       ref={componentRef}
       className="flex items-center justify-evenly gap-3 rounded-lg shadow-lg bg-[#fff] py-4 px-5 z-[100] absolute top-10 left-4"
     >
-      <div className="cursor-pointer hover:scale-110 duration-100 flex items-center gap-2 bg-bgLightGreen py-2 px-3 rounded-md font-semibold" onClick={() => handleNavigation("Category/Kids")}>
+      <div className="cursor-pointer hover:scale-110 duration-100 flex items-center gap-2 text-[#fefefa] bg-bgLightGreen py-2 px-3 rounded-md font-semibold" onClick={() => handleNavigation("Category/Kids")}>
        <LuBaby/> Kids
       </div>
      <div>|</div>

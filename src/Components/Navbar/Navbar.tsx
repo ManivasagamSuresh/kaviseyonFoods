@@ -36,7 +36,7 @@ function Navbar() {
     <div className="w-full flex justify-center">
 
    
-    <div className="w-full bg-white text-themeGreen flex items-center justify-between  h-16 lg:h-16 xl:h-20 sticky top-6 lg:top-10 z-50 px-5 py-3 sm:px-10 lg:px-8 xl:px-16 shadow-lg shadow-greenShadow max-w-[1850px]">
+    <div className="w-full bg-white text-themeGreen flex items-center justify-between  h-16 lg:h-16 xl:h-20 sticky top-6 lg:top-10 z-50 px-5 py-3 sm:px-10 lg:px-8 xl:px-16 shadow shadow-greenShadow max-w-[1850px]">
       {search ? (
         <div className="flex gap-1 justify-end items-center w-full SearchInputAnimation">
           <div className="bg-white rounded-lg w-full flex items-center gap-2 px-2 py-2 border border-themeGreen">

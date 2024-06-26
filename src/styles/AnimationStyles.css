@@ -126,3 +126,13 @@
         transform: translateX(0);
       }
 }
+
+/* Animation for Card images scaling */
+.productCardImage {
+  transition: transform 0.3s ease; /* Smooth transition for scaling */
+}
+
+.hoveredImage {
+  transition: transform 0.8s ease;
+  transform: scale(1.06); /* Scale up to 1.2 times on hover */
+}
