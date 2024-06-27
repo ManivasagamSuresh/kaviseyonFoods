@@ -7,6 +7,8 @@ import ProductCardH from "@/Components/ProductCardH/ProductCardH";
 export default function Home() {
   const [products,setProducts] = useState([]);
 
+
+  // TODO: make me to server side props fetching, or ill call twice
   const getAllProducts = async () => {
     try {
       const response = await axios.get("/api/productsAPi");
@@ -43,7 +45,7 @@ export default function Home() {
       <div className="text-lg text-center flex flex-col  items-center gap-4 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)] w-full max-w-[1850px]">
       <span> Hello All, Welcome to Kavi Seyon foods </span> 
       
-      
+{/*       
 
       <div className=" w-full flex-col flex flex-wrap gap-4 justify-center items-center min-[560px]:w-3/4  lg:w-5/6 xl:w-[75%] min-[1600px]:w-[1400px]  lg:gap-2 sm:flex-row sm:items-start  lg:justify-start">
       {
@@ -52,7 +54,7 @@ export default function Home() {
           return <ProductCardH prod={prod} />
         })
       }
-      </div>
+      </div> */}
 
       
       <div className=" w-full flex flex-wrap gap-4 justify-center items-center min-[560px]:w-3/4  lg:w-5/6 xl:w-[75%] min-[1600px]:w-[1400px]  lg:gap-2 sm:flex-row sm:items-start  lg:justify-start">
