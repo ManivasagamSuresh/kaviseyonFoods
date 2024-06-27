@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
-import "../../styles/AnimationStyles.css"
+// import "../../styles/AnimationStyles.css"
+import '@/styles/AnimationStyles.css'
 import React, { useEffect, useState } from "react";
 import SearchInput from "../SearchInput";
 import { GiHamburgerMenu } from "react-icons/gi";

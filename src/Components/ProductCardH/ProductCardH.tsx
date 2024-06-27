@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { LiaRupeeSignSolid } from "react-icons/lia";
-import "../../styles/AnimationStyles.css"
+// import "../../styles/AnimationStyles.css"
+import '@/styles/AnimationStyles.css'
 import { FaCartPlus } from "react-icons/fa6";
 
 
