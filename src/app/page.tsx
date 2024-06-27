@@ -9,15 +9,15 @@ export default function Home() {
 
 
   // TODO: make me to server side props fetching, or ill call twice
-  // const getAllProducts = async () => {
-  //   try {
-  //     const response = await axios.get("/api/productsAPi");
-  //     setProducts(response.data);
-  //     console.log("GET response:", response.data);
-  //   } catch (error) {
-  //     console.error("Error calling GET API:", error);
-  //   }
-  // };
+  const getAllProducts = async () => {
+    try {
+      const response = await axios.get("/api/productsAPi");
+      setProducts(response.data);
+      console.log("GET response:", response.data);
+    } catch (error) {
+      console.error("Error calling GET API:", error);
+    }
+  };
 
     // const postproduct = async () => {
     //   try {
@@ -36,9 +36,9 @@ export default function Home() {
     // };
 
 
-    // useEffect(()=>{
-    //   getAllProducts();
-    // },[])
+    useEffect(()=>{
+      getAllProducts();
+    },[])
 
   return (
     <div className="w-full flex justify-center p-4" >
