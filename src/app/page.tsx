@@ -9,36 +9,36 @@ export default function Home() {
 
 
   // TODO: make me to server side props fetching, or ill call twice
-  const getAllProducts = async () => {
-    try {
-      const response = await axios.get("/api/productsAPi");
-      setProducts(response.data);
-      console.log("GET response:", response.data);
-    } catch (error) {
-      console.error("Error calling GET API:", error);
-    }
-  };
+  // const getAllProducts = async () => {
+  //   try {
+  //     const response = await axios.get("/api/productsAPi");
+  //     setProducts(response.data);
+  //     console.log("GET response:", response.data);
+  //   } catch (error) {
+  //     console.error("Error calling GET API:", error);
+  //   }
+  // };
 
-    const postproduct = async () => {
-      try {
-        const response = await axios.post("/api/productsAPi",{
-          "name": "Ragi Milk Powder",
-          "price": 500,
-          "category": "Fruits",
-          "weight_in_grams": 350,
-          "image":"https://drive.google.com/file/d/1gHuW7rO-fgeXYsW5Uyv9-amqp5OA128S/view?usp=sharing"
-        }
-        );
-        console.log("POST response:", response.data);
-      } catch (error) {
-        console.error("Error calling GET API:", error);
-      }
-    };
+    // const postproduct = async () => {
+    //   try {
+    //     const response = await axios.post("/api/productsAPi",{
+    //       "name": "Ragi Milk Powder",
+    //       "price": 500,
+    //       "category": "Fruits",
+    //       "weight_in_grams": 350,
+    //       "image":"https://drive.google.com/file/d/1gHuW7rO-fgeXYsW5Uyv9-amqp5OA128S/view?usp=sharing"
+    //     }
+    //     );
+    //     console.log("POST response:", response.data);
+    //   } catch (error) {
+    //     console.error("Error calling GET API:", error);
+    //   }
+    // };
 
 
-    useEffect(()=>{
-      getAllProducts();
-    },[])
+    // useEffect(()=>{
+    //   getAllProducts();
+    // },[])
 
   return (
     <div className="w-full flex justify-center p-4" >
