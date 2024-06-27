@@ -2,7 +2,6 @@ import { MongoClient, Db } from "mongodb";
 
 const url = process.env.MONGODB_URL;
 const mongoclient = new MongoClient(url);
-console.log("consoling url", url);
 
 let db: Db | null = null;
 let connection: MongoClient | null = null;
