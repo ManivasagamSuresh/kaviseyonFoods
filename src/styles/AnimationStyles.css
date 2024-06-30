@@ -127,6 +127,23 @@
       }
 }
 
+.MobileMenuAnimesixth {
+  animation: MenuAnimesixth 1.3s ease;
+ 
+}
+
+@keyframes MenuAnimesixth {
+  0% {
+      opacity: 0;
+      transform: translateX(-100vw);
+    }
+    
+    100% {
+      opacity: 100;
+      transform: translateX(0);
+    }
+}
+
 /* Animation for Card images scaling */
 .productCardImage {
   transition: transform 0.3s ease; /* Smooth transition for scaling */
@@ -135,4 +152,19 @@
 .hoveredImage {
   transition: transform 0.8s ease;
   transform: scale(1.06); /* Scale up to 1.2 times on hover */
+}
+
+.MobNavcategoryAnimation{
+  animation: MobNavcategoryAnimationSlideDown 1s ease forwards;
+}
+
+@keyframes MobNavcategoryAnimationSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

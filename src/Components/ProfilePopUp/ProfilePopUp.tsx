@@ -1,0 +1,60 @@
+import { useRouter } from "next/navigation";
+import React, { useEffect, useRef } from "react";
+
+const ProfilePopup: React.FC<ProfilePopupProps> = ({ setprofilePop }) => {
+  const router = useRouter();
+  const componentRef = useRef<HTMLDivElement>(null);
+
+  
+  const handleNavigation = (url: string) => {
+    setprofilePop(false);
+    router.push(`/${url}`);
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (componentRef.current && !componentRef.current.contains(event.target as Node)) {
+      setprofilePop(false); // Set category to false when clicking outside
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  return (
+    <div
+      ref={componentRef}
+      className="flex flex-col items-center justify-evenly gap-3 rounded-lg shadow-lg bg-milkWhite w-[180px]  py-4 px-5 z-[100] absolute top-10 right-1 "
+    >
+      <div
+        className="cursor-pointer hover:scale-110 duration-100 flex items-center gap-2 py-2 px-3 rounded-md font-semibold"
+        onClick={() => handleNavigation("SignIn")}
+      >
+        Sign-in/Sign-up
+      </div>
+      <hr className="bg-themeColorDark w-full h-[0.4px]" />
+      <div
+        className="cursor-pointer hover:scale-110 duration-100 flex items-center gap-2 py-2 px-3 rounded-md font-semibold"
+        onClick={() => handleNavigation("Profile")}
+      >
+        My Profile
+      </div>
+      <hr className="bg-themeColorDark w-full h-[0.4px]" />
+      <div
+        className="cursor-pointer hover:scale-110 duration-100 flex items-center gap-1 py-2 px-3 rounded-md font-semibold"
+        onClick={() => handleNavigation("MyOrders")}
+      >
+        My Orders
+      </div>
+      <hr className="bg-themeColorDark w-full h-[0.4px]" />
+      <div className="cursor-pointer hover:scale-110 duration-100 py-2 px-3 rounded-md font-semibold">
+        Logout
+      </div>
+    </div>
+  );
+};
+
+export default ProfilePopup;

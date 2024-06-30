@@ -17,7 +17,7 @@ function ProductCardH({ prod }:any) {
 
   return (
     <div 
-      className={`border border-none p-4 sm:p-0 flex sm:flex-col h-fit w-full max-w-[420px] min-[560px]:w-60 lg:w-[24%] mb-4 rounded-md shadow-lg overflow-hidden text-black hover:text-themeGreen productCardImage bg-[#fff]`}
+      className={`border border-none p-4 sm:p-0 flex sm:flex-col h-fit w-full max-w-[420px] min-[560px]:w-60 lg:w-[24%] mb-4 rounded-md shadow-lg overflow-hidden text-black hover:text-themeColorDark productCardImage bg-[#fff]`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -38,7 +38,7 @@ function ProductCardH({ prod }:any) {
           </div>
           <div className='text-sm sm:text-sm'>Net Wt: {prod.weight_in_grams}g</div>
         </div>
-        <div className='flex justify-center items-center w-full h-fit gap-2 mt-8 sm:mt-4 text-xs sm:text-sm font-semibold bg-lightThemeGreen text-[#fefefa] rounded-sm px-2 py-1 text-center'>
+        <div className='flex justify-center items-center w-full h-fit gap-2 mt-8 sm:mt-4 text-xs sm:text-sm font-semibold bg-themeColorLight text-milkWhite rounded-sm px-2 py-1 text-center'>
           <div>Add To Cart</div>
           <FaCartPlus/>
         </div>

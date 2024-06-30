@@ -14,6 +14,7 @@ import { FaRegHeart } from "react-icons/fa";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { IoPersonSharp } from "react-icons/io5";
 import Categories from "../Categories/Categories";
+import ProfilePopup from "../ProfilePopUp/ProfilePopUp";
 
 
 
@@ -22,6 +23,7 @@ function Navbar() {
   const [pathName, setPathName] = useState("");
   const [MobNav, setMobNav] = useState<boolean>(false);
   const [Category,setCategory] = useState<boolean>(false)
+  const [profilePop,setprofilePop] = useState<boolean>(false); 
   const router = useRouter();
   const pathname = usePathname();
 
@@ -37,12 +39,12 @@ function Navbar() {
     <div className="w-full flex justify-center sticky top-6 lg:top-10 z-50">
 
    
-    <div className="w-full bg-white text-themeGreen flex items-center justify-between  h-16 lg:h-16 xl:h-20 sticky top-6 lg:top-10 z-50 px-5 py-3 sm:px-10 lg:px-8 xl:px-16 shadow shadow-greenShadow max-w-[1850px]">
+    <div className="w-full bg-white text-themeColorDark flex items-center justify-between  h-16 lg:h-16 xl:h-20 sticky top-6 lg:top-10 z-50 px-5 py-3 sm:px-10 lg:px-8 xl:px-16 shadow shadow-themeColorLight max-w-[1850px]">
       {search ? (
         <div className="flex gap-1 justify-end items-center w-full SearchInputAnimation">
-          <div className="bg-white rounded-lg w-full flex items-center gap-2 px-2 py-2 border border-themeGreen">
+          <div className="bg-white rounded-lg w-full flex items-center gap-2 px-2 py-2 border border-themeColorDark">
             <div>
-              <IoSearchOutline className="text-themeGreen w-5 h-5" />
+              <IoSearchOutline className="text-themeColorDark w-5 h-5" />
             </div>
             <div className="w-full sm:w-[350px]">
               <SearchInput />
@@ -53,7 +55,7 @@ function Navbar() {
               setSearch(false);
             }}
           >
-            <MdClear className="text-themeGreen w-5 h-5"/>
+            <MdClear className="text-themeColorDark w-5 h-5"/>
           </div>
         </div>
       ) : (
@@ -64,8 +66,8 @@ function Navbar() {
             </div>
             <Link
               href="/"
-              className={`cursor-pointer text-themeGreen lg:text-sm xl:text-base hover:underline decoration-themeGreen underline-offset-4 ${
-                pathName === "/" && "bg-themeGreen rounded-md py-1 px-3 text-white"
+              className={`cursor-pointer text-themeColorDark lg:text-sm xl:text-base hover:underline decoration-themeColorDark underline-offset-4 ${
+                pathName === "/" && "bg-themeColorDark rounded-md py-1 px-3 text-white"
               }`}
             >
               Home
@@ -74,8 +76,8 @@ function Navbar() {
 
             <div
               onClick={()=>{setCategory(!Category)}}
-              className={`cursor-pointer text-themeGreen lg:text-sm xl:text-base hover:underline decoration-themeGreen underline-offset-4  ${
-                pathName === "/Category" && "bg-themeGreen rounded-md py-1 px-3 text-white"
+              className={`cursor-pointer text-themeColorDark lg:text-sm xl:text-base hover:underline decoration-themeColorDark underline-offset-4  ${
+                pathName === "/Category" && "bg-themeColorDark rounded-md py-1 px-3 text-white"
               }`}
               >
               Categories
@@ -84,16 +86,16 @@ function Navbar() {
             </div>
             <Link
               href="/About"
-              className={`cursor-pointer text-themeGreen lg:text-sm xl:text-base hover:underline decoration-themeGreen underline-offset-4 ${
-                pathName === "/About" && "bg-themeGreen rounded-md py-1 px-3 text-white"
+              className={`cursor-pointer text-themeColorDark lg:text-sm xl:text-base hover:underline decoration-themeColorDark underline-offset-4 ${
+                pathName === "/About" && "bg-themeColorDark rounded-md py-1 px-3 text-white"
               }`}
             >
               About Us
             </Link>
             {/* <Link
               href="/Contact"
-              className={`cursor-pointer text-themeGreen lg:text-sm xl:text-base hover:underline decoration-themeGreen underline-offset-4 ${
-                pathName === "/Contact" && "bg-themeGreen rounded-md py-1 px-3 text-white"
+              className={`cursor-pointer text-themeColorDark lg:text-sm xl:text-base hover:underline decoration-themeColorDark underline-offset-4 ${
+                pathName === "/Contact" && "bg-themeColorDark rounded-md py-1 px-3 text-white"
               }`}
             >
               FAQs
@@ -103,12 +105,12 @@ function Navbar() {
             className="block lg:hidden flex-1"
             onClick={()=>{setMobNav(!MobNav)}}
           >
-            {MobNav ? <MdClear className="text-themeGreen w-5 h-5" /> : <GiHamburgerMenu className="text-themeGreen w-5 h-5" />}
+            {MobNav ? <MdClear className="text-themeColorDark w-5 h-5" /> : <GiHamburgerMenu className="text-themeColorDark w-5 h-5" />}
           </div>
               
-          <div className="bg-white hidden rounded-full lg:flex items-center gap-2 px-2 py-1 xl:py-2 border border-themeGreen flex-1">
+          <div className="bg-white hidden rounded-full lg:flex items-center gap-2 px-2 py-1 xl:py-2 border border-themeColorDark flex-1">
             <div>
-              <IoSearchOutline className="text-themeGreen" />
+              <IoSearchOutline className="text-themeColorDark" />
             </div>
             <div className="w-full lg:w-48 xl:w-[240px] relative">
               <SearchInput />
@@ -138,8 +140,11 @@ function Navbar() {
             }}>
               <MdOutlineShoppingCart className="w-5 h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5"/>
             </div>
-            <div className="hidden lg:block cursor-pointer" onClick={()=>{HandleNavigation('Profile')}}>
+            <div className="hidden lg:block cursor-pointer relative" onClick={()=>{setprofilePop(!profilePop)}}>
               <IoPersonSharp  className="w-5 h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5"/>
+              {
+                profilePop && <ProfilePopup setprofilePop={setprofilePop}/>
+              }
             </div>
           </div>
         </>

@@ -1,4 +1,5 @@
 // CommonJS module export
+/** @type {import('tailwindcss').Config} */
 const { Config } = require("tailwindcss");
 
 const config = {
@@ -15,19 +16,34 @@ const config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        // themeGreen : "#4F7942",
-        themeGreen : "#254E58",
-        // lightThemeGreen:"#F7FFF4",
-        lightThemeGreen:"#88BDBC",
-        // greenShadow: "#F9FEF7",
-        greenShadow: "#88BDBC",
-        // bgLightGreen: "#F0FFF0",
-        bgLightGreen: "#88BDBC",
-
+        // themeColorDark : "#4F7942",
+        themeColorDark : "#254E58",
+        // themeColorLight:"#F7FFF4",
+        themeColorLight:"#88BDBC", 
+        // themeShadowColorLight: "#F9FEF7",
+        themeShadowColorLight: "#88BDBC",
+        milkWhite: '#fff',
+        lightGrey:"#808080"
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            h1: { fontSize: '18px', fontWeight: '600' },
+            h2: { fontSize: '18px', fontWeight: '600' },
+            h3: { fontSize: '18px', fontWeight: '600' },
+            h4: { fontSize: '18px', fontWeight: '600' },
+            h5: { fontSize: '18px', fontWeight: '600' },
+            h6: { fontSize: '18px', fontWeight: '600' },
+            strong: { fontWeight: '600' },
+            'h1 strong, h2 strong, h3 strong, h4 strong, h5 strong, h6 strong': {
+              fontWeight: '600',
+            },
+          },
+        },
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 };
 
 module.exports = config;

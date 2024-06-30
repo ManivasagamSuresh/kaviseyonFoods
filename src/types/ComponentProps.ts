@@ -5,5 +5,9 @@ interface MobNavbarProps {
   interface CategoriesProps {
     setCategory: (category: boolean) => void;
   }
+
+  interface ProfilePopupProps {
+    setprofilePop: (profilePop: boolean) => void;
   
+  }
   
