@@ -22,10 +22,10 @@ export default function Home() {
     try {
       const response = await axios.post("/api/productsAPi", {
         "name": "Ragi Milk Powder",
-        "price": 399,
+        "price": 499,
         "category": "Baby Food",
         "weight_in_grams": 200,
-        "image": "https://drive.google.com/file/d/1gHuW7rO-fgeXYsW5Uyv9-amqp5OA128S/view?usp=sharing",
+        "image": "https://drive.google.com/file/d/1uKw2Cm7ZQ7TBVdYZVBFCGeytMTxWkkcN/view?usp=sharing",
         "description": `
           ### **Ragi: A Nutrient Powerhouse**
           - **High in calcium, dietary fiber, iron, and multinutrients**
@@ -88,7 +88,7 @@ export default function Home() {
           })}
         </div>
 
-        {/* <button onClick={postproduct}>POST</button> <button onClick={getAllProducts}>GET</button> ? */}
+        {/* <button onClick={postproduct}>POST</button> <button onClick={getAllProducts}>GET</button> */}
       </div>
     </div>
   );

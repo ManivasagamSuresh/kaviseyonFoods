@@ -29,7 +29,7 @@ function ProductCard({ prod }:any) {
       onMouseLeave={() => setIsHovered(false)}
       onClick={()=>handleNavigation(prod._id)}
     >
-      <div className="w-full h-44 min-[560px]:h-64 relative lg:h-56 xl:h-72 2xl:h-80 overflow-hidden">
+      <div className="w-full h-32 min-[560px]:h-44 relative lg:h-36 xl:h-44 2xl:h-60 overflow-hidden">
         <Image 
           src={getImageSrc(prod.image)} 
           alt="Product Image" 

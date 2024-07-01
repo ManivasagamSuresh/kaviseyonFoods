@@ -26,6 +26,12 @@ function ProductPage() {
     }
   };
 
+  const getImageSrc = (url?: string) => {
+    if (!url) return "";
+    const id = url.match(/[-\w]{25,}/);
+    return id ? `https://drive.google.com/uc?export=view&id=${id[0]}` : url;
+  };
+  
   useEffect(() => {
     if (params.productId) {
       const productId = Array.isArray(params.productId) ? params.productId[0] : params.productId;
@@ -38,7 +44,7 @@ function ProductPage() {
       <div className="w-full max-w-[1850px] py-4 lg:px-10 flex flex-col md:flex-row gap-1 lg:gap-0 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)]  pageMountAnimation">
         <div className="w-full h-fit py-2 lg:px-4 lg:w-1/2 lg:height-2/4 flex justify-center items-center">
           <div className="relative w-80 h-[360px] lg:h-[520px] lg:w-[440px]">
-            <Image src="/Images/product1.jpeg" fill alt="" />
+            <Image src={getImageSrc(product?.image) } fill alt="" />
           </div>
         </div>
 
