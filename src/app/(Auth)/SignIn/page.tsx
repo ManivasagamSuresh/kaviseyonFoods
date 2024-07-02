@@ -1,4 +1,5 @@
 'use client'
+import axios from "axios";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -16,7 +17,7 @@ function Page() {
   const formik = useFormik<SignInFormValues>({
     initialValues: {
       email: "",
-      password: "",
+      password: ""
     },
     validate: (values) => {
       let error: Partial<SignInFormValues> = {};
@@ -33,10 +34,17 @@ function Page() {
     },
     onSubmit: async (values) => {
       try {
-        // let user = await axios.post(`${Config.api}/signin`, values)
+        const response = await axios.post('/api/AuthApi', {
+          action: 'signin',
+          email: values.email,
+          password: values.password
+        });
+       
         // localStorage.setItem("accessToken", user.data.token)
-        console.log(values);
-        toast.success('Signed In');
+        console.log(response.data);
+        if(response.status === 201){
+          toast.success('Signed In Successfully');
+        }
       } catch (error) {
         console.log(error);
         toast.error('Email and Password mismatch');

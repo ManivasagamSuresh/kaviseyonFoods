@@ -55,10 +55,19 @@ function Page() {
     },
     onSubmit: async (values) => {
       try {
-        // let user = await axios.post(`${Config.api}/signup`, values)
-        toast.success('Signed - up')
-        console.log(values);
-        // HandleNavigation("SignIn");
+        const response = await axios.post('/api/AuthApi', {
+          action: 'signup',
+          name: values.name,
+          email: values.email,
+          phone: values.phone,
+          password: values.password,
+          confirmpassword: values.confirmpassword,
+        });
+        if(response.status === 201){
+          toast.success('Signed-up Successfully');
+          HandleNavigation("SignIn");
+        }
+        console.log(response);
       } catch (error) {
         console.log(error);
       }
