@@ -15,6 +15,7 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { IoPersonSharp } from "react-icons/io5";
 import Categories from "../Categories/Categories";
 import ProfilePopup from "../ProfilePopUp/ProfilePopUp";
+import path from "node:path/win32";
 
 
 
@@ -33,6 +34,7 @@ function Navbar() {
 
   useEffect(() => {
     setPathName(pathname);
+    console.log(pathname);
   }, [pathname]);
 
   return (
@@ -41,12 +43,12 @@ function Navbar() {
    
     <div className="w-full bg-white text-themeColorDark flex items-center justify-between  h-16 lg:h-16 xl:h-20 sticky top-6 lg:top-10 z-50 px-5 py-3 sm:px-10 lg:px-8 xl:px-16 shadow shadow-themeColorLight max-w-[1850px]">
       {search ? (
-        <div className="flex gap-1 justify-end items-center w-full SearchInputAnimation">
+        <div className="flex gap-1 justify-end items-center w-full SearchInputAnimation ">
           <div className="bg-white rounded-lg w-full flex items-center gap-2 px-2 py-2 border border-themeColorDark">
             <div>
               <IoSearchOutline className="text-themeColorDark w-5 h-5" />
             </div>
-            <div className="w-full sm:w-[350px]">
+            <div className={`w-full sm:w-[350px]`}>
               <SearchInput />
             </div>
           </div>
@@ -108,7 +110,7 @@ function Navbar() {
             {MobNav ? <MdClear className="text-themeColorDark w-5 h-5" /> : <GiHamburgerMenu className="text-themeColorDark w-5 h-5" />}
           </div>
               
-          <div className="bg-white hidden rounded-full lg:flex items-center gap-2 px-2 py-1 xl:py-2 border border-themeColorDark flex-1">
+          <div className={`bg-white hidden rounded-full items-center gap-2 px-2 py-1 xl:py-2 border border-themeColorDark flex-1 ${pathName === '/SignIn' ? 'lg:hidden' : "lg:flex"} ${ pathName === '/SignUp' ? 'lg:hidden' : "lg:flex"}`}>
             <div>
               <IoSearchOutline className="text-themeColorDark" />
             </div>
@@ -124,18 +126,21 @@ function Navbar() {
           </div>
 
           <div className="flex gap-4 xl:gap-6 items-center justify-end h-full flex-1 ">
+            {/* TODO : change hidden if user not logged in */}
             <div
-              className="lg:hidden cursor-pointer"
+              className={`lg:hidden cursor-pointer ${pathName === '/SignIn' && 'hidden'} ${pathName === '/SignUp' && 'hidden'}`}
               onClick={() => {
                 setSearch(true);
               }}
             >
               <IoSearchOutline className="w-5 h-5"/>
             </div>
-            <div className="hidden lg:block cursor-pointer" onClick={()=>{HandleNavigation('Wishlist')}}>
+            {/* TODO : change hidden if user not logged in */}
+            <div className={`hidden cursor-pointer ${pathName === '/SignIn' ? 'lg:hidden' :  "lg:block" } ${pathName === '/SignUp' ? 'lg:hidden' :  "lg:block"}`} onClick={()=>{HandleNavigation('Wishlist')}}>
               <FaRegHeart className="lg:w-4 lg:h-4 xl:w-5 xl:h-5"/>
             </div>
-            <div className="cursor-pointer" onClick={()=>{
+            {/* TODO : change hidden if user not logged in */}
+            <div className={`cursor-pointer ${pathName === '/SignIn' && 'hidden'} ${pathName === '/SignUp' && 'hidden'}`} onClick={()=>{
               HandleNavigation("Cart")
             }}>
               <MdOutlineShoppingCart className="w-5 h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5"/>

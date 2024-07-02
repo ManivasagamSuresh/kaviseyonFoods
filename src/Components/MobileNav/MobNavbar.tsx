@@ -7,6 +7,7 @@ const MobNavbar: React.FC<MobNavbarProps> = ({ setMobNav }) => {
   const router = useRouter();
   const [category, setCategory] = useState<boolean>(false);
   const [profile, setprofile] = useState<boolean>(false);
+  {/* TODO : Set this if user not logged in */}
   const [sign, setSign] = useState<boolean>(true);
 
   const handleNavigation = (route: string) => {

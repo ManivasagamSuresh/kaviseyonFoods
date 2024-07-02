@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 @import './AnimationStyles.css';
+
+@import 'react-toastify/dist/ReactToastify.css';
+
