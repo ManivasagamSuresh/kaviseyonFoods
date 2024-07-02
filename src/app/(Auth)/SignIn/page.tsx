@@ -40,9 +40,9 @@ function Page() {
           password: values.password
         });
        
-        // localStorage.setItem("accessToken", user.data.token)
         console.log(response.data);
         if(response.status === 201){
+          // localStorage.setItem("accessToken", user.data.token)
           toast.success('Signed In Successfully');
         }
       } catch (error) {
