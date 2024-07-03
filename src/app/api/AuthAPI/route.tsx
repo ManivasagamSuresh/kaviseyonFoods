@@ -1,13 +1,9 @@
 // src/app/api/AuthApi/route.tsx
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(request: Request) {
+export const POST = async (request: NextRequest) => {
   const { action, email, password, name, phone, confirmpassword } = await request.json();
-
-  if (!action) {
-    return NextResponse.json({ message: 'Action not specified' }, { status: 400 });
-  }
-
+  
   switch (action) {
     case 'signin':
       return handleLogin({ email, password });
@@ -35,3 +31,12 @@ async function handleLogout() {
   // Add your logout logic here
   return NextResponse.json({ message: 'Logout successful' });
 }
+
+
+export const GET = async (req: Request) => {
+  try {
+    
+  } catch (error) {
+   
+  }
+};
