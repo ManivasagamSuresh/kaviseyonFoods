@@ -16,6 +16,7 @@ import { IoPersonSharp } from "react-icons/io5";
 import Categories from "../Categories/Categories";
 import ProfilePopup from "../ProfilePopUp/ProfilePopUp";
 import path from "node:path/win32";
+import { useSelector } from "react-redux";
 
 
 
@@ -27,7 +28,10 @@ function Navbar() {
   const [profilePop,setprofilePop] = useState<boolean>(false); 
   const router = useRouter();
   const pathname = usePathname();
+  const { kaviFoodUser } = useSelector((state: any) => state.user);
 
+  console.log('kaviFoodUser: ',kaviFoodUser);
+  
   const HandleNavigation = (url: string) =>{
     router.push(`/${url}`)
   }
@@ -135,12 +139,11 @@ function Navbar() {
             >
               <IoSearchOutline className="w-5 h-5"/>
             </div>
-            {/* TODO : change hidden if user not logged in */}
-            <div className={`hidden cursor-pointer ${pathName === '/SignIn' ? 'lg:hidden' :  "lg:block" } ${pathName === '/SignUp' ? 'lg:hidden' :  "lg:block"}`} onClick={()=>{HandleNavigation('Wishlist')}}>
+           
+            <div className={`hidden cursor-pointer ${!kaviFoodUser ? 'lg:hidden' :  "lg:block" } `} onClick={()=>{HandleNavigation('Wishlist')}}>
               <FaRegHeart className="lg:w-4 lg:h-4 xl:w-5 xl:h-5"/>
             </div>
-            {/* TODO : change hidden if user not logged in */}
-            <div className={`cursor-pointer ${pathName === '/SignIn' && 'hidden'} ${pathName === '/SignUp' && 'hidden'}`} onClick={()=>{
+            <div className={`cursor-pointer ${!kaviFoodUser && 'hidden'}`} onClick={()=>{
               HandleNavigation("Cart")
             }}>
               <MdOutlineShoppingCart className="w-5 h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5"/>

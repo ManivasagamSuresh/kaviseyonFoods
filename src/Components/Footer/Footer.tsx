@@ -23,7 +23,7 @@ function Footer() {
         </div>
         <div>
           <div className='font-semibold 2xl:text-lg'>Call/WhatsApp</div>
-          <div className='text-sm 2xl:text-base'>+91 9626220442</div>
+          <div className='text-sm 2xl:text-base'>+91 7010099780</div>
         </div>
         <div>
           <div className='font-semibold 2xl:text-lg'>Email</div>

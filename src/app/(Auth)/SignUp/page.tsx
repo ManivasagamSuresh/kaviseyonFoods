@@ -64,12 +64,11 @@ function Page() {
           confirmpassword: values.confirmpassword,
         });
         if(response.status === 201){
-          toast.success('Signed-up Successfully');
+          toast.success(response.data.message);
           HandleNavigation("SignIn");
         }
-        console.log(response);
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        toast.error(error.response.data.message);
       }
     },
   });

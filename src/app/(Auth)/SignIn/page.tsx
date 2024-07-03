@@ -5,11 +5,13 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { toast } from "react-toastify";
 
+import { loginSuccess } from "@/redux/UserSlice";
+import { useDispatch } from "react-redux";
 
 
 function Page() {
   const router = useRouter();
-
+  const dispatch = useDispatch()
   const HandleNavigation = (prop: string) => {
     router.push(`/${prop}`);
   };
@@ -39,15 +41,17 @@ function Page() {
           email: values.email,
           password: values.password
         });
-       
-        console.log(response.data);
-        if(response.status === 201){
-          // localStorage.setItem("accessToken", user.data.token)
-          toast.success('Signed In Successfully');
+        if(response.status === 200){
+          // console.log(response.data);
+          dispatch(loginSuccess(response.data.user));
+          localStorage.setItem('kavifoodsAdmin', response.data.user.isAdmin)
+          localStorage.setItem('kavifoodsToken', response.data.token)
+          toast.success(`Signed-in as ${response.data.user.name}`);
+          HandleNavigation('')
         }
-      } catch (error) {
+      } catch (error: any) {
         console.log(error);
-        toast.error('Email and Password mismatch');
+        toast.error(error.response.data.message);
       }
     },
   });

@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/redux/UserSlice";
+import { toast } from "react-toastify";
 
 const MobNavbar: React.FC<MobNavbarProps> = ({ setMobNav }) => {
   const router = useRouter();
+  const { kaviFoodUser } = useSelector((state: any) => state.user);
+  const dispatch = useDispatch();
   const [category, setCategory] = useState<boolean>(false);
   const [profile, setprofile] = useState<boolean>(false);
-  {/* TODO : Set this if user not logged in */}
-  const [sign, setSign] = useState<boolean>(true);
 
   const handleNavigation = (route: string) => {
     setMobNav(false);
@@ -18,6 +21,20 @@ const MobNavbar: React.FC<MobNavbarProps> = ({ setMobNav }) => {
   const handleCategoryChange = (cat: string) => {
     handleNavigation(`Category/${cat}`);
   };
+
+  const HandleSignout = async() =>{
+    try {
+      handleNavigation('');
+      dispatch(logout());
+      localStorage.removeItem('kavifoodsAdmin')
+      localStorage.removeItem('kavifoodsToken')
+      toast.success('Logged-out Successfully')
+     
+    } catch (error: any) {
+      toast.error('Something Went Wrong')
+    }
+  }
+
 
   return (
     <div className="w-full flex lg:hidden absolute left-0 top-[64px] z-10 h-[calc(100vh-88px)] mobileMenuAnimation">
@@ -45,7 +62,7 @@ const MobNavbar: React.FC<MobNavbarProps> = ({ setMobNav }) => {
            </div>
           }
         </div> */}
-        {sign ? (
+        {kaviFoodUser ? (
           <>
             <div
               className="text-xl sm:text-lg font-semibold MobileMenuAnimeSecond"
@@ -78,7 +95,7 @@ const MobNavbar: React.FC<MobNavbarProps> = ({ setMobNav }) => {
           <div
             className="text-xl sm:text-lg font-semibold MobileMenuAnimeSecond"
             onClick={() => {
-              handleNavigation("About");
+              handleNavigation("SignIn");
             }}
           >
             Sign-in/Sign-up
@@ -114,7 +131,7 @@ const MobNavbar: React.FC<MobNavbarProps> = ({ setMobNav }) => {
         <hr className="w-48 sm:w-48" />
         <div
           className={`text-xl sm:text-lg font-semibold ${
-            sign ? "MobileMenuAnimeFifth" : "MobileMenuAnimeThird"
+            kaviFoodUser ? "MobileMenuAnimeFifth" : "MobileMenuAnimeThird"
           } `}
           onClick={() => {
             handleNavigation("About");
@@ -122,10 +139,10 @@ const MobNavbar: React.FC<MobNavbarProps> = ({ setMobNav }) => {
         >
           About Us
         </div>
-        {sign && (
+        {kaviFoodUser && (
           <>
             <hr className="w-48 sm:w-48" />
-            <div className="text-xl sm:text-lg font-semibold MobileMenuAnimesixth">Logout</div>
+            <div className="text-xl sm:text-lg font-semibold MobileMenuAnimesixth" onClick={HandleSignout}>Logout</div>
           </>
         )}
       </div>
