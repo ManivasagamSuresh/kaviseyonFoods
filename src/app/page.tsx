@@ -12,7 +12,7 @@ export default function Home() {
     try {
       const response = await axios.get("/api/productsAPi");
       setProducts(response.data);
-      console.log("GET response:", response.data);
+      // console.log("GET response:", response.data);
     } catch (error) {
       console.error("Error calling GET API:", error);
     }
@@ -83,7 +83,6 @@ export default function Home() {
 
         <div className=" w-full flex flex-wrap gap-4 justify-center items-center min-[560px]:w-3/4  lg:w-5/6 xl:w-[75%] min-[1600px]:w-[1400px]  lg:gap-2 sm:flex-row sm:items-start  lg:justify-start">
           {products?.map((prod) => {
-            console.log(prod);
             return <ProductCard prod={prod} />;
           })}
         </div>
