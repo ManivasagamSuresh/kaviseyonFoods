@@ -76,10 +76,10 @@ const MobNavbar: React.FC<MobNavbarProps> = ({ setMobNav }) => {
             <div
               className="text-xl sm:text-lg font-semibold  MobileMenuAnimeThird"
               onClick={() => {
-                handleNavigation("MyOrders");
+                handleNavigation(`${kaviFoodUser.isAdmin ? "AllOrders": "MyOrders"}`);
               }}
             >
-              My Orders
+               {kaviFoodUser.isAdmin ?  "All Orders" : 'My Orders'}
             </div>
             <hr className="w-48 sm:w-48" />
         <div
