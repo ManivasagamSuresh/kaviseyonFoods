@@ -34,7 +34,7 @@ function Page() {
     },
     onSubmit: async (values) => {
       try {
-        const response = await axios.post('/api/AuthenticApi', {
+        const response = await axios.post('/api/AuthenticationApi', {
           action: 'signin',
           email: values.email,
           password: values.password

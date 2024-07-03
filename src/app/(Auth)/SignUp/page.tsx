@@ -55,7 +55,7 @@ function Page() {
     },
     onSubmit: async (values) => {
       try {
-        const response = await axios.post('/api/AuthenticApi', {
+        const response = await axios.post('/api/AuthenticationApi', {
           action: 'signup',
           name: values.name,
           email: values.email,
