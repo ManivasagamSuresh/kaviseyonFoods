@@ -50,7 +50,7 @@ function ProductPage() {
 
         <div className="w-full lg:w-1/2 py-1 pb-8 px-16 lg:px-6 ">
           <div className="lg:w-[480px] flex flex-col gap-2">
-            <div className="text-xl tracking-wider uppercase font-semibold">{product?.name}</div>
+            <div className="text-xl tracking-wider text-themeColorDark uppercase font-semibold">{product?.name}</div>
 
             <div className="flex gap-3 items-center">
               <div className="flex text-lg gap-1 h-fit items-center">
@@ -78,7 +78,7 @@ function ProductPage() {
                 </div>
               </div>
             </div>
-            <div className="flex w-full lg:w-[480px] h-fit py-2 items-center justify-center gap-2 border rounded-sm border-themeColorDark">
+            <div className="flex w-full lg:w-[480px] h-fit py-2 items-center justify-center gap-2 border rounded-sm text-milkWhite bg-themeColorDark border-themeColorDark">
               <div className="">Add to Cart </div>
               <FaCartPlus />
             </div>
