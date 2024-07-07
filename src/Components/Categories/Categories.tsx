@@ -38,7 +38,7 @@ const Categories: React.FC<CategoriesProps> = ({ setCategory }) => {
        <LuBaby/> Kids
       </div>
      <div>|</div>
-      <div className="cursor-pointer hover:scale-110 duration-100 flex items-center gap-1 text-milkWhite bg-themeColorLight py-2 px-3 rounded-md font-semibold" onClick={() => handleNavigation("Category/Adults")}>
+      <div className="cursor-pointer hover:scale-110 duration-100 flex items-center gap-1 text-milkWhite bg-themeColorDark py-2 px-3 rounded-md font-semibold" onClick={() => handleNavigation("Category/Adults")}>
         <VscPerson className="w-5 h-5"/> Adults
       </div>
     </div>

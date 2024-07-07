@@ -15,11 +15,11 @@ function Footer() {
   };
 
   return (
-    <div className=' w-full flex justify-center  '>
-    <div className='h-fit px-3 sm:px-10 lg:px-40 py-5 flex justify-around text-milkWhite w-full max-w-[1850px] bg-themeColorLight'>
-      <div className='flex flex-col md:flex-row gap-4 justify-center md:gap-20 '>
-        <div className='relative hidden md:block w-20 h-14 lg:w-24 lg:h-16'>
-          <Image src='/Images/KvLogo.png' alt='logo' fill/>
+    <div className=' w-full flex justify-center  items-center'>
+    <div className='h-fit px-3 sm:px-10 lg:px-40 py-5 flex justify-around text-textColor w-full max-w-[1850px] bg-[#F0F0F0] rounded-t-3xl md:rounded-t-[36px]'>
+      <div className='flex flex-col md:flex-row gap-4 justify-center  md:items-center md:gap-20 '>
+        <div className='relative hidden md:block w-16 h-20 lg:w-16 lg:h-20'>
+          <Image src='/Images/KaviseyonLogo.png' alt='logo' fill/>
         </div>
         <div>
           <div className='font-semibold 2xl:text-lg'>Call/WhatsApp</div>
@@ -37,7 +37,7 @@ function Footer() {
           </div>
         </div> */}
       </div>
-      <div className='flex-col gap-2 sm:flex'>
+      <div className='flex-col gap-2 sm:flex items-center justify-center'>
         <div className='flex flex-col gap-2'>
           <div className='font-semibold 2xl:text-lg'>Follow us on</div>
           <div className='flex gap-3'>

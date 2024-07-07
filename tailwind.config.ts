@@ -16,11 +16,10 @@ const config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        // themeColorDark : "#4F7942",
-        themeColorDark : "#254E58",
-        // themeColorLight:"#F7FFF4",
-        themeColorLight:"#88BDBC", 
-        // themeShadowColorLight: "#F9FEF7",
+        themeColorDark : "#a5c667",
+        // themeColorDark : "#254E58",
+        themeColorLight:"#F7FFF4",
+        textColor:'#212122',
         themeShadowColorLight: "#88BDBC",
         milkWhite: '#fff',
         lightGrey:"#808080"

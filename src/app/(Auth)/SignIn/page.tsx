@@ -85,7 +85,7 @@ function Page() {
           {formik.errors.password && formik.touched.password && (
             <div className="text-themeColorDark text-xs">{formik.errors.password}</div>
           )}
-          <button type="submit" className="bg-themeColorLight px-10 py-2 rounded-lg">Sign-In</button>
+          <button type="submit" className="bg-themeColorDark px-10 py-2 rounded-lg">Sign-In</button>
         </form>
       </div>
       <div>Forgot Password?</div>

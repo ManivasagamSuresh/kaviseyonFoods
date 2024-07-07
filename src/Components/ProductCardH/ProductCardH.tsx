@@ -17,7 +17,7 @@ function ProductCardH({ prod }:any) {
 
   return (
     <div 
-      className={`border border-none p-4 sm:p-0 flex sm:flex-col h-fit w-full max-w-[420px] min-[560px]:w-60 lg:w-[24%] mb-4 rounded-md shadow-lg overflow-hidden text-black hover:text-themeColorDark productCardImage bg-[#fff]`}
+      className={`border border-none p-4 sm:p-0 flex sm:flex-col h-fit w-full max-w-[420px] min-[560px]:w-60 lg:w-[24%] mb-4 rounded-md shadow-lg overflow-hidden text-textColor hover:text-themeColorDark productCardImage bg-[#fff]`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
