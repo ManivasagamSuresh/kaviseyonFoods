@@ -6,3 +6,13 @@ interface Product {
     image: string;
     description: string;
 }
+
+
+// types.ts
+interface CartProduct {
+    name: string;
+    price: number;
+    image: string;
+    quantity: number;
+  }
+  
