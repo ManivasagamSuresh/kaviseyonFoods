@@ -13,7 +13,7 @@ const assistant = Assistant({
 function Page() {
   const [cart, setCart] = useState([
     {
-      name: "Ragi Milk Powder",
+      name: "Rice Moongdal Kichadi",
       price: 14499,
       image: "https://drive.google.com/file/d/1uKw2Cm7ZQ7TBVdYZVBFCGeytMTxWkkcN/view?usp=sharing",
       quantity: 1,
@@ -37,9 +37,9 @@ function Page() {
       </div>
       <div className="flex flex-col">
         <div className="flex">
-          <div className="w-8/12 md:w-6/12 lg:w-7/12 lg:text-lg 2xl:text-xl">Product</div>
+          <div className="w-9/12 md:w-6/12 lg:w-7/12 lg:text-lg 2xl:text-xl">Product</div>
           <div className="hidden md:block md:w-4/12 lg:w-3/12 px-1 lg:text-lg 2xl:text-xl">Quantity</div>
-          <div className="w-4/12 md:w-2/12 lg:text-lg 2xl:text-xl">Total</div>
+          <div className="w-3/12 md:w-2/12 lg:text-lg 2xl:text-xl">Total</div>
         </div>
         <hr className="mb-2" />
 
