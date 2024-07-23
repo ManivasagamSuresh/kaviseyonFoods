@@ -33,9 +33,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <Providers>
+    
     <html lang="en">
       <body className={assistant.className} style={{overflow: "scroll"}}>
+      <Providers>
         <div className="min-h-screen  flex flex-col scroll-auto">
           <Topbar />
           <Navbar />
@@ -46,8 +47,8 @@ export default function RootLayout({
           <ToastContainer />
           <Footer/>
         </div>    
+      </Providers>
       </body>
     </html>
-    </Providers>
   );
 }
