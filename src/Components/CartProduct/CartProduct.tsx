@@ -27,7 +27,7 @@ const CartProduct: React.FC<ProductComponentProps> = ({ prod }) => {
         </div>
         </div>
         <div className="flex flex-col gap-4 px-1">
-          <div className="flex flex-col gap-1 ">
+          <div className="flex flex-col gap-1 pr-1 md:pr-0">
 
           <div className="text-sm md:text-base 2xl:text-lg">{prod.name}</div>
           <div className="flex text-sm md:text-base 2xl:text-lg  items-center">
@@ -35,7 +35,7 @@ const CartProduct: React.FC<ProductComponentProps> = ({ prod }) => {
           </div>
           </div>
           <div className="flex gap-4 items-center h-fit md:hidden">
-            <div className="border flex items-center justify-around h-fit py-0 w-28">
+            <div className="border flex items-center justify-around h-fit py-0 w-20">
               <span className="cursor-pointer">-</span>
               <span className="text-base 2xl:text-lg">{prod.quantity}</span>
               <span className="cursor-pointer">+</span>
