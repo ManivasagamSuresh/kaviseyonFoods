@@ -20,7 +20,7 @@ interface SignUpFormValues {
     cart: CartItem[];       
     myOrder: any[];    // Replace 'any' with the specific type if known
     isAdmin: boolean;
-    _id: number;
+    _id?: number;
   }
   
 
