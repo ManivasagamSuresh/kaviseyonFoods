@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: InitialUserStateRedux = {
-    kaviFoodUser:  null,
-    loading: false,
-    error: false,
-  };
+  kaviFoodUser: null,
+  loading: false,
+  error: false,
+};
 
 export const userSlice = createSlice({
   name: "user",
@@ -28,19 +28,51 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = false;
     },
-    changeAddress: (state, action) => {
+    changeAddress: (state, action) => {},
+    AddwishlistR: (state, action) => {},
+    RemovewishlistR: (state, action) => {},
+    AddUserCart: (state, action) => {
+      if (state.kaviFoodUser) {
+        const indexCart = state.kaviFoodUser.cart.findIndex(
+          (prod) => prod._id === action.payload._id
+        );
+        if (indexCart !== -1) {
+          state.kaviFoodUser.cart[indexCart].quantity += 1;
+        } else {
+          state.kaviFoodUser.cart.push(action.payload);
+        }
+      }
     },
-    AddwishlistR: (state, action) => {
+    ReduceUserCartQuantity: (state, action) => {
+      if (state.kaviFoodUser) {
+        const indexCart = state.kaviFoodUser.cart.findIndex(
+          (prod) => prod._id === action.payload._id
+        );
+        if (indexCart !== -1) {
+          if (state.kaviFoodUser.cart[indexCart].quantity > 1) {
+            state.kaviFoodUser.cart[indexCart].quantity -= 1;
+          }
+          //  else {
+          //   state.kaviFoodUser.cart.splice(indexCart, 1);
+          // }
+        }
+      }
     },
-    RemovewishlistR: (state, action) => {
+    RemoveUserCart: (state, action) => {
+      if (state.kaviFoodUser) {
+        const indexCart = state.kaviFoodUser.cart.findIndex(
+          (prod) => prod._id === action.payload._id
+        );
+        if (indexCart !== -1) {
+          state.kaviFoodUser.cart.splice(indexCart, 1);
+        }
+      }
     },
-    AddcartR: (state, action) => {      
+    EmptyUserCart: (state) => {
+      if (state.kaviFoodUser) {
+        state.kaviFoodUser.cart.length = 0;
+      }
     },
-    RemovecartR: (state, action) => {      
-    },
-    Emptycart: (state, action) => {      
-    }
-    
   },
 });
 
@@ -52,8 +84,9 @@ export const {
   changeAddress,
   AddwishlistR,
   RemovewishlistR,
-  AddcartR,
-  RemovecartR,
+  AddUserCart,
+  RemoveUserCart,
+  EmptyUserCart,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -2,8 +2,9 @@
 import CartProduct from "@/Components/CartProduct/CartProduct";
 import { Assistant } from "next/font/google";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LiaRupeeSignSolid } from "react-icons/lia";
+import { useSelector } from "react-redux";
 
 const assistant = Assistant({
   subsets: ['latin'],
@@ -11,22 +12,19 @@ const assistant = Assistant({
 })
 
 function Page() {
-  const [cart, setCart] = useState([
-    {
-      name: "Rice Moongdal Kichadi",
-      price: 14499,
-      image: "https://drive.google.com/file/d/1uKw2Cm7ZQ7TBVdYZVBFCGeytMTxWkkcN/view?usp=sharing",
-      quantity: 1,
-      _id:1
-    },
-    {
-      name: "Ragi Milk Powder",
-      price: 299,
-      image: "https://drive.google.com/file/d/1uKw2Cm7ZQ7TBVdYZVBFCGeytMTxWkkcN/view?usp=sharing",
-      quantity: 1,
-      _id:2
-    },
-  ]);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const { cart } = useSelector((state: any) => state.guestUser);
+  const { kaviFoodUser } =  useSelector((state: any) => state.user);
+  console.log(cart);
+
+  useEffect(()=>{
+    if(kaviFoodUser){
+      setCartItems(kaviFoodUser.cart);
+    }
+    else{
+      setCartItems(cart);
+    }
+  },[kaviFoodUser])
 
   return (
     <div className={`${assistant.className} w-full flex justify-center mb-56`}>
@@ -43,7 +41,9 @@ function Page() {
         </div>
         <hr className="mb-2" />
 
-        {cart.map((prod) => {
+        {cartItems.map((prod:CartItem
+          
+        ) => {
           return <CartProduct prod={prod} key={prod._id}/>;
         })}
         <hr className="mt-2" />

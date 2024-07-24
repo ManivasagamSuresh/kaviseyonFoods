@@ -2,11 +2,16 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from "@/Components/ProductCard/ProductCard";
+import { useDispatch, useSelector } from "react-redux";
+import { EmptyGuestCart } from "@/redux/GuestSlice";
+import { EmptyUserCart } from "@/redux/UserSlice";
 // import ProductCardH from "@/Components/ProductCardH/ProductCardH";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
 
+ const dispatch = useDispatch();
+  const {  mobile, email, cart, shippingAddress,   } = useSelector((state: any) => state.guestUser);
   // TODO: make me to server side props fetching, or ill call twice
   const getAllProducts = async () => {
     try {
@@ -63,6 +68,10 @@ export default function Home() {
 
   useEffect(() => {
     getAllProducts();
+    console.log(cart);
+    // TODO remove below comment
+    // dispatch(EmptyUserCart());
+    // dispatch(EmptyGuestCart())
   }, []);
 
   return (
