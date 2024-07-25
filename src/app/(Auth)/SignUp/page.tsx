@@ -1,4 +1,5 @@
 "use client";
+import { SignUpFormValues } from "@/types/profile";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";

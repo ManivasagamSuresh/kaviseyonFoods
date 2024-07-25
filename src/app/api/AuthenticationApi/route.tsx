@@ -1,5 +1,6 @@
 // src/app/api/AuthApi/route.tsx
 import { DBconnect, closeConnection } from '@/MongoDb/mongoDb';
+import { SignInFormValues, SignUpFormValues, User } from '@/types/profile';
 import { NextRequest, NextResponse } from 'next/server';
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');

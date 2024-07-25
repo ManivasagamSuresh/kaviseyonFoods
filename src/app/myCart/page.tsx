@@ -1,5 +1,6 @@
 "use client";
 import CartProduct from "@/Components/CartProduct/CartProduct";
+import { CartItem } from "@/types/profile";
 import { Assistant } from "next/font/google";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -44,7 +45,7 @@ function Page() {
         {cartItems.map((prod:CartItem
           
         ) => {
-          return <CartProduct prod={prod} key={prod._id}/>;
+          return <CartProduct prod={prod} key={`${prod._id}`}/>;
         })}
         <hr className="mt-2" />
       </div>

@@ -1,5 +1,6 @@
 "use client";
 
+import { InitialUserStateRedux } from "@/types/profile";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: InitialUserStateRedux = {

@@ -1,8 +1,9 @@
 "use client";
 
+import { GuestReduxInitial } from "@/types/profile";
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: GuestReduxInital = {
+const initialState: GuestReduxInitial = {
   name: null,
   mobile: null,
   email: null,
