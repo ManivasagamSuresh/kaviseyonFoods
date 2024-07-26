@@ -53,7 +53,7 @@ function Page() {
             <div className="flex items-center mt-3 lg:text-lg 2xl:text-xl">
               <span className="text-base 2xl:text-lg mr-2">Estimated Total: </span>
               <LiaRupeeSignSolid className="w-[14px] h-[14px] lg:w-4 lg:h-4" />
-              {cart.totalPrice}
+              {kaviFoodUser ? kaviFoodUser.cart.totalPrice  : cart.totalPrice}
             </div>
             <div className="text-xs">Shipping charges calculated at checkout</div>
             <div className="bg-themeColorDark text-milkWhite px-14 lg:px-24 py-2 text-center rounded-sm font-semibold w-fit 2xl:text-xl">

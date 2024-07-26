@@ -65,11 +65,11 @@ const CartProduct: React.FC<ProductComponentProps> = ({ prod }) => {
           </div>
           <div className="flex gap-4 items-center h-fit md:hidden">
             <div className="border flex items-center justify-around h-fit py-0 w-20">
-              <span className="cursor-pointer">-</span>
+              <span className="cursor-pointer" onClick={reduceQuantityCount}>-</span>
               <span className="text-base 2xl:text-lg">{prod.quantity}</span>
-              <span className="cursor-pointer">+</span>
+              <span className="cursor-pointer" onClick={addQuantityCount}>+</span>
             </div>
-            <RiDeleteBin6Line className="" />
+            <RiDeleteBin6Line className="" onClick={removeCart}/>
           </div>
         </div>
       </div>

@@ -29,8 +29,10 @@ function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const { kaviFoodUser } = useSelector((state: any) => state.user);
+  const { cart } = useSelector((state: any) => state.guestUser);
 
   // console.log('kaviFoodUser: ',kaviFoodUser);
+
   
   const HandleNavigation = (url: string) =>{
     router.push(`/${url}`)
@@ -147,7 +149,7 @@ function Navbar() {
               HandleNavigation("myCart")
             }}>
               <MdOutlineShoppingCart className="w-5 h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5"/>
-              <div className="absolute top-0 right-0 bg-themeColorDark text-milkWhite rounded-full px-1 py-0.5 text-xs leading-none transform translate-x-1/2 -translate-y-1/2">1</div>
+              <div className="absolute top-0 right-0 bg-themeColorDark text-milkWhite rounded-full px-1 py-0.5 text-xs leading-none transform translate-x-1/2 -translate-y-1/2">{kaviFoodUser ? kaviFoodUser.cart.items.length : cart.items.length}</div>
             </div>
             <div className="hidden lg:block cursor-pointer relative" onClick={()=>{setprofilePop(!profilePop)}}>
               <IoPersonSharp  className="w-5 h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5"/>

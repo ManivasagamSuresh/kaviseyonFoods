@@ -70,8 +70,8 @@ export default function Home() {
     getAllProducts();
     // console.log(cart);
     // TODO remove below comment
-    dispatch(EmptyUserCart());
-    dispatch(EmptyGuestCart())
+    // dispatch(EmptyUserCart());
+    // dispatch(EmptyGuestCart())
   }, []);
 
   return (
