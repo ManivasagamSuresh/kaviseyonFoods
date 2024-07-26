@@ -38,7 +38,7 @@ export const POST = async (req: NextRequest) => {
     const data = await req.json();
     const db = await DBconnect();
     const product = await db?.collection("products").insertOne(data);
-    console.log(product);
+    // console.log(product);
     await closeConnection();
     return new NextResponse(JSON.stringify(product), {
       status: 200,

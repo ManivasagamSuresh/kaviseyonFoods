@@ -68,10 +68,10 @@ export default function Home() {
 
   useEffect(() => {
     getAllProducts();
-    console.log(cart);
+    // console.log(cart);
     // TODO remove below comment
-    // dispatch(EmptyUserCart());
-    // dispatch(EmptyGuestCart())
+    dispatch(EmptyUserCart());
+    dispatch(EmptyGuestCart())
   }, []);
 
   return (
@@ -92,7 +92,6 @@ export default function Home() {
 
         <div className=" w-full flex flex-wrap gap-4 justify-center items-center min-[560px]:w-3/4  lg:w-5/6 xl:w-[75%] min-[1600px]:w-[1400px]  lg:gap-2 sm:flex-row sm:items-start  lg:justify-start">
           {products?.map((prod) => {
-            console.log(prod)
             return <ProductCard prod={prod} key={prod._id}/>;
           })}
         </div>

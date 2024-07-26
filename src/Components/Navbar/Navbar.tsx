@@ -30,7 +30,7 @@ function Navbar() {
   const pathname = usePathname();
   const { kaviFoodUser } = useSelector((state: any) => state.user);
 
-  console.log('kaviFoodUser: ',kaviFoodUser);
+  // console.log('kaviFoodUser: ',kaviFoodUser);
   
   const HandleNavigation = (url: string) =>{
     router.push(`/${url}`)
@@ -38,7 +38,7 @@ function Navbar() {
 
   useEffect(() => {
     setPathName(pathname);
-    console.log(pathname);
+    // console.log(pathname);
   }, [pathname]);
 
   return (

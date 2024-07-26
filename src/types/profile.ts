@@ -20,10 +20,15 @@ export interface User {
   password: string;
   phone: string;
   wishlist: any[];   // Replace 'any' with the specific type if known
-  cart: CartItem[];
+  cart: Cart;
   myOrder: any[];    // Replace 'any' with the specific type if known
   isAdmin: boolean;
   _id?: ObjectId;    // Use ObjectId type from mongodb package
+}
+
+export interface Cart {
+  totalPrice: number;
+  items: CartItem[]; // Rename cart to items
 }
 
 export interface InitialUserStateRedux {
@@ -58,7 +63,7 @@ export interface GuestReduxInitial {
   mobile: string | null;
   email: string | null;
   shippingAddress: ShippingAddress | null;
-  cart: CartItem[];
+  cart: Cart;
 }
 
 export interface GuestUser {
@@ -66,5 +71,5 @@ export interface GuestUser {
   mobile: string;
   email: string;
   shippingAddress: ShippingAddress;
-  cart: CartItem[];
+  cart: Cart;
 }

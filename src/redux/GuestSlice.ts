@@ -8,7 +8,9 @@ const initialState: GuestReduxInitial = {
   mobile: null,
   email: null,
   shippingAddress: null,
-  cart: [],
+  cart: { 
+    totalPrice: 0,
+    items: []}, // Rename cart to items to avoid confusion
 };
 
 export const GuestSlice = createSlice({
@@ -17,34 +19,37 @@ export const GuestSlice = createSlice({
   reducers: {
     AddPersonalDetails: (state, action) => {},
     AddGuestCart: (state, action) => {
-      console.log(action.payload);
-      const cartIndex = state.cart.findIndex((prod) => prod._id === action.payload._id);
+      const cartIndex = state.cart.items.findIndex((prod) => prod._id === action.payload._id);
       if (cartIndex !== -1) {
-        state.cart[cartIndex].quantity += 1;
+        state.cart.items[cartIndex].quantity += 1;
       } else {
-        state.cart.push(action.payload);
+        state.cart.items.push(action.payload);
       }
+      state.cart.totalPrice += action.payload.price; // Update totalPrice
     },
     ReduceGuestCartQuantity: (state, action) => {
-      if (state.cart) {
-        const cartIndex = state.cart.findIndex((prod) => prod._id === action.payload._id);
+      if (state.cart.items) {
+        const cartIndex = state.cart.items.findIndex((prod) => prod._id === action.payload._id);
         if (cartIndex !== -1) {
-          if (state.cart[cartIndex].quantity > 1) {
-            state.cart[cartIndex].quantity -= 1;
+          if (state.cart.items[cartIndex].quantity > 1) {
+            state.cart.items[cartIndex].quantity -= 1;
+            state.cart.totalPrice -= state.cart.items[cartIndex].price; // Update totalPrice
           }
         }
       }
     },
     RemoveGuestCart: (state, action) => {
-      if (state.cart) {
-        const cartIndex = state.cart.findIndex((prod) => prod._id === action.payload._id);
+      if (state.cart.items) {
+        const cartIndex = state.cart.items.findIndex((prod) => prod._id === action.payload._id);
         if (cartIndex !== -1) {
-          state.cart.splice(cartIndex, 1);
+          state.cart.totalPrice -= state.cart.items[cartIndex].price * state.cart.items[cartIndex].quantity; // Update totalPrice
+          state.cart.items.splice(cartIndex, 1);
         }
       }
     },
     EmptyGuestCart: (state) => {
-      state.cart.length = 0;
+      // state.cart.items.length = 0;
+      // state.cart.totalPrice = 0; // Reset totalPrice
     },
   },
 });

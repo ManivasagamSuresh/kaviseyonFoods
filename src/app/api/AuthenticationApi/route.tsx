@@ -24,21 +24,21 @@ export const POST = async (request: NextRequest) => {
 
 async function handleLogin({ email, password }: SignInFormValues) {
   // Add your authentication logic here
-  console.log(email, password);
+  // console.log(email, password);
   const request: SignInFormValues = {
     email: email,
     password: password,
   }
   const mongoConnection = await DBconnect();
   const user = await mongoConnection?.collection('user').findOne({email:email});
-  console.log(user);
+  // console.log(user);
   if(user){
     const compare = await bcrypt.compare(password, user.password);
-    console.log('compare: ',compare);
+    // console.log('compare: ',compare);
     if(compare){
      
       const token = await jwt.sign({id: user._id},JWT_SECRET);
-      console.log(token);
+      // console.log(token);
       return NextResponse.json({ user: user , token: token }, { status: 200 });
     }else{
       return NextResponse.json({ message: 'Email/Phone or Password Incorrect', token: 'exampleToken' }, { status: 400 });
@@ -57,7 +57,10 @@ async function handleSignup({ name, email, password, phone }: SignUpFormValues) 
     password: hashedPAssword,
     phone: phone ,
     wishlist: [],
-    cart: [],
+    cart: {
+      totalPrice: 0,
+      items : []
+    },
     myOrder: [],
     isAdmin: false   
   }

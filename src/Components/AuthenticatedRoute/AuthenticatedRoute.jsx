@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 
 function AuthenticatedRoute({ children }) {
   const { kaviFoodUser } = useSelector((state) => state.user);
+  // const { cart } = useSelector((state)=> state.guestUser)
   const router = useRouter();
   useEffect(() => {
     if (!kaviFoodUser) {
