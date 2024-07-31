@@ -20,7 +20,7 @@ const config = {
         // themeColorDark : "#254E58",
         themeColorLight:"#F7FFF4",
         textColor:'#212122',
-        themeShadowColorLight: "#88BDBC",
+        // themeShadowColorLight: "#88BDBC",
         milkWhite: '#fff',
         lightGrey:"#808080"
       },

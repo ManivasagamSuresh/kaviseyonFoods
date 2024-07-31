@@ -3,6 +3,7 @@ import CartProduct from "@/Components/CartProduct/CartProduct";
 import { CartItem } from "@/types/profile";
 import { Assistant } from "next/font/google";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { useSelector } from "react-redux";
@@ -16,6 +17,11 @@ function Page() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const { cart } = useSelector((state: any) => state.guestUser);
   const { kaviFoodUser } = useSelector((state: any) => state.user);
+  const router = useRouter();
+
+  const navigateToCheckout = () =>{
+    router.push('/Checkout')
+  }
 
   useEffect(() => {
     if (kaviFoodUser) {
@@ -56,7 +62,7 @@ function Page() {
               {kaviFoodUser ? kaviFoodUser.cart.totalPrice  : cart.totalPrice}
             </div>
             <div className="text-xs">Shipping charges calculated at checkout</div>
-            <div className="bg-themeColorDark text-milkWhite px-14 lg:px-24 py-2 text-center rounded-sm font-semibold w-fit 2xl:text-xl">
+            <div className="bg-themeColorDark cursor-pointer text-milkWhite px-14 lg:px-24 py-2 text-center rounded-sm font-semibold w-fit 2xl:text-xl" onClick={navigateToCheckout}>
               Checkout
             </div>
           </div>
