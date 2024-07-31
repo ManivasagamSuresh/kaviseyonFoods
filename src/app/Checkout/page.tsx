@@ -26,7 +26,7 @@ function page() {
 
   return (
     <div className="flex justify-center  pageMountAnimation w-full ">
-      <div className="flex  flex-col lg:flex-row p-4 lg:p-16 w-full max-w-[1850px] min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)]">
+      <div className="flex  flex-col-reverse lg:flex-row p-4 lg:p-16 w-full max-w-[1850px] min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)]">
         <div className="w-full lg:w-1/2 flex flex-col gap-5 p-6 md:px-20 md:py-8  lg:py-4 lg:px-12 xl:pl-32 xl:pr-20">
           <div className="flex flex-col gap-4">
             <div className="text-lg lg:text-xl font-semibold">Contact :</div>
