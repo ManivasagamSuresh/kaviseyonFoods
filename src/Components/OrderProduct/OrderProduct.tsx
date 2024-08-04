@@ -40,8 +40,8 @@ const OrderProduct: React.FC<OrderProductProps> = ({ order }) => {
   }, []);
 
   return (
-    <div className="border rounded-lg">
-      <div className="top bg-themeColorLight px-3 md:px-5 py-1 flex justify-between rounded-t-lg">
+    <div className="border rounded-lg shadow-lg">
+      <div className="top bg-themeColorLight px-3 md:px-5 py-2 flex justify-between rounded-t-lg">
         <div className="w-full md:w-1/2  flex flex-col md:flex-row gap-2 md:gap-10 py-1">
         <div className="flex gap-8">
           <div className="flex flex-row text-xs md:text-base gap-1 ">
@@ -100,15 +100,21 @@ const OrderProduct: React.FC<OrderProductProps> = ({ order }) => {
           </div>
         </div>
         <div className="flex justify-between md:flex-row flex-col gap-2 md:gap-0">
-          <div className="flex gap-4">
-            <div className="w-16 h-20 relative">
-              <Image src={getImageSrc(orderState.image)} alt="Product Image" fill={true} />
-            </div>
-            <div className="flex flex-col gap-1">
-              <div>{orderState.name}   <span className="text-xs text-lightGrey ml-2">{orderState.weight_in_grams}gms </span></div>
-              <div className="text-sm text-lightGrey"> Quantity: {orderState.quantity}</div>
-            </div>
-          </div>
+            <div className="flex flex-col gap-5">
+         {
+            orderState.products.map((prod)=>{
+                return <div className="flex gap-4">
+                <div className="w-16 h-20 relative">
+                  <Image src={getImageSrc(prod.image)} alt="Product Image" fill={true} />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <div>{prod.name}   <span className="text-xs text-lightGrey ml-2">{prod.weight_in_grams}gms </span></div>
+                  <div className="text-sm text-lightGrey"> Quantity: {prod.quantity}</div>
+                </div>
+              </div> 
+            })
+         }  
+         </div>
           <div className="text-sm w-full  md:w-48">
           <div className="flex gap-2 md:gap-0 md:flex-col md:hidden">
             <span className="font-semibold">Ship to</span>

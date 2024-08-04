@@ -17,21 +17,25 @@ interface CartProduct {
   }
 
 
-  interface Order {
-    _id: string;
+  interface OrderProduct {
     name: string;
-    quantity: number;
-    deliveryAddress: string;
-    orderTotal: string;
-    orderStatus: string;
     image: string;
     productId: string;
     weight_in_grams: string;
-    shippedToName:string;
+    quantity: number;
+  }
+  
+  interface Order {
+    _id: string;
+    deliveryAddress: string;
+    orderTotal: string;
+    orderStatus: string;
+    trackingId: string;
+    shippedToName: string;
     orderDate: string;
-    trackingId?: string;
     phoneNumber: string;
-    email: string
+    email: string;
+    products: OrderProduct[];
   }
   
   

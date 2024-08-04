@@ -10,55 +10,95 @@ function Page() {
   const router = useRouter();
 
 
-  const orders: Order[] =[{
-    _id:'1',
-    name:"ragi",
-    quantity: 2,
-    deliveryAddress:'anna nagar madurai',
-    orderTotal:"2300",
-    orderStatus:"Shipped",
-    image:"https://drive.google.com/file/d/1yP3s8ECiotn7caN4QhWzs8jSBVWSNDPV/view?usp=sharing",
-    productId:"1",
-    weight_in_grams:"200",
-    trackingId:"27147657398",
-    shippedToName:"Dhanalaksmi",
-    orderDate:"03-08-2024",
-    phoneNumber: "9566991210",
-    email: "kaviseyonfoods@gmail.com"
-  },
-  {
-    _id:'2',
-    name:"ragi2",
-    quantity: 1,
-    deliveryAddress:'anna nagar madurai',
-    orderTotal:"2300",
-    orderStatus:"Yet To Dispatch",
-    image:"https://drive.google.com/file/d/1yP3s8ECiotn7caN4QhWzs8jSBVWSNDPV/view?usp=sharing",
-    productId:"1",
-    weight_in_grams:"200",
-    trackingId:"",
-    shippedToName:"Dhanalaksmi",
-    orderDate:"03-08-2024",
-    phoneNumber: "9566991210",
-    email: "kaviseyonfoods@gmail.com"
-  },
-  {
-    _id:'332984785689347801',
-    name:"ragi3",
-    quantity: 1,
-    deliveryAddress:'marathahalli, banglore',
-    orderTotal:"123",
-    orderStatus:"Delivered",
-    image:"https://drive.google.com/file/d/1yP3s8ECiotn7caN4QhWzs8jSBVWSNDPV/view?usp=sharing",
-    productId:"2",
-    weight_in_grams:"150",
-    trackingId:"234132332434",
-    shippedToName:"Mani",
-    orderDate:"03-08-2024",
-    phoneNumber: "9566991210",
-    email: "kaviseyonfoods@gmail.com"
-  },
-]
+  const orders: Order[] = [
+    {
+      _id: "1",
+      deliveryAddress: "anna nagar madurai",
+      orderTotal: "2300",
+      orderStatus: "Shipped",
+      trackingId: "27147657398",
+      shippedToName: "Dhanalaksmi",
+      orderDate: "03-08-2024",
+      phoneNumber: "9566991210",
+      email: "kaviseyonfoods@gmail.com",
+      products: [
+        {
+          name: "ragi",
+          image:
+            "https://drive.google.com/file/d/1yP3s8ECiotn7caN4QhWzs8jSBVWSNDPV/view?usp=sharing",
+          productId: "1",
+          weight_in_grams: "200",
+          quantity: 2,
+        },
+        {
+          name: "Rice Moongdal Kichadi",
+          image:
+            "https://drive.google.com/file/d/1yP3s8ECiotn7caN4QhWzs8jSBVWSNDPV/view?usp=sharing",
+          productId: "1",
+          weight_in_grams: "200",
+          quantity: 2,
+        },
+      ],
+    },
+    {
+      _id: "1",
+      deliveryAddress: "anna nagar madurai",
+      orderTotal: "2300",
+      orderStatus: "Shipped",
+      trackingId: "27147657398",
+      shippedToName: "Dhanalaksmi",
+      orderDate: "03-08-2024",
+      phoneNumber: "9566991210",
+      email: "kaviseyonfoods@gmail.com",
+      products: [
+        {
+          name: "Rice Moongdal Kichadi",
+          image:
+            "https://drive.google.com/file/d/1yP3s8ECiotn7caN4QhWzs8jSBVWSNDPV/view?usp=sharing",
+          productId: "1",
+          weight_in_grams: "200",
+          quantity: 2,
+        },
+        {
+          name: "Rice Moongdal Kichadi",
+          image:
+            "https://drive.google.com/file/d/1yP3s8ECiotn7caN4QhWzs8jSBVWSNDPV/view?usp=sharing",
+          productId: "1",
+          weight_in_grams: "200",
+          quantity: 2,
+        },
+      ],
+    },
+    {
+      _id: "132187878128939800564",
+      deliveryAddress: "anna nagar, raja street, madurai 600028",
+      orderTotal: "2300",
+      orderStatus: "Shipped",
+      trackingId: "27147657398",
+      shippedToName: "Dhanalaksmi",
+      orderDate: "03-08-2024",
+      phoneNumber: "9566991210",
+      email: "kaviseyonfoods@gmail.com",
+      products: [
+        {
+          name: "ragi",
+          image:
+            "https://drive.google.com/file/d/1yP3s8ECiotn7caN4QhWzs8jSBVWSNDPV/view?usp=sharing",
+          productId: "1",
+          weight_in_grams: "200",
+          quantity: 2,
+        },
+        {
+          name: "ragi",
+          image:
+            "https://drive.google.com/file/d/1yP3s8ECiotn7caN4QhWzs8jSBVWSNDPV/view?usp=sharing",
+          productId: "1",
+          weight_in_grams: "200",
+          quantity: 2,
+        },
+      ],
+    },
+  ];
   useEffect(() => {
     if (!kaviFoodUser?.isAdmin) {
       router.push("/");
