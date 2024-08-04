@@ -30,6 +30,8 @@ interface CartProduct {
     shippedToName:string;
     orderDate: string;
     trackingId?: string;
+    phoneNumber: string;
+    email: string
   }
   
   
