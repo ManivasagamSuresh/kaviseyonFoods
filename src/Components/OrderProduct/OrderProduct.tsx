@@ -42,18 +42,20 @@ const OrderProduct: React.FC<OrderProductProps> = ({ order }) => {
   return (
     <div className="border rounded-lg">
       <div className="top bg-themeColorLight px-3 md:px-5 py-1 flex justify-between rounded-t-lg">
-        <div className="w-8/12 md:w-1/2  flex flex-col md:flex-row gap-2 md:gap-10 py-1">
-          <div className="flex flex-row text-sm md:text-base gap-1  md:flex-col">
-            <span className="font-semibold ">ORDER PLACED</span>
+        <div className="w-full md:w-1/2  flex flex-col md:flex-row gap-2 md:gap-10 py-1">
+        <div className="flex gap-8">
+          <div className="flex flex-row text-xs md:text-base gap-1 ">
+            <span className="font-semibold ">ORDER PLACED: </span>
             <span>{orderState.orderDate}</span>
           </div>
-          <div className="flex flex-row text-sm md:text-base gap-1 md:gap-0 md:flex-col">
-            <span className="font-semibold">TOTAL</span>
-            <span className="flex items-center "><LiaRupeeSignSolid className="text-sm ml-2 md:ml-0"/> {orderState.orderTotal}</span>
+          <div className="flex flex-row text-xs md:text-base gap-0 md:gap-1">
+            <span className="font-semibold">TOTAL: </span>
+            <span className="flex items-center "><LiaRupeeSignSolid className="text-xs ml-2 md:ml-0"/> {orderState.orderTotal}</span>
           </div>
-          
+          </div>
+          <div className="w-full text-[10px] md:text-base md:hidden">Order Id: {orderState._id}</div>          
         </div>
-        <div className="flex items-end text-[10px] md:text-base">Order Id: {orderState._id}</div>
+        <div className="text-[10px] md:text-base hidden md:block">Order Id: {orderState._id}</div>
       </div>
       <div className="flex flex-col gap-2 py-3 px-3 md:px-5">
         <div className="flex justify-between">
