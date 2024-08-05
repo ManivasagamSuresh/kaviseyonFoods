@@ -9,6 +9,14 @@ export interface SignUpFormValues {
   confirmpassword: string;
 }
 
+export interface EditProfileFormValues {
+  name: string;
+  email: string;
+  phone: string;
+  password?: string;
+  confirmpassword?: string;
+}
+
 export interface SignInFormValues {
   email: string;
   password: string;
