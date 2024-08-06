@@ -14,6 +14,10 @@ function Page() {
       name: kaviFoodUser.name,
       email: kaviFoodUser.email,
       phone: kaviFoodUser.phone,
+      address: kaviFoodUser.address || '',
+      city: kaviFoodUser.city || '',
+      state: kaviFoodUser.state || '',
+      pincode: kaviFoodUser.pincode || '',
     },
     validate: (values) => {
       let error: Partial<SignUpFormValues> = {};

@@ -15,6 +15,11 @@ export interface EditProfileFormValues {
   phone: string;
   password?: string;
   confirmpassword?: string;
+  address:string;
+  landmark?: string;
+  city: string;
+  state: string;
+  pincode: string;
 }
 
 export interface SignInFormValues {
@@ -32,6 +37,10 @@ export interface User {
   myOrder: any[];    // Replace 'any' with the specific type if known
   isAdmin: boolean;
   _id?: ObjectId;    // Use ObjectId type from mongodb package
+  address?: string;
+  city?: string;
+  state?: string;
+  pincode?: string; 
 }
 
 export interface Cart {
