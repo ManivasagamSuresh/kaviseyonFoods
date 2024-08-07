@@ -40,7 +40,8 @@ export interface User {
   address?: string;
   city?: string;
   state?: string;
-  pincode?: string; 
+  pincode?: string;
+  landmark? :string 
 }
 
 export interface Cart {

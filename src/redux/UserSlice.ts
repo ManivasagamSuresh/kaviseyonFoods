@@ -29,7 +29,26 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = false;
     },
-    changeAddress: (state, action) => {},
+    changeAddress: (state, action) => {
+      console.log(action.payload);
+      if (state.kaviFoodUser) {
+        if (action.payload.address) {
+          state.kaviFoodUser.address = action.payload.address;
+        }
+        if (action.payload.city) {
+          state.kaviFoodUser.city = action.payload.city;
+        }
+        if (action.payload.state) {
+          state.kaviFoodUser.state = action.payload.state;
+        }
+        if (action.payload.pincode) {
+          state.kaviFoodUser.pincode = action.payload.pincode;
+        }
+        if (action.payload.landmark) {
+          state.kaviFoodUser.landmark = action.payload.landmark;
+        }
+      }
+    },
     AddwishlistR: (state, action) => {},
     RemovewishlistR: (state, action) => {},
     AddUserCart: (state, action) => {
@@ -77,6 +96,7 @@ export const userSlice = createSlice({
         state.kaviFoodUser.cart.totalPrice = 0;
       }
     },
+   
   },
 });
 
