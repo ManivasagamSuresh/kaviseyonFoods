@@ -69,9 +69,9 @@ function page() {
             <div className="text-xs text-lightGrey">You may receive text messages related to order confirmation and shipping updates.</div>
           </div>
           <div className="flex gap-4 flex-col">
-            <div className="text-lg lg:text-xl font-semibold flex gap-2 items-center h-fit">Delivery Address {kaviFoodUser  && !editAddress ? <LiaEditSolid onClick={handleEditAddress}/>: <LuSave onClick={handleEditAddress}/> }</div>
+            <div className="text-lg lg:text-xl font-semibold flex gap-2 items-center h-fit">Delivery Address {kaviFoodUser.address  ? !editAddress ? <LiaEditSolid onClick={handleEditAddress}/>: <LuSave onClick={handleEditAddress}/> : <></>}</div>
             { 
-            kaviFoodUser && !editAddress ? <>
+            kaviFoodUser.address && !editAddress ? <>
               <div className="flex flex-col gap-1">
               <div>{ `${kaviFoodUser.address},  ${kaviFoodUser.city} ` } </div>
               <div>{`${kaviFoodUser.state} - ${kaviFoodUser.pincode}`}</div>
