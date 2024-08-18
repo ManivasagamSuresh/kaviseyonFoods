@@ -24,10 +24,20 @@ interface CartProduct {
     weight_in_grams: string;
     quantity: number;
   }
+
+
+  interface DelAddress {
+    address: string;
+    city: string;
+    pincode: string;
+    state: string;
+    landmark?: string;
+  }
+  
   
   interface Order {
     _id: string;
-    deliveryAddress: string;
+    deliveryAddress: DelAddress;
     orderTotal: string;
     orderStatus: string;
     trackingId: string;

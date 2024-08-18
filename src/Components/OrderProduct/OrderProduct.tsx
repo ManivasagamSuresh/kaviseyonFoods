@@ -120,7 +120,7 @@ const OrderProduct: React.FC<OrderProductProps> = ({ order }) => {
             <span className="font-semibold">Ship to</span>
             <span>{orderState.shippedToName}</span>
           </div>
-            <div className="flex md:flex-col flex-wrap"> <span className="font-semibold mr-2">Delivery Address:  </span><span className="flex flex-wrap">{orderState.deliveryAddress}</span> </div>
+            <div className="flex md:flex-col flex-wrap"> <span className="font-semibold mr-2">Delivery Address:  </span><span className="flex flex-wrap">{`${orderState.deliveryAddress.address} ${orderState.deliveryAddress.city} - ${orderState.deliveryAddress.pincode} ${orderState.deliveryAddress.state}`}</span> </div>
             
             <div> <span className="font-semibold"> Contact No: </span> {orderState.phoneNumber}</div>
           </div>

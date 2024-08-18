@@ -17,7 +17,11 @@ export const GuestSlice = createSlice({
   name: "guestUser",
   initialState,
   reducers: {
-    AddPersonalDetails: (state, action) => {},
+    AddPersonalDetails: (state, action) => {
+      state.name = action.payload.name
+      state.mobile = action.payload.mobile
+      state.email = action.payload.email
+    },
     AddGuestCart: (state, action) => {
       const cartIndex = state.cart.items.findIndex((prod) => prod._id === action.payload._id);
       if (cartIndex !== -1) {
