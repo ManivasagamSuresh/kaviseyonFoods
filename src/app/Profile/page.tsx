@@ -1,13 +1,17 @@
 "use client";
+import { updateProfile } from "@/redux/UserSlice";
 import { EditProfileFormValues, SignUpFormValues } from "@/types/profile";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 function Page() {
   const [editMode, setEditMode] = useState<boolean>(false);
   const { kaviFoodUser } = useSelector((state: any) => state.user);
+  const route = useRouter();
+  const dispatch = useDispatch();
 
   const formik = useFormik<EditProfileFormValues>({
     initialValues: {
@@ -53,8 +57,10 @@ function Page() {
       return error;
     },
     onSubmit: async (values) => {
-      console.log("Form submitted"); // Add this to verify form submission
-      console.log(values); // This should log the form values
+      // console.log("Form submitted"); 
+      // console.log(values); 
+
+      dispatch(updateProfile(values));
 
       try {
         // Uncomment and configure this part when ready to make API calls
@@ -79,6 +85,10 @@ function Page() {
   const handleEditProfile = () => {
     setEditMode(!editMode);
   };
+
+  const handleNavigation = (url: string) => {
+    route.push(`/${url}`)
+  }
 
   // const handleSaveprofile = () => {
   //   formik.handleSubmit();
@@ -270,7 +280,7 @@ function Page() {
               >
               Edit Profile
             </div>
-            <div  className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite w-[200px] sm:w-fit">
+            <div  className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite w-[200px] sm:w-fit" onClick={()=>{handleNavigation('MyOrders')}}>
               My orders
             </div>
               

@@ -29,6 +29,34 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = false;
     },
+    updateProfile: (state, action) => {
+      if(state.kaviFoodUser){
+        if (action.payload.name) {
+          state.kaviFoodUser.name = action.payload.name;
+        }
+        if (action.payload.email) {
+          state.kaviFoodUser.email = action.payload.email;
+        }
+        if (action.payload.phone) {
+          state.kaviFoodUser.phone = action.payload.phone;
+        }
+        if (action.payload.address) {
+          state.kaviFoodUser.address = action.payload.address;
+        }
+        if (action.payload.city) {
+          state.kaviFoodUser.city = action.payload.city;
+        }
+        if (action.payload.state) {
+          state.kaviFoodUser.state = action.payload.state;
+        }
+        if (action.payload.pincode) {
+          state.kaviFoodUser.pincode = action.payload.pincode;
+        }
+        if (action.payload.landmark) {
+          state.kaviFoodUser.landmark = action.payload.landmark;
+        }
+      }
+      },
     changeAddress: (state, action) => {
       console.log(action.payload);
       if (state.kaviFoodUser) {
@@ -105,6 +133,7 @@ export const {
   loginSuccess,
   loginFailure,
   logout,
+  updateProfile,
   changeAddress,
   AddwishlistR,
   RemovewishlistR,

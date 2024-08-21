@@ -82,14 +82,14 @@ function Navbar() {
             </Link>
             <div className="relative">
 
-            <div
+            {/* <div
               onClick={()=>{setCategory(!Category)}}
               className={`cursor-pointer text-text-textColor lg:text-sm xl:text-base hover:underline decoration-themeColorDark underline-offset-4  ${
                 pathName === "/Category" && "bg-themeColorDark rounded-md py-1 px-3 text-white"
               }`}
               >
               Categories
-            </div>
+            </div> */}
             {Category && <Categories setCategory={setCategory}/>}
             </div>
             <Link
@@ -116,14 +116,14 @@ function Navbar() {
             {MobNav ? <MdClear className="text-textColor w-5 h-5" /> : <GiHamburgerMenu className="text-textColor w-5 h-5" />}
           </div>
               
-          <div className={`bg-white hidden rounded-full items-center gap-2 px-2 py-1 xl:py-2 border border-themeColorDark flex-1 ${pathName === '/SignIn' ? 'lg:hidden' : "lg:flex"} ${ pathName === '/SignUp' ? 'lg:hidden' : "lg:flex"}`}>
+          {/* <div className={`bg-white hidden rounded-full items-center gap-2 px-2 py-1 xl:py-2 border border-themeColorDark flex-1 ${pathName === '/SignIn' ? 'lg:hidden' : "lg:flex"} ${ pathName === '/SignUp' ? 'lg:hidden' : "lg:flex"}`}>
             <div>
               <IoSearchOutline className="text-textColor" />
             </div>
             <div className="w-full lg:w-48 xl:w-[240px] relative">
               <SearchInput />
             </div>
-          </div>
+          </div> */}
 
           <div className="lg:hidden flex flex-1 justify-center">
             <div className="lg:hidden h-[65px] w-20 sm:h-14 sm:w-20 relative">
@@ -133,14 +133,14 @@ function Navbar() {
 
           <div className="flex gap-4 xl:gap-6 items-center justify-end h-full flex-1 ">
             {/* TODO : change hidden if user not logged in */}
-            <div
+            {/* <div
               className={`lg:hidden cursor-pointer ${pathName === '/SignIn' && 'hidden'} ${pathName === '/SignUp' && 'hidden'}`}
               onClick={() => {
                 setSearch(true);
               }}
             >
               <IoSearchOutline className="w-5 h-5"/>
-            </div>
+            </div> */}
            
             {/* <div className={`hidden cursor-pointer ${!kaviFoodUser ? 'lg:hidden' :  "lg:block" } `} onClick={()=>{HandleNavigation('Wishlist')}}>
               <FaRegHeart className="lg:w-4 lg:h-4 xl:w-5 xl:h-5"/>

@@ -39,6 +39,8 @@ async function handleLogin({ email, password }: SignInFormValues) {
      
       const token = await jwt.sign({id: user._id},JWT_SECRET);
       // console.log(token);
+      // todo
+      // add/update cart details from unregistered user local storage to the response. 
       return NextResponse.json({ user: user , token: token }, { status: 200 });
     }else{
       return NextResponse.json({ message: 'Email/Phone or Password Incorrect', token: 'exampleToken' }, { status: 400 });
@@ -62,7 +64,12 @@ async function handleSignup({ name, email, password, phone }: SignUpFormValues) 
       items : []
     },
     myOrder: [],
-    isAdmin: false   
+    isAdmin: false,
+    address: '',
+    city: '',
+    state:'',
+    pincode:'',
+    landmark:''  
   }
   const mongoConnection  = await DBconnect();
   const user = await mongoConnection?.collection('user').findOne({email: email});

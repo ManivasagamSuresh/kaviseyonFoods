@@ -48,7 +48,8 @@ function Page() {
           localStorage.setItem('kavifoodsAdmin', response.data.user.isAdmin)
           localStorage.setItem('kavifoodsToken', response.data.token)
           toast.success(`Signed-in as ${response.data.user.name}`);
-          HandleNavigation('')
+          // HandleNavigation('')
+          router.back();
         }
       } catch (error: any) {
         console.log(error);

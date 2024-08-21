@@ -24,6 +24,7 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ setprofilePop }) => {
 
   const HandleSignout = async() =>{
     try {
+      handleNavigation('')
       dispatch(logout());
       localStorage.removeItem('kavifoodsAdmin')
       localStorage.removeItem('kavifoodsToken')
