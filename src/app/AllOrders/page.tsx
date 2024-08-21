@@ -13,7 +13,13 @@ function Page() {
   const orders: Order[] = [
     {
       _id: "1",
-      deliveryAddress: "anna nagar madurai",
+      deliveryAddress: {
+        address: "anna nagar",
+        city: "madurai",
+        pincode: "600028",
+        state: "Tamil Nadu",
+        landmark: "near park",
+      },
       orderTotal: "2300",
       orderStatus: "Shipped",
       trackingId: "27147657398",
@@ -42,7 +48,13 @@ function Page() {
     },
     {
       _id: "1",
-      deliveryAddress: "anna nagar madurai",
+      deliveryAddress: {
+        address: "anna nagar",
+        city: "madurai",
+        pincode: "600028",
+        state: "Tamil Nadu",
+        landmark: "near park",
+      },
       orderTotal: "2300",
       orderStatus: "Shipped",
       trackingId: "27147657398",
@@ -71,7 +83,13 @@ function Page() {
     },
     {
       _id: "132187878128939800564",
-      deliveryAddress: "anna nagar, raja street, madurai 600028",
+      deliveryAddress: {
+        address: "anna nagar",
+        city: "madurai",
+        pincode: "600028",
+        state: "Tamil Nadu",
+        landmark: "near park",
+      },
       orderTotal: "2300",
       orderStatus: "Shipped",
       trackingId: "27147657398",
