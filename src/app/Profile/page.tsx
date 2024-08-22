@@ -15,14 +15,14 @@ function Page() {
 
   const formik = useFormik<EditProfileFormValues>({
     initialValues: {
-      name: kaviFoodUser.name,
-      email: kaviFoodUser.email,
-      phone: kaviFoodUser.phone,
-      address: kaviFoodUser.address || '',
-      city: kaviFoodUser.city || '',
-      state: kaviFoodUser.state || '',
-      landmark: kaviFoodUser.landmark || '',
-      pincode: kaviFoodUser.pincode || '',
+      name: kaviFoodUser ? kaviFoodUser.name : '',
+      email: kaviFoodUser ? kaviFoodUser.email : '',
+      phone: kaviFoodUser ? kaviFoodUser.phone : '',
+      address: kaviFoodUser ? kaviFoodUser.address : '',
+      city: kaviFoodUser ? kaviFoodUser.city : '',
+      state: kaviFoodUser ? kaviFoodUser.state : '',
+      landmark: kaviFoodUser ? kaviFoodUser.landmark : '',
+      pincode: kaviFoodUser ? kaviFoodUser.pincode : '',
     },
     validate: (values) => {
       let error: Partial<SignUpFormValues> = {};

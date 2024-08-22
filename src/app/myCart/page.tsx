@@ -31,10 +31,10 @@ function Page() {
     }
   }, [kaviFoodUser, cart]);
 
-  console.log(cartItems);
   return (
     <div className={`${assistant.className} w-full flex justify-center mb-56`}>
       <div className="px-7 md:px-28 lg:px-52 xl:px-72 2xl:px-80 py-2 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)] pageMountAnimation w-full max-w-[1850px]">
+      {cartItems.length ? <>
         <div className="flex justify-between py-10 items-center">
           <div className="text-xl md:text-xl lg:text-2xl 2xl:text-3xl font-semibold">Your Cart</div>
           <div className="text-xs lg:text-sm underline font-semibold cursor-pointer hover:text-themeColorDark">
@@ -67,6 +67,12 @@ function Page() {
             </div>
           </div>
         </div>
+        </>: <div className="h-96 flex flex-col gap-2 items-center justify-center font-semibold text-1xl text-themeColorDark">
+          <div className="text-2xl lg:text-3xl">
+          Your Cart is Empty
+          </div>
+          <div className="text-base underline"><Link href="/">Continue Shopping</Link></div>
+          </div>}
       </div>
     </div>
   );
