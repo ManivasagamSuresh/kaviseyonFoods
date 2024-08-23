@@ -9,7 +9,9 @@ import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import Viewer from "@/Components/Viewer/Viewer";
 import { SyncLoader } from "react-spinners";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { AddUserCart } from "@/redux/UserSlice";
+import { AddGuestCart } from "@/redux/GuestSlice";
 
 function ProductPage() {
   // const [count, setCount] = useState<number>(1);
@@ -20,6 +22,9 @@ function ProductPage() {
   const { kaviFoodUser } = useSelector((state: any) => state.user);
   const { cart } = useSelector((state: any) => state.guestUser);
   const router = useRouter();
+  const dispatch = useDispatch();
+
+
 
   const handleNavigation = (url: string) =>{
     router.push(`/${url}`)
@@ -45,18 +50,27 @@ function ProductPage() {
     const id = url.match(/[-\w]{25,}/);
     return id ? `https://drive.google.com/uc?export=view&id=${id[0]}` : url;
   };
+
+  const addToCart = () => {
+    if(kaviFoodUser){
+      dispatch(AddUserCart({...product, quantity:1}))
+    }else{
+      dispatch(AddGuestCart({...product, quantity:1}))
+    }
+  }
   
   useEffect(() => {
     if (params.productId) {
       const productId = Array.isArray(params.productId) ? params.productId[0] : params.productId;
       getProductData(productId);
     }
+    
   }, [params]);
 
   useEffect(()=>{
     if (params.productId) {
       var productId = Array.isArray(params.productId) ? params.productId[0] : params.productId;
-      getProductData(productId);
+      // getProductData(productId);
     }
     if(kaviFoodUser){
     const added =  kaviFoodUser.cart.items.findIndex((p: any)=> p._id === productId)
@@ -85,7 +99,7 @@ function ProductPage() {
       /> </div> :
   <div className="w-full max-w-[1850px] py-4 lg:px-10 flex flex-col md:flex-row gap-1 lg:gap-0 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)]  pageMountAnimation">
         <div className="w-full h-fit py-2 lg:px-4 lg:w-1/2 lg:height-2/4 flex justify-center items-center">
-          <div className="relative w-80 h-[360px] lg:h-[520px] lg:w-[440px]">
+          <div className="relative w-60 h-[280px] lg:h-[520px] lg:w-[440px]">
             <Image src={getImageSrc(product?.image) } fill alt="" />
           </div>
         </div>
@@ -124,7 +138,7 @@ function ProductPage() {
                isAdded ?  <div className="flex w-full lg:w-[400px] h-fit py-2 items-center justify-center gap-2 border rounded-sm text-milkWhite bg-themeColorDark border-themeColorDark" onClick={()=>{handleNavigation('myCart')}}>
                <div className="cursor-pointer">Added to Cart </div>
                <FaArrowUpRightFromSquare />
-             </div> :  <div className="flex w-full lg:w-[480px] h-fit py-2 items-center justify-center gap-2 border rounded-sm text-milkWhite bg-themeColorDark border-themeColorDark">
+             </div> :  <div className="flex w-full lg:w-[480px] h-fit py-2 items-center justify-center gap-2 border rounded-sm text-milkWhite bg-themeColorDark border-themeColorDark" onClick={addToCart}>
               <div className="cursor-pointer">Add to Cart </div>
               <FaCartPlus />
             </div>

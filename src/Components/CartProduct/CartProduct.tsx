@@ -2,6 +2,8 @@ import { AddGuestCart, ReduceGuestCartQuantity, RemoveGuestCart } from "@/redux/
 import { AddUserCart, ReduceUserCartQuantity, RemoveUserCart } from "@/redux/UserSlice";
 import { CartItem } from "@/types/profile";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -14,6 +16,7 @@ interface ProductComponentProps {
 const CartProduct: React.FC<ProductComponentProps> = ({ prod }) => {
   const dispatch = useDispatch();
   const { kaviFoodUser } = useSelector((state: any) => state.user);
+  const router = useRouter()
 
   const getImageSrc = (url: string) => {
     const id = url.match(/[-\w]{25,}/);
@@ -48,6 +51,10 @@ const CartProduct: React.FC<ProductComponentProps> = ({ prod }) => {
     }
   };
 
+  const handleNavigation=(productId: string)=>{
+    router.push(`/Product/${productId}`)
+}
+
   return (
     <div className="flex my-2 lg:my-4">
       <div className="w-9/12 md:w-6/12 lg:w-7/12 flex gap-5 lg:gap-6">
@@ -58,7 +65,7 @@ const CartProduct: React.FC<ProductComponentProps> = ({ prod }) => {
         </div>
         <div className="flex flex-col gap-4 px-1">
           <div className="flex flex-col gap-1 pr-1 md:pr-0">
-            <div className="text-sm md:text-base 2xl:text-lg">{prod.name}</div>
+            <div className="text-sm md:text-base 2xl:text-lg hover:text-themeColorDark cursor-pointer" onClick={()=>{handleNavigation(`${prod._id}`)}}>{prod.name}</div>
             <div className="flex text-sm md:text-base 2xl:text-lg items-center">
               <LiaRupeeSignSolid className="w-[14px] h-[14px] lg:w-4 lg:h-4" /> {prod.price}
             </div>

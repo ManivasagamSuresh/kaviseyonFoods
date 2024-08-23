@@ -79,11 +79,10 @@ function Page() {
     },
     onSubmit: async (values) => {
       // console.log("Form submitted"); 
-      console.log(values); 
-
-      dispatch(updateProfile(values));
-
+      // console.log(values); 
       try {
+        //TODO ADD SPINNER HERE
+        dispatch(updateProfile(values));
         // Uncomment and configure this part when ready to make API calls
         // const response = await axios.post('/api/AuthenticationApi', {
         //   action: 'editProfile',
@@ -98,7 +97,7 @@ function Page() {
         
         handleEditProfile();
       } catch (error: any) {
-        toast.error(error.response?.data?.message || "An error occurred");
+        // toast.error(error.response?.data?.message || "An error occurred");
       }
     },
   });

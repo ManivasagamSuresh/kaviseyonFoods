@@ -58,7 +58,7 @@ export const userSlice = createSlice({
       }
       },
     changeAddress: (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       if (state.kaviFoodUser) {
         if (action.payload.address) {
           state.kaviFoodUser.address = action.payload.address;
@@ -80,12 +80,12 @@ export const userSlice = createSlice({
     AddwishlistR: (state, action) => {},
     RemovewishlistR: (state, action) => {},
     AddUserCart: (state, action) => {
-      console.log("AddUserCart action.payload:", action.payload);
+      // console.log("AddUserCart action.payload:", action.payload);
       if (state.kaviFoodUser) {
         const indexCart = state.kaviFoodUser.cart.items.findIndex(
           (prod) => prod._id === action.payload._id
         );
-        console.log("indexCart:", indexCart);
+        // console.log("indexCart:", indexCart);
         if (indexCart !== -1) {
           state.kaviFoodUser.cart.items[indexCart].quantity += 1;
         } else {
