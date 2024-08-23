@@ -54,11 +54,32 @@ function Page() {
       // if (values.password && values.confirmpassword && values.password !== values.confirmpassword) {
       //   error.confirmpassword = "Confirm password does not match";
       // }
+
+       // Check for the presence of address, city, state, and pincode
+    const addressFields = [values.address, values.city, values.state, values.pincode];
+    const areAnyAddressFieldsFilled = addressFields.some(field => field?.trim() !== "");
+
+    // Ensure all address-related fields are filled or none
+    if (areAnyAddressFieldsFilled) {
+      if (!values.address) {
+        error.address = "Please enter your Address";
+      }
+      if (!values.city) {
+        error.city = "Please enter your City";
+      }
+      if (!values.state) {
+        error.state = "Please enter your State";
+      }
+      if (!values.pincode) {
+        error.pincode = "Please enter your Pincode";
+      }
+    }
+
       return error;
     },
     onSubmit: async (values) => {
       // console.log("Form submitted"); 
-      // console.log(values); 
+      console.log(values); 
 
       dispatch(updateProfile(values));
 
@@ -257,9 +278,7 @@ function Page() {
               disabled={!editMode}
             />
           </div>
-          {formik.errors.landmark && formik.touched.landmark && (
-            <div className="text-themeColorDark text-xs">{formik.errors.landmark}</div>
-          )}
+          
           {editMode ? (
             <button
             type="submit"

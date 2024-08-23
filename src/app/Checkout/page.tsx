@@ -10,12 +10,13 @@ import { LiaEditSolid } from "react-icons/lia";
 import { LuSave } from "react-icons/lu";
 import { AddPersonalDetails } from "@/redux/GuestSlice";
 import { ClipLoader } from "react-spinners";
+import { toast } from "react-toastify";
 
 function page() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const { cart, name, mobile, email } = useSelector((state: any) => state.guestUser);
   const { kaviFoodUser } = useSelector((state: any) => state.user);
-  const [loading,setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [contact, setContact] = useState({
     name: "",
     mobile: "",
@@ -46,60 +47,164 @@ function page() {
   }
 
   const handleSaveAddress = () => {
-    handleEditAddress();
-    dispatch(changeAddress(address));
-    //TODO
-    // Add API for editing and adding address
+    if (handleAddressValidations()) {
+      handleEditAddress();
+      dispatch(changeAddress(address));
+      //TODO
+      // Add API for editing and adding address
+    } else {
+      return;
+    }
   };
 
-  const handleProceedtoPay = async() => {
-  try {
-    setLoading(true);
-    console.log(contact, address);
-    const payload = {
-      name: "",
-      email: "",
-      mobile: "",
-      deliveryAddress: {},
-      orderTotal: "",
-      orderStatus: "",
-      trackingId: "",
-      orderDate: new Date().toLocaleDateString(), // Current date
-      products: [],
-    };
+  const handleAddressValidations = () => {
     if (kaviFoodUser) {
-      console.log(kaviFoodUser);
-
-      dispatch(changeAddress(address));
-      payload.name = kaviFoodUser.name;
-      payload.email = kaviFoodUser.email;
-      payload.mobile = kaviFoodUser.phone;
-      payload.deliveryAddress = {
-        address: kaviFoodUser.address,
-        city: kaviFoodUser.city,
-        pincode: kaviFoodUser.pincode,
-        state: kaviFoodUser.state,
-        landmark: kaviFoodUser.landmark,
-      };
-      payload.orderTotal = kaviFoodUser.cart.totalPrice + 50;
-      payload.products = kaviFoodUser.cart.items;
-    } else {
-      dispatch(
-        AddPersonalDetails({ name: contact.name, mobile: contact.mobile, email: contact.email })
-      );
-      payload.name = contact.name;
-      payload.email = contact.email;
-      payload.mobile = contact.mobile;
-      payload.deliveryAddress = address;
-      payload.orderTotal = cart.totalPrice + 50;
-      payload.products = cart.items;
+      if (!address.address) {
+        toast.error("Address is required.");
+        return false;
+      }
+      if (!address.city) {
+        toast.error("City is required.");
+        return false;
+      }
+      if (!address.state) {
+        toast.error("State is required.");
+        return false;
+      }
+      if (!address.pincode) {
+        toast.error("Pincode is required.");
+        return false;
+      }
+      return true;
     }
-    console.log(payload);
-    setLoading(false);
-  } catch (error) {
-    console.log(error)
-  }
-  
+  };
+
+  const handleValidations = () => {
+    const validateEmail = (email: string) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
+
+    const validateMobile = (mobile: string) => {
+      const mobileRegex = /^[0-9]{10}$/;
+      return mobileRegex.test(mobile);
+    };
+
+    if (kaviFoodUser) {
+      if (!kaviFoodUser.address) {
+        toast.error("Address is required.");
+        return false;
+      }
+      if (!kaviFoodUser.city) {
+        toast.error("City is required.");
+        return false;
+      }
+      if (!kaviFoodUser.state) {
+        toast.error("State is required.");
+        return false;
+      }
+      if (!kaviFoodUser.pincode) {
+        toast.error("Pincode is required.");
+        return false;
+      }
+      return true;
+    } else {
+      if (!contact.name) {
+        toast.error("Name is required.");
+        return false;
+      }
+
+      if (!contact.mobile) {
+        toast.error("Mobile number is required.");
+        return false;
+      }
+      if (!validateMobile(contact.mobile)) {
+        toast.error("Please enter a valid 10-digit mobile number.");
+        return false;
+      }
+      if (!contact.email) {
+        toast.error("Email is required.");
+        return false;
+      }
+      if (!validateEmail(contact.email)) {
+        toast.error("Please enter a valid email.");
+        return false;
+      }
+      if (!address.address) {
+        toast.error("Address is required.");
+        return false;
+      }
+      if (!address.city) {
+        toast.error("City is required.");
+        return false;
+      }
+      if (!address.state) {
+        toast.error("State is required.");
+        return false;
+      }
+      if (!address.pincode) {
+        toast.error("Pincode is required.");
+        return false;
+      }
+      return true;
+    }
+  };
+
+  const handleProceedtoPay = async () => {
+    try {
+      if (editAddress) {
+        toast.error("Please Save the Delivery Address");
+        return;
+      }
+      setLoading(true);
+      if (!handleValidations()) {
+        setLoading(false);
+        return;
+      }
+      console.log(contact, address);
+      const payload = {
+        name: "",
+        email: "",
+        mobile: "",
+        deliveryAddress: {},
+        orderTotal: "",
+        orderStatus: "",
+        trackingId: "",
+        orderDate: new Date().toLocaleDateString(), // Current date
+        products: [],
+      };
+      if (kaviFoodUser) {
+        console.log(kaviFoodUser);
+
+        dispatch(changeAddress(address));
+        payload.name = kaviFoodUser.name;
+        payload.email = kaviFoodUser.email;
+        payload.mobile = kaviFoodUser.phone;
+        payload.deliveryAddress = {
+          address: kaviFoodUser.address,
+          city: kaviFoodUser.city,
+          pincode: kaviFoodUser.pincode,
+          state: kaviFoodUser.state,
+          landmark: kaviFoodUser.landmark,
+        };
+        payload.orderTotal = kaviFoodUser.cart.totalPrice + 50;
+        payload.products = kaviFoodUser.cart.items;
+      } else {
+        dispatch(
+          AddPersonalDetails({ name: contact.name, mobile: contact.mobile, email: contact.email })
+        );
+        payload.name = contact.name;
+        payload.email = contact.email;
+        payload.mobile = contact.mobile;
+        payload.deliveryAddress = address;
+        payload.orderTotal = cart.totalPrice + 50;
+        payload.products = cart.items;
+      }
+      console.log(payload);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleEditAddress = () => {
@@ -202,9 +307,9 @@ function page() {
               Delivery Address{" "}
               {kaviFoodUser?.address ? (
                 !editAddress ? (
-                  <LiaEditSolid onClick={handleEditAddress} className="cursor-pointer"/>
+                  <LiaEditSolid onClick={handleEditAddress} className="cursor-pointer" />
                 ) : (
-                  <LuSave onClick={handleSaveAddress} className="cursor-pointer"/>
+                  <LuSave onClick={handleSaveAddress} className="cursor-pointer" />
                 )
               ) : (
                 <></>
@@ -271,7 +376,7 @@ function page() {
             className="bg-themeColorDark flex items-center justify-center gap-4 text-milkWhite text-center px-20 py-3 rounded-md text-lg lg:text-xl font-semibold cursor-pointer"
             onClick={handleProceedtoPay}
           >
-            Pay Now <>{loading && <ClipLoader loading={loading} color="#fff"  size={18}/>}</>
+            Pay Now <>{loading && <ClipLoader loading={loading} color="#fff" size={18} />}</>
           </div>
         </div>
         <div className="w-full lg:w-1/2 bg-themeColorLight flex flex-col gap-4 lg:gap-6 p-6 md:px-20 md:py-8  lg:py-4 lg:px-12 xl:pr-32 xl:pl-20">

@@ -7,6 +7,11 @@ export interface SignUpFormValues {
   phone: string;
   password: string;
   confirmpassword: string;
+  address?:string;
+  landmark?: string;
+  city?: string;
+  state?: string;
+  pincode?: string;
 }
 
 export interface EditProfileFormValues {
