@@ -70,10 +70,12 @@ function ProductPage() {
     }
   },[cart, kaviFoodUser])
 
+  //TODO if there's time, chck the scroll issue if height is set "screen" for spinner
+
   return (
     <div className="w-full flex justify-center">
       {
-        loading ?  <div className="h-[380px] w-screen flex justify-center items-center ">
+        loading ?  <div className="h-96 w-screen flex justify-center items-center ">
         <SyncLoader
         color="#a5c667"
         loading={loading}
