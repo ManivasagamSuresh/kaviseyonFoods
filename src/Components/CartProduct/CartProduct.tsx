@@ -83,7 +83,7 @@ const CartProduct: React.FC<ProductComponentProps> = ({ prod }) => {
             +
           </span>
         </div>
-        <RiDeleteBin6Line className="" onClick={removeCart}/>
+        <RiDeleteBin6Line className="cursor-pointer" onClick={removeCart}/>
       </div>
       <div className="w-3/12 md:w-2/12 flex items-center h-fit">
         <LiaRupeeSignSolid className="w-[14px] h-[14px] lg:w-4 lg:h-4" />{" "}

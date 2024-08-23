@@ -57,7 +57,7 @@ function ProductCard({ prod }:any) {
 
   return (
     <div 
-      className={`border border-none h-fit w-40 min-[560px]:w-60 lg:w-[24%] mb-4 rounded-md shadow-lg overflow-hidden text-textColor hover:text-themeColorDark productCardImage bg-[#fff] cursor-pointer`}
+      className={`border border-none h-fit w-40 min-[560px]:w-60 lg:w-[24%] mb-4 rounded-md shadow-lg overflow-hidden text-textColor hover:text-themeColorDark productCardImage bg-[#fff] `}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
      
@@ -70,7 +70,7 @@ function ProductCard({ prod }:any) {
           fill // Ensures the Image fills its container
         />
       </div>
-      <div className='px-4 py-2 sm:py-4 text-left flex flex-col gap-2'>
+      <div className='px-4 py-2 sm:py-4 text-left flex flex-col gap-2 cursor-pointer'>
         <div  onClick={()=>handleNavigation(prod._id)} className='flex flex-col gap-2'>
         <div className='text-xs sm:text-sm font-semibold'>{prod.name}</div>
         <div className='flex items-center justify-between'>

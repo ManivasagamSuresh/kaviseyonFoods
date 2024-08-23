@@ -202,9 +202,9 @@ function page() {
               Delivery Address{" "}
               {kaviFoodUser?.address ? (
                 !editAddress ? (
-                  <LiaEditSolid onClick={handleEditAddress} />
+                  <LiaEditSolid onClick={handleEditAddress} className="cursor-pointer"/>
                 ) : (
-                  <LuSave onClick={handleSaveAddress} />
+                  <LuSave onClick={handleSaveAddress} className="cursor-pointer"/>
                 )
               ) : (
                 <></>

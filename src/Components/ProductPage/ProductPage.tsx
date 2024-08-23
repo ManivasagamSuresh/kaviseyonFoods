@@ -122,10 +122,10 @@ function ProductPage() {
             </div> */}
             {
                isAdded ?  <div className="flex w-full lg:w-[400px] h-fit py-2 items-center justify-center gap-2 border rounded-sm text-milkWhite bg-themeColorDark border-themeColorDark" onClick={()=>{handleNavigation('myCart')}}>
-               <div className="">Added to Cart </div>
+               <div className="cursor-pointer">Added to Cart </div>
                <FaArrowUpRightFromSquare />
              </div> :  <div className="flex w-full lg:w-[480px] h-fit py-2 items-center justify-center gap-2 border rounded-sm text-milkWhite bg-themeColorDark border-themeColorDark">
-              <div className="">Add to Cart </div>
+              <div className="cursor-pointer">Add to Cart </div>
               <FaCartPlus />
             </div>
             }

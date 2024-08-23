@@ -4,6 +4,7 @@ import React from 'react'
 import { RiInstagramLine } from "react-icons/ri";
 import { FaYoutube } from "react-icons/fa";
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 
 
@@ -41,8 +42,9 @@ function Footer() {
         <div className='flex flex-col gap-2'>
           <div className='font-semibold 2xl:text-lg'>Follow us on</div>
           <div className='flex gap-3'>
-            <div><RiInstagramLine className='w-5 h-5'/></div>
-            <div><FaYoutube className='w-5 h-5'/></div>
+            {/* TODO ADD LINKS FOR SOCIAL MEDIA */}
+            <div><Link href={'https://www.instagram.com/kaviseyonfoods/'} target='blank'><RiInstagramLine className='w-5 h-5 cursor-pointer'/></Link> </div>
+            <div><FaYoutube className='w-5 h-5 cursor-pointer'/></div>
           </div>
         </div>
       </div>
