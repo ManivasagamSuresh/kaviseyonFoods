@@ -2,25 +2,39 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { LiaRupeeSignSolid } from "react-icons/lia";
-import { FaCartPlus } from "react-icons/fa6";
+import { FaArrowUpRightFromSquare, FaCartPlus } from "react-icons/fa6";
 import { BsPlusLg } from "react-icons/bs";
 import { AiOutlineMinus } from "react-icons/ai";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import Viewer from "@/Components/Viewer/Viewer";
+import { SyncLoader } from "react-spinners";
+import { useSelector } from "react-redux";
 
 function ProductPage() {
-  const [count, setCount] = useState<number>(1);
+  // const [count, setCount] = useState<number>(1);
   const [product, setProduct] = useState<Product>();
+  const [loading,setLoading] = useState<boolean>(true);
   const params = useParams();
+  const [isAdded, setIsAdded] = useState<boolean>(false);
+  const { kaviFoodUser } = useSelector((state: any) => state.user);
+  const { cart } = useSelector((state: any) => state.guestUser);
+  const router = useRouter();
+
+  const handleNavigation = (url: string) =>{
+    router.push(`/${url}`)
+  }
 
   const getProductData = async (productId: string) => {
     try {
+      setLoading(true)
       const response = await axios.get(`/api/productsAPi?productId=${productId}`);
       console.log("GET response:", response.data);
       setProduct(response.data);
+      setLoading(false)
       return response.data;
     } catch (error) {
+      setLoading(false);
       console.error("Error calling GET API:", error);
       throw error;
     }
@@ -39,9 +53,35 @@ function ProductPage() {
     }
   }, [params]);
 
+  useEffect(()=>{
+    if (params.productId) {
+      var productId = Array.isArray(params.productId) ? params.productId[0] : params.productId;
+      getProductData(productId);
+    }
+    if(kaviFoodUser){
+    const added =  kaviFoodUser.cart.items.findIndex((p: any)=> p._id === productId)
+    // console.log(added);
+    if(added  !== -1){setIsAdded(true)}
+    }
+    else{
+      const added = cart.items.findIndex((p: any)=> p._id ===productId)
+      // console.log(added);
+      if(added !== -1){setIsAdded(true)}
+    }
+  },[cart, kaviFoodUser])
+
   return (
     <div className="w-full flex justify-center">
-      <div className="w-full max-w-[1850px] py-4 lg:px-10 flex flex-col md:flex-row gap-1 lg:gap-0 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)]  pageMountAnimation">
+      {
+        loading ?  <div className="h-screen w-screen flex justify-center items-center ">
+        <SyncLoader
+        color="#a5c667"
+        loading={loading}
+        margin={6}
+        size={16}
+        speedMultiplier={0.7}
+      /> </div> :
+  <div className="w-full max-w-[1850px] py-4 lg:px-10 flex flex-col md:flex-row gap-1 lg:gap-0 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)]  pageMountAnimation">
         <div className="w-full h-fit py-2 lg:px-4 lg:w-1/2 lg:height-2/4 flex justify-center items-center">
           <div className="relative w-80 h-[360px] lg:h-[520px] lg:w-[440px]">
             <Image src={getImageSrc(product?.image) } fill alt="" />
@@ -59,7 +99,7 @@ function ProductPage() {
               <div className="text-xs text-#808080">{product?.weight_in_grams}gm</div>
             </div>
 
-            <div className="flex flex-col gap-0 mb-2">
+            {/* <div className="flex flex-col gap-0 mb-2">
               <div className="text-sm text-#808080">Quantity</div>
               <div className="border rounded-sm py-2 border-themeColorDark w-32 flex justify-around items-center">
                 <div
@@ -77,16 +117,22 @@ function ProductPage() {
                   <BsPlusLg />
                 </div>
               </div>
-            </div>
-            <div className="flex w-full lg:w-[480px] h-fit py-2 items-center justify-center gap-2 border rounded-sm text-milkWhite bg-themeColorDark border-themeColorDark">
+            </div> */}
+            {
+               isAdded ?  <div className="flex w-full lg:w-[400px] h-fit py-2 items-center justify-center gap-2 border rounded-sm text-milkWhite bg-themeColorDark border-themeColorDark" onClick={()=>{handleNavigation('myCart')}}>
+               <div className="">Added to Cart </div>
+               <FaArrowUpRightFromSquare />
+             </div> :  <div className="flex w-full lg:w-[480px] h-fit py-2 items-center justify-center gap-2 border rounded-sm text-milkWhite bg-themeColorDark border-themeColorDark">
               <div className="">Add to Cart </div>
               <FaCartPlus />
             </div>
-
-            <div className="mt-5">{product && <Viewer desc={product.description} />}</div>
+            }
+              <div className="mt-5">{product && <Viewer desc={product.description} />}</div>
           </div>
         </div>
       </div>
+      }
+    
     </div>
   );
 }

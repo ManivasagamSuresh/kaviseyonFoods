@@ -1,14 +1,14 @@
-'use client'
+"use client";
 import OrderProduct from "@/Components/OrderProduct/OrderProduct";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { SyncLoader } from "react-spinners";
 
 function Page() {
-
   const { kaviFoodUser } = useSelector((state: any) => state.user);
   const router = useRouter();
-
+  const [loading, setLoading] = useState<boolean>(false);
 
   const orders: Order[] = [
     {
@@ -122,16 +122,29 @@ function Page() {
       router.push("/");
     }
   }, [kaviFoodUser]);
-    
+
   return (
     <div className="w-full flex justify-center">
       <div className="flex flex-col gap-10  px-5 md:px-10 lg:px-40 xl:px-80 py-10 lg:py-10 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)] pageMountAnimation w-full max-w-[1850px]">
         <div className="text-2xl font-semibold tracking-wide">All Orders</div>
-      {
-        orders.map((order:Order)=>{
-          return <OrderProduct order={order} key={`${order._id}`}/>
-        })
-      }
+        {loading ? (
+          <div className="h-96 w-full flex mt-28 lg:mt-20  justify-center">
+            {" "}
+            <SyncLoader
+              color="#a5c667"
+              loading={loading}
+              margin={6}
+              size={16}
+              speedMultiplier={0.7}
+            />{" "}
+          </div>
+        ) : (
+          <>
+            {orders.map((order: Order) => {
+              return <OrderProduct order={order} key={`${order._id}`} />;
+            })}
+          </>
+        )}
       </div>
     </div>
   );

@@ -80,18 +80,18 @@ function Navbar() {
             >
               Home
             </Link>
-            <div className="relative">
+            {/* <div className="relative">
 
-            {/* <div
+            <div
               onClick={()=>{setCategory(!Category)}}
               className={`cursor-pointer text-text-textColor lg:text-sm xl:text-base hover:underline decoration-themeColorDark underline-offset-4  ${
                 pathName === "/Category" && "bg-themeColorDark rounded-md py-1 px-3 text-white"
               }`}
               >
               Categories
-            </div> */}
-            {Category && <Categories setCategory={setCategory}/>}
             </div>
+            {Category && <Categories setCategory={setCategory}/>}
+            </div> */}
             <Link
               href="/About"
               className={`cursor-pointer text-textColor lg:text-sm xl:text-base hover:underline decoration-themeColorDark underline-offset-4 ${
@@ -145,12 +145,18 @@ function Navbar() {
             {/* <div className={`hidden cursor-pointer ${!kaviFoodUser ? 'lg:hidden' :  "lg:block" } `} onClick={()=>{HandleNavigation('Wishlist')}}>
               <FaRegHeart className="lg:w-4 lg:h-4 xl:w-5 xl:h-5"/>
             </div> */}
-            <div className={`cursor-pointer relative`} onClick={()=>{
+        { kaviFoodUser ? !kaviFoodUser.isAdmin ?   <div className={`cursor-pointer relative`} onClick={()=>{
+              HandleNavigation("myCart")
+            }}>
+              <MdOutlineShoppingCart className="w-5 h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5"/>
+              <div className="absolute top-0 right-0 bg-themeColorDark text-milkWhite rounded-full px-1 py-0.5 text-xs leading-none transform translate-x-1/2 -translate-y-1/2">{kaviFoodUser ? kaviFoodUser.cart.items.length : cart.items.length}</div>
+            </div>:<></> :  <div className={`cursor-pointer relative`} onClick={()=>{
               HandleNavigation("myCart")
             }}>
               <MdOutlineShoppingCart className="w-5 h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5"/>
               <div className="absolute top-0 right-0 bg-themeColorDark text-milkWhite rounded-full px-1 py-0.5 text-xs leading-none transform translate-x-1/2 -translate-y-1/2">{kaviFoodUser ? kaviFoodUser.cart.items.length : cart.items.length}</div>
             </div>
+}
             <div className="hidden lg:block cursor-pointer relative" onClick={()=>{setprofilePop(!profilePop)}}>
               <IoPersonSharp  className="w-5 h-5 lg:w-4 lg:h-4 xl:w-5 xl:h-5"/>
               {

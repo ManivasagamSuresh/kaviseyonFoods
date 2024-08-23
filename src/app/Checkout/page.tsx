@@ -9,11 +9,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { LiaEditSolid } from "react-icons/lia";
 import { LuSave } from "react-icons/lu";
 import { AddPersonalDetails } from "@/redux/GuestSlice";
+import { ClipLoader } from "react-spinners";
 
 function page() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const { cart, name, mobile, email } = useSelector((state: any) => state.guestUser);
   const { kaviFoodUser } = useSelector((state: any) => state.user);
+  const [loading,setLoading] = useState<boolean>(false);
   const [contact, setContact] = useState({
     name: "",
     mobile: "",
@@ -50,7 +52,9 @@ function page() {
     // Add API for editing and adding address
   };
 
-  const handleProceedtoPay = () => {
+  const handleProceedtoPay = async() => {
+  try {
+    setLoading(true);
     console.log(contact, address);
     const payload = {
       name: "",
@@ -91,6 +95,11 @@ function page() {
       payload.products = cart.items;
     }
     console.log(payload);
+    setLoading(false);
+  } catch (error) {
+    console.log(error)
+  }
+  
   };
 
   const handleEditAddress = () => {
@@ -259,10 +268,10 @@ function page() {
             )}
           </div>
           <div
-            className="bg-themeColorDark text-milkWhite text-center px-20 py-3 rounded-md text-lg lg:text-xl font-semibold cursor-pointer"
+            className="bg-themeColorDark flex items-center justify-center gap-4 text-milkWhite text-center px-20 py-3 rounded-md text-lg lg:text-xl font-semibold cursor-pointer"
             onClick={handleProceedtoPay}
           >
-            Pay Now
+            Pay Now <>{loading && <ClipLoader loading={loading} color="#fff"  size={18}/>}</>
           </div>
         </div>
         <div className="w-full lg:w-1/2 bg-themeColorLight flex flex-col gap-4 lg:gap-6 p-6 md:px-20 md:py-8  lg:py-4 lg:px-12 xl:pr-32 xl:pl-20">

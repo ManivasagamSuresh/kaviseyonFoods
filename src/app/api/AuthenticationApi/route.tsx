@@ -39,7 +39,7 @@ async function handleLogin({ email, password }: SignInFormValues) {
      
       const token = await jwt.sign({id: user._id},JWT_SECRET);
       // console.log(token);
-      // todo
+      // TODO
       // add/update cart details from unregistered user local storage to the response. 
       return NextResponse.json({ user: user , token: token }, { status: 200 });
     }else{
@@ -72,10 +72,17 @@ async function handleSignup({ name, email, password, phone }: SignUpFormValues) 
     landmark:''  
   }
   const mongoConnection  = await DBconnect();
-  const user = await mongoConnection?.collection('user').findOne({email: email});
-  if(user){
+  const user = await mongoConnection?.collection('user').findOne({
+    $or: [{ email: email }, { phone: phone }],
+  });
+  if (user) {
     await closeConnection();
-   return  NextResponse.json({ message: 'Email Already Exist' }, { status: 409 });
+    // Determine which field caused the conflict
+    const conflictField = user.email === email ? 'Email' : 'Mobile number';
+    return NextResponse.json(
+      { message: `${conflictField} already exists` },
+      { status: 409 }
+    );
   }
   const AddUser = await mongoConnection?.collection('user').insertOne(request);
 

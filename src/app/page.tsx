@@ -5,20 +5,30 @@ import ProductCard from "@/Components/ProductCard/ProductCard";
 import { useDispatch, useSelector } from "react-redux";
 import { EmptyGuestCart } from "@/redux/GuestSlice";
 import { EmptyUserCart } from "@/redux/UserSlice";
+import { SyncLoader } from "react-spinners";
+import Image from "next/image";
 // import ProductCardH from "@/Components/ProductCardH/ProductCardH";
+
+
+
+// TODO REMOVE ALL THE UNWANTED CODE AND FORMAT ALL THE DOCUMENTS
+
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
-
+  const [loading,setLoading] = useState<boolean>(true);
  const dispatch = useDispatch();
   const {  mobile, email, cart, shippingAddress,   } = useSelector((state: any) => state.guestUser);
   // TODO: make me to server side props fetching, or ill call twice
   const getAllProducts = async () => {
     try {
+      setLoading(true);
       const response = await axios.get("/api/productsAPi");
       setProducts(response.data);
+      setLoading(false);
       // console.log("GET response:", response.data);
     } catch (error) {
+      setLoading(false);
       console.error("Error calling GET API:", error);
     }
   };
@@ -69,32 +79,40 @@ export default function Home() {
   useEffect(() => {
     getAllProducts();
     // console.log(cart);
-    // TODO remove below comment
+    // TODO remove below commented code
     // dispatch(EmptyUserCart());
     // dispatch(EmptyGuestCart())
   }, []);
 
   return (
     <div className="w-full flex justify-center p-4">
-      <div className="text-lg text-center flex flex-col  items-center gap-4 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)] w-full max-w-[1850px]">
-        <span> Hello All, Welcome to Kavi Seyon foods </span>
+      <div className="text-lg  flex flex-col items-center gap-4 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)] w-full max-w-[1850px]">
+      <div className="w-full h-40 min-[560px]:h-48 relative min-[560px]:w-3/4 lg:h-64 lg:w-5/6 xl:w-[75%] xl:h-80">
+              <Image src="/Images/happybabySample.jpg" fill alt="logo" />
+            </div>
+       
+{loading ? <>
+  <SyncLoader
+  color="#a5c667"
+  loading={loading}
+  margin={6}
+  size={16}
+  speedMultiplier={0.7}
+/>
+</> : 
 
-        {/*       
-
-      <div className=" w-full flex-col flex flex-wrap gap-4 justify-center items-center min-[560px]:w-3/4  lg:w-5/6 xl:w-[75%] min-[1600px]:w-[1400px]  lg:gap-2 sm:flex-row sm:items-start  lg:justify-start">
-      {
-        products?.map((prod)=>{
-          console.log(prod)
-          return <ProductCardH prod={prod} />
-        })
-      }
-      </div> */}
-
-        <div className=" w-full flex flex-wrap gap-4 justify-center items-center min-[560px]:w-3/4  lg:w-5/6 xl:w-[75%] min-[1600px]:w-[1400px]  lg:gap-2 sm:flex-row sm:items-start  lg:justify-start">
+<div className="w-full flex flex-col gap-4 min-[560px]:w-3/4  lg:w-5/6 xl:w-[75%] min-[1600px]:w-[1400px] mb-20">
+<div className="text-2xl lg:text-3xl text-themeColorDark  font-semibold">Our Products</div>
+<div className=" w-full flex flex-wrap gap-4 justify-center items-center lg:gap-2 sm:flex-row sm:items-start  lg:justify-start">
+        
+        
           {products?.map((prod) => {
             return <ProductCard prod={prod} key={prod._id}/>;
           })}
         </div>
+</div>
+}
+        
 
         {/* <button onClick={postproduct}>POST</button> <button onClick={getAllProducts}>GET</button> */}
       </div>

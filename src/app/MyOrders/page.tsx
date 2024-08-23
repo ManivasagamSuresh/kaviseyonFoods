@@ -1,7 +1,12 @@
+"use client";
+
 import OrderProduct from "@/Components/OrderProduct/OrderProduct";
-import React from "react";
+import React, { useState } from "react";
+import { SyncLoader } from "react-spinners";
 
 function Page() {
+  const [loading, setLoading] = useState<boolean>(false);
+  // const [orders,setOrders] = useState()
   const orders: Order[] = [
     {
       _id: "1",
@@ -40,14 +45,29 @@ function Page() {
     },
     // Additional orders...
   ];
-  
+
   return (
     <div className="w-full flex justify-center">
       <div className="flex flex-col gap-10 px-5 md:px-10 lg:px-40 xl:px-80 py-10 lg:py-10 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)] pageMountAnimation w-full max-w-[1850px]">
         <div className="text-2xl font-semibold tracking-wide">My Orders</div>
-        {orders.map((order: Order) => {
-          return <OrderProduct order={order} key={`${order._id}`} />;
-        })}
+        {loading ? (
+          <div className="h-96 w-full flex mt-28 lg:mt-20  justify-center">
+            {" "}
+            <SyncLoader
+              color="#a5c667"
+              loading={loading}
+              margin={6}
+              size={16}
+              speedMultiplier={0.7}
+            />{" "}
+          </div>
+        ) : (
+          <>
+            {orders.map((order: Order) => {
+              return <OrderProduct order={order} key={`${order._id}`} />;
+            })}
+          </>
+        )}
       </div>
     </div>
   );

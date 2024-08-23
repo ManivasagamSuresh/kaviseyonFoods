@@ -2,17 +2,20 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { toast } from "react-toastify";
-
-import { loginSuccess } from "@/redux/UserSlice";
-import { useDispatch } from "react-redux";
+import {ClipLoader} from 'react-spinners'
+import { loginFailure, loginStart, loginSuccess } from "@/redux/UserSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { SignInFormValues } from "@/types/profile";
 
 
 function Page() {
   const router = useRouter();
   const dispatch = useDispatch()
+
+const { loading } = useSelector((state: any) => state.user);
+
   const HandleNavigation = (prop: string) => {
     router.push(`/${prop}`);
   };
@@ -37,6 +40,7 @@ function Page() {
     },
     onSubmit: async (values) => {
       try {
+        dispatch(loginStart());
         const response = await axios.post('/api/AuthenticationApi', {
           action: 'signin',
           email: values.email,
@@ -53,10 +57,12 @@ function Page() {
         }
       } catch (error: any) {
         console.log(error);
+        dispatch(loginFailure());
         toast.error(error.response.data.message);
       }
     },
   });
+
 
   return (
     <div className="w-full px-5 flex flex-col gap-4 justify-center items-center min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)] pageMountAnimation">
@@ -87,7 +93,7 @@ function Page() {
           {formik.errors.password && formik.touched.password && (
             <div className="text-themeColorDark text-xs">{formik.errors.password}</div>
           )}
-          <button type="submit" className="bg-themeColorDark px-10 py-2 rounded-lg">Sign-In</button>
+          <button type="submit" className="bg-themeColorDark px-10 py-2 rounded-lg">{ loading ? <div className="flex items-center justify-center gap-4">Signing-In <ClipLoader loading={loading} color="#fff"  size={18}/></div> : 'Sign-In'  }</button>
         </form>
       </div>
       <div>Forgot Password?</div>
