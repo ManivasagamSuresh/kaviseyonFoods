@@ -6,8 +6,9 @@ import { LuSave } from "react-icons/lu";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 
 import { useSelector } from "react-redux";
+import axios from "axios";
 
-const OrderProduct: React.FC<OrderProductProps> = ({ order }) => {
+const OrderProduct: React.FC<OrderProductProps> = ({ order, setOrders }) => {
   const [orderState, setOrderState] = useState<Order>(order);
   const [editmode, setEditMode] = useState<boolean>(false);
   const { kaviFoodUser } = useSelector((state: any) => state.user);
@@ -19,21 +20,36 @@ const OrderProduct: React.FC<OrderProductProps> = ({ order }) => {
 
   const setStatusValue = (e: any) =>{
         setOrderState({...orderState,orderStatus: e.target.value })
+   
   }
   const updateTrackingId = (e: any)=>{
     // console.log(e.target.value);
     setOrderState({...orderState, trackingId: e.target.value })
   }
 
-  const HandleSaveOrderStatus = () =>{
-  
+  const handleSaveOrderStatus = async() => {
     try {
-        // console.log(orderState);
-        setEditMode(false);
+      setEditMode(false);
+      const payload =  {_id: orderState._id , orderStatus: orderState.orderStatus, trackingId:
+        orderState.orderStatus === "Shipped" && orderState.trackingId }
+      const updateStatus = await axios.patch("api/OrdersAPI",payload)
+      console.log(updateStatus);
+      setOrders((prevOrders: Order[]) =>
+        prevOrders.map((o) =>
+          o._id === orderState._id
+            ? {
+                ...o,
+                orderStatus: orderState.orderStatus,
+                trackingId:
+                  orderState.orderStatus === "Shipped" ? orderState.trackingId : o.trackingId,
+              }
+            : o
+        )
+      );
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     setOrderState(order);
@@ -64,9 +80,9 @@ const OrderProduct: React.FC<OrderProductProps> = ({ order }) => {
             <div>
               <div><span className="font-semibold">Order Status: </span>{orderState.orderStatus}</div>
               {orderState.orderStatus !== "Delivered" && (
-                <div className="text-sm">
+                <div className="text-sm w-64 overflow-hidden">
                   {orderState.trackingId && orderState.orderStatus === "Shipped"
-                    ? <a href={`${orderState.trackingId}`} target="_blank">{`Tracking Link: ${orderState.trackingId}`}</a>
+                    ? <a href={`${orderState.trackingId}`} target="_blank" className="underline">{`Tracking Link: ${orderState.trackingId}`}</a>
                     : "Tracking Link Will be updated Soon"}
                 </div>
               )}
@@ -83,26 +99,27 @@ const OrderProduct: React.FC<OrderProductProps> = ({ order }) => {
                   </select>
             
               </div>
-              {orderState.orderStatus === 'Shipped' && <div className="text-sm md:text-base">Tracking Link: <input type="text" className="border-b border-themeColorDark px-4 py-1" onChange={updateTrackingId} value={orderState.trackingId? orderState.trackingId : ''}/></div>}
+              {orderState.orderStatus === 'Shipped' && <div className="text-sm md:text-base " >Tracking Link: <input type="text" className="border-b border-themeColorDark px-4 py-1" onChange={updateTrackingId} value={orderState.trackingId? orderState.trackingId : ''}/></div>}
             </div>
           )}
         {
             kaviFoodUser?.isAdmin && editmode === false ?  <TbEdit className="cursor-pointer" onClick={()=>setEditMode(true)}/> : <></>
         }
         {
-                kaviFoodUser?.isAdmin && editmode ? <LuSave className="cursor-pointer" onClick={()=>HandleSaveOrderStatus()}/> : <></>
+                kaviFoodUser?.isAdmin && editmode ? <LuSave className="cursor-pointer" onClick={()=>handleSaveOrderStatus()}/> : <></>
         }
         
           </div>
           <div className="md:flex flex-col w-48 hidden">
             <span className="font-semibold">Ship To</span>
-            <span>{orderState.shippedToName}</span>
+            <span>{orderState.name}</span>
           </div>
         </div>
         <div className="flex justify-between md:flex-row flex-col gap-2 md:gap-0">
             <div className="flex flex-col gap-5">
          {
             orderState.products.map((prod)=>{
+              console.log(prod)
                 return <div className="flex gap-4">
                 <div className="w-16 h-20 relative">
                   <Image src={getImageSrc(prod.image)} alt="Product Image" fill={true} />
@@ -118,11 +135,12 @@ const OrderProduct: React.FC<OrderProductProps> = ({ order }) => {
           <div className="text-sm w-full  md:w-48">
           <div className="flex gap-2 md:gap-0 md:flex-col md:hidden">
             <span className="font-semibold">Ship to</span>
-            <span>{orderState.shippedToName}</span>
+            <span>{orderState.name}</span>
           </div>
             <div className="flex md:flex-col flex-wrap"> <span className="font-semibold mr-2">Delivery Address:  </span><span className="flex flex-wrap">{`${orderState.deliveryAddress.address} ${orderState.deliveryAddress.city} - ${orderState.deliveryAddress.pincode} ${orderState.deliveryAddress.state}`}</span> </div>
             
-            <div> <span className="font-semibold"> Contact No: </span> {orderState.phoneNumber}</div>
+            <div> <span className="font-semibold"> Contact No: </span> {orderState.mobile}</div>
+            <div> <span className="font-semibold"> Email: </span> {orderState.email}</div>
           </div>
         </div>
       </div>

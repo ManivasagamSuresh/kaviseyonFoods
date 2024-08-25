@@ -2,19 +2,22 @@
 import axios from "axios";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import {ClipLoader} from 'react-spinners'
 import { loginFailure, loginStart, loginSuccess } from "@/redux/UserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { SignInFormValues } from "@/types/profile";
+import { clearGuestUser } from "@/redux/GuestSlice";
 
 
 function Page() {
   const router = useRouter();
   const dispatch = useDispatch()
-
-const { loading } = useSelector((state: any) => state.user);
+  const [loading,setLoading] = useState<boolean>(false); 
+  
+  const { cart } = useSelector((state: any) => state.guestUser);
+// const { loading } = useSelector((state: any) => state.user);
 
   const HandleNavigation = (prop: string) => {
     router.push(`/${prop}`);
@@ -40,15 +43,28 @@ const { loading } = useSelector((state: any) => state.user);
     },
     onSubmit: async (values) => {
       try {
-        dispatch(loginStart());
-        const response = await axios.post('/api/AuthenticationApi', {
-          action: 'signin',
-          email: values.email,
-          password: values.password
-        });
+        // dispatch(loginStart());
+        setLoading(true);
+        if(cart.items.length > 0) {
+          var response = await axios.post('/api/AuthenticationApi', {
+            action: 'signin',
+            email: values.email,
+            password: values.password,
+            cart: cart,
+          });
+        }else{
+          var response = await axios.post('/api/AuthenticationApi', {
+            action: 'signin',
+            email: values.email,
+            password: values.password
+          });
+        }
+       
         if(response.status === 200){
           // console.log(response.data);
           dispatch(loginSuccess(response.data.user));
+          setLoading(false)
+          dispatch(clearGuestUser());
           localStorage.setItem('kavifoodsAdmin', response.data.user.isAdmin)
           localStorage.setItem('kavifoodsToken', response.data.token)
           toast.success(`Signed-in as ${response.data.user.name}`);
@@ -57,11 +73,16 @@ const { loading } = useSelector((state: any) => state.user);
         }
       } catch (error: any) {
         console.log(error);
-        dispatch(loginFailure());
+        // dispatch(loginFailure());
+        setLoading(false)
         toast.error(error.response.data.message);
       }
     },
   });
+
+  useEffect(()=>{
+
+  },[])
 
 
   return (

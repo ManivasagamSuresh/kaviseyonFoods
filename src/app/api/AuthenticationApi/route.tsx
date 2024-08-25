@@ -1,6 +1,7 @@
 // src/app/api/AuthApi/route.tsx
 import { DBconnect, closeConnection } from '@/MongoDb/mongoDb';
 import { SignInFormValues, SignUpFormValues, User } from '@/types/profile';
+import { ObjectId } from 'mongodb';
 import { NextRequest, NextResponse } from 'next/server';
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
@@ -8,11 +9,11 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 
 export const POST = async (request: NextRequest) => {
-  const { action, email, password, name, phone, confirmpassword } = await request.json();
+  const { action, email, password, name, phone, confirmpassword , cart} = await request.json();
   
   switch (action) {
     case 'signin':
-      return handleLogin({ email, password });
+      return handleLogin({ email, password, cart });
     case 'signup':
       return handleSignup({ name, email, password, confirmpassword, phone });
     case 'logout':
@@ -22,7 +23,7 @@ export const POST = async (request: NextRequest) => {
   }
 }
 
-async function handleLogin({ email, password }: SignInFormValues) {
+async function handleLogin({ email, password, cart }: SignInFormValues) {
   // Add your authentication logic here
   // console.log(email, password);
   const request: SignInFormValues = {
@@ -41,6 +42,8 @@ async function handleLogin({ email, password }: SignInFormValues) {
       // console.log(token);
       // TODO
       // add/update cart details from unregistered user local storage to the response. 
+      const addCartToUser = await mongoConnection?.collection('user').updateOne({email:email}, {$set:{cart: cart}});
+      user.cart = cart;
       return NextResponse.json({ user: user , token: token }, { status: 200 });
     }else{
       return NextResponse.json({ message: 'Email/Phone or Password Incorrect', token: 'exampleToken' }, { status: 400 });
@@ -96,11 +99,48 @@ async function handleLogout() {
   return NextResponse.json({ message: 'Logout successful' });
 }
 
-
-export const GET = async (req: Request) => {
+export const PATCH = async (req: Request) => {
   try {
+    const data = await req.json();
+
+    const { _id, name, email, phone, address, city, state, pincode, landmark } = data;
+
+    if (!_id) {
+      return NextResponse.json({ error: "User ID is required" }, { status: 400 });
+    }
+
+    const updateData: any = {};
+
+    if (name) updateData.name = name;
+    if (email) updateData.email = email;
+    if (phone) updateData.phone = phone;
+
+    if (address) updateData.address = address;
+    if (city) updateData.city = city;
+    if (state) updateData.state = state;
+    if (pincode) updateData.pincode = pincode;
+    if (landmark) updateData.landmark = landmark;
+
+    if (Object.keys(updateData).length === 0) {
+      return NextResponse.json({ error: "No fields to update" }, { status: 400 });
+    }
+    const mongoConnection = await DBconnect();
+
+    const updateResult = await mongoConnection?.collection('user').updateOne(
+      { _id: new ObjectId(`${_id}`) },
+      { $set: updateData }
+    );
+
     
+    await closeConnection();
+
+    if (updateResult && updateResult.modifiedCount > 0) {
+      return NextResponse.json({ message: "Profile updated successfully" }, { status: 201 });
+    } else {
+      return NextResponse.json({ error: "Failed to update profile" }, { status: 500 });
+    }
   } catch (error) {
-   
+    console.error("Error in PATCH handler:", error);
+    return NextResponse.json({ error: "An error occurred" }, { status: 500 });
   }
 };

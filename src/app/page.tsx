@@ -23,7 +23,7 @@ export default function Home() {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("/api/productsAPi");
+      const response = await axios.get("/api/productsAPi", {headers: {"Authorization":localStorage.getItem('')}});
       setProducts(response.data);
       setLoading(false);
       // console.log("GET response:", response.data);

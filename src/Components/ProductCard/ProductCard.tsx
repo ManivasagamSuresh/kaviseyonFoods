@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AddGuestCart } from '@/redux/GuestSlice';
 import { AddUserCart } from '@/redux/UserSlice';
 import { FaArrowUpRightFromSquare } from "react-icons/fa6";
+import axios from 'axios';
 
 
 function ProductCard({ prod }:any) {
@@ -29,9 +30,16 @@ function ProductCard({ prod }:any) {
       router.push(`/Product/${productId}`)
   }
 
-  const addToCart = () => {
+  const addToCart = async() => {
+    // console.log({...prod, quantity:1})
     if(kaviFoodUser){
       dispatch(AddUserCart({...prod, quantity:1}))
+      const cartItem = {...prod, quantity:1} 
+      const payload = {action: 'addCart', cartItem, _id: kaviFoodUser._id}
+      // console.log(payload);
+      const addCart = await axios.patch('/api/CartAPI', payload);
+      console.log(addCart);
+      
     }else{
       dispatch(AddGuestCart({...prod, quantity:1}))
     }

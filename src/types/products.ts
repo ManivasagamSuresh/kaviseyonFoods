@@ -41,9 +41,9 @@ interface CartProduct {
     orderTotal: string;
     orderStatus: string;
     trackingId: string;
-    shippedToName: string;
+    name: string;
     orderDate: string;
-    phoneNumber: string;
+    mobile: string;
     email: string;
     products: OrderProduct[];
   }

@@ -1,6 +1,7 @@
 import { AddGuestCart, ReduceGuestCartQuantity, RemoveGuestCart } from "@/redux/GuestSlice";
 import { AddUserCart, ReduceUserCartQuantity, RemoveUserCart } from "@/redux/UserSlice";
 import { CartItem } from "@/types/profile";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,10 +24,14 @@ const CartProduct: React.FC<ProductComponentProps> = ({ prod }) => {
     return id ? `https://drive.google.com/uc?export=view&id=${id[0]}` : url;
   };
 
-  const reduceQuantityCount = () => {
+  const reduceQuantityCount = async() => {
     if (kaviFoodUser) {
       if (prod.quantity > 1) {
         dispatch(ReduceUserCartQuantity(prod));
+        const cartItem = {...prod, quantity:1} 
+      const payload = {action: 'reduceQuantity', cartItem, _id: kaviFoodUser._id}
+      // console.log(payload);
+      const addCart = await axios.patch('/api/CartAPI', payload);
       }
     } else {
       if (prod.quantity > 1) {
@@ -35,20 +40,38 @@ const CartProduct: React.FC<ProductComponentProps> = ({ prod }) => {
     }
   };
 
-  const addQuantityCount = () => {
+  const addQuantityCount = async() => {
     if (kaviFoodUser) {
       dispatch(AddUserCart({ ...prod, quantity: 1 }));
+      const cartItem = {...prod, quantity:1} 
+      const payload = {action: 'addCart', cartItem, _id: kaviFoodUser._id}
+      // console.log(payload);
+      const addCart = await axios.patch('/api/CartAPI', payload);
+      console.log(addCart);
+      
     } else {
       dispatch(AddGuestCart({ ...prod, quantity: 1 }));
     }
   };
 
-  const removeCart = () => {
-    if (kaviFoodUser) {
-      dispatch(RemoveUserCart(prod));
-    } else {
-      dispatch(RemoveGuestCart(prod));
+  const removeCart = async() => {
+    try {
+      if (kaviFoodUser) {
+        //TODO ADD API CALL HERE 
+        dispatch(RemoveUserCart(prod));
+        
+        
+       const payload = {cartItem:prod, _id: kaviFoodUser._id, action:"removeCart"}
+        const removeItem = await axios.patch('/api/CartAPI', payload)
+        console.log(removeItem)
+  
+      } else {
+        dispatch(RemoveGuestCart(prod));
+      }
+    } catch (error) {
+      console.log("error removing cart")
     }
+    
   };
 
   const handleNavigation=(productId: string)=>{

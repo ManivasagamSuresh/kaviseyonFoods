@@ -51,9 +51,13 @@ export const GuestSlice = createSlice({
         }
       }
     },
-    EmptyGuestCart: (state) => {
-      // state.cart.items.length = 0;
-      // state.cart.totalPrice = 0; // Reset totalPrice
+    clearGuestUser: (state) => {
+      state.name = null;
+      state.mobile = null;
+      state.email = null;
+      state.shippingAddress = null,
+      state.cart.totalPrice = 0 ,
+      state.cart.items = []
     },
   },
 });
@@ -61,7 +65,7 @@ export const GuestSlice = createSlice({
 export const {
   AddGuestCart,
   RemoveGuestCart,
-  EmptyGuestCart,
+  clearGuestUser,
   AddPersonalDetails,
   ReduceGuestCartQuantity,
 } = GuestSlice.actions;

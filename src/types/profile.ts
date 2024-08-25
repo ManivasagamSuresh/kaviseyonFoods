@@ -30,6 +30,7 @@ export interface EditProfileFormValues {
 export interface SignInFormValues {
   email: string;
   password: string;
+  cart? : Cart;
 }
 
 export interface User {

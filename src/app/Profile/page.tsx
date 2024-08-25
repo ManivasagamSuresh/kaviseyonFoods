@@ -1,6 +1,7 @@
 "use client";
 import { updateProfile } from "@/redux/UserSlice";
 import { EditProfileFormValues, SignUpFormValues } from "@/types/profile";
+import axios from "axios";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -10,6 +11,7 @@ import { toast } from "react-toastify";
 function Page() {
   const [editMode, setEditMode] = useState<boolean>(false);
   const { kaviFoodUser } = useSelector((state: any) => state.user);
+  const [loading, setLoading] = useState<boolean>(false)
   const route = useRouter();
   const dispatch = useDispatch();
 
@@ -78,26 +80,31 @@ function Page() {
       return error;
     },
     onSubmit: async (values) => {
-      // console.log("Form submitted"); 
-      // console.log(values); 
       try {
-        //TODO ADD SPINNER HERE
+       
+        setLoading(true)
         dispatch(updateProfile(values));
-        // Uncomment and configure this part when ready to make API calls
-        // const response = await axios.post('/api/AuthenticationApi', {
-        //   action: 'editProfile',
-        //   name: values.name,
-        //   email: values.email,
-        //   phone: values.phone,
-        //   password: values.password,
-        // });
-        // if(response.status === 201){
-        //   toast.success(response.data.message);
-        // }
+        const response = await axios.patch('/api/AuthenticationApi', {
+          _id: kaviFoodUser._id,
+          name: values.name,
+          email: values.email,
+          phone: values.phone,
+          address: values.address,
+          city: values.city,
+          state: values.state,
+          pincode: values.pincode,
+          landmark: values.landmark,
+        });
+        if(response.status === 201){
+          toast.success(response.data.message);
+          console.log(response.data.message);
+          setLoading(false);
+        }
         
         handleEditProfile();
       } catch (error: any) {
-        // toast.error(error.response?.data?.message || "An error occurred");
+        setLoading(false);
+        toast.error(error.response?.data?.message );
       }
     },
   });
@@ -283,7 +290,8 @@ function Page() {
             type="submit"
               className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite"
             >
-              Update Profile
+               {/* TODO ADD SPINNER HERE */}
+              Update Profile 
             </button>
           ) : (
             

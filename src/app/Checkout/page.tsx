@@ -11,12 +11,14 @@ import { LuSave } from "react-icons/lu";
 import { AddPersonalDetails } from "@/redux/GuestSlice";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 function page() {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const { cart, name, mobile, email } = useSelector((state: any) => state.guestUser);
   const { kaviFoodUser } = useSelector((state: any) => state.user);
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingAdd, setLoadingAdd] = useState<boolean>(false);
   const [contact, setContact] = useState({
     name: "",
     mobile: "",
@@ -46,14 +48,27 @@ function page() {
     }
   }
 
-  const handleSaveAddress = () => {
-    if (handleAddressValidations()) {
-      handleEditAddress();
-      dispatch(changeAddress(address));
-      //TODO
-      // Add API for editing and adding address
-    } else {
-      return;
+  const handleSaveAddress = async () => {
+    try {
+      if (handleAddressValidations()) {
+        handleEditAddress();
+        setLoadingAdd(true);
+        //TODO
+        // Add API for editing and adding address
+        const saveAddress = await axios.patch("/api/AuthenticationApi", {
+          ...address,
+          _id: kaviFoodUser._id,
+        });
+        console.log(saveAddress);
+        dispatch(changeAddress(address));
+        toast.success(saveAddress.data.message);
+        setLoadingAdd(false);
+      } else {
+        return;
+      }
+    } catch (error) {
+      setLoadingAdd(false);
+      toast.success("Something went wrong, Try again after sometime");
     }
   };
 
@@ -189,6 +204,9 @@ function page() {
         };
         payload.orderTotal = kaviFoodUser.cart.totalPrice + 50;
         payload.products = kaviFoodUser.cart.items;
+        //TODO CALL THIS API ONLY AFTER PAYMENT IS DONE
+        const placeOrder = await axios.post("/api/OrdersAPI", payload);
+        //TODO NEED TO CLEAR CART, AND GO TO HOME SCREEN ONCE PAYMENT IS INTEGRATED
       } else {
         dispatch(
           AddPersonalDetails({ name: contact.name, mobile: contact.mobile, email: contact.email })
@@ -199,6 +217,9 @@ function page() {
         payload.deliveryAddress = address;
         payload.orderTotal = cart.totalPrice + 50;
         payload.products = cart.items;
+        //TODO CALL THIS API ONLY AFTER PAYMENT IS DONE
+        const placeOrder = await axios.post("/api/OrdersAPI", payload);
+        //TODO NEED TO CLEAR CART, AND GO TO HOME SCREEN ONCE PAYMENT IS INTEGRATED
       }
       console.log(payload);
       setLoading(false);
@@ -305,14 +326,21 @@ function page() {
           <div className="flex gap-4 flex-col">
             <div className="text-lg lg:text-xl font-semibold flex gap-2 items-center h-fit">
               Delivery Address{" "}
-              {kaviFoodUser?.address ? (
-                !editAddress ? (
-                  <LiaEditSolid onClick={handleEditAddress} className="cursor-pointer" />
-                ) : (
-                  <LuSave onClick={handleSaveAddress} className="cursor-pointer" />
-                )
+              {loadingAdd ? (
+                <ClipLoader loading={loadingAdd} color="#a5c667" size={18} />
               ) : (
-                <></>
+                <>
+                  {" "}
+                  {kaviFoodUser?.address ? (
+                    !editAddress ? (
+                      <LiaEditSolid onClick={handleEditAddress} className="cursor-pointer" />
+                    ) : (
+                      <LuSave onClick={handleSaveAddress} className="cursor-pointer" />
+                    )
+                  ) : (
+                    <></>
+                  )}
+                </>
               )}
             </div>
             {kaviFoodUser?.address && !editAddress ? (

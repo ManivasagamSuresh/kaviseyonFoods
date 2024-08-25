@@ -1,5 +1,6 @@
 "use client";
 import OrderProduct from "@/Components/OrderProduct/OrderProduct";
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -9,119 +10,33 @@ function Page() {
   const { kaviFoodUser } = useSelector((state: any) => state.user);
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
+  const [orders,setOrders] = useState<Order[]>([]);
 
-  const orders: Order[] = [
-    {
-      _id: "1",
-      deliveryAddress: {
-        address: "anna nagar",
-        city: "madurai",
-        pincode: "600028",
-        state: "Tamil Nadu",
-        landmark: "near park",
-      },
-      orderTotal: "2300",
-      orderStatus: "Shipped",
-      trackingId: "27147657398",
-      shippedToName: "Dhanalaksmi",
-      orderDate: "03-08-2024",
-      phoneNumber: "9566991210",
-      email: "kaviseyonfoods@gmail.com",
-      products: [
-        {
-          name: "ragi",
-          image:
-            "https://drive.google.com/file/d/1yP3s8ECiotn7caN4QhWzs8jSBVWSNDPV/view?usp=sharing",
-          productId: "1",
-          weight_in_grams: "200",
-          quantity: 2,
-        },
-        {
-          name: "Rice Moongdal Kichadi",
-          image:
-            "https://drive.google.com/file/d/1yP3s8ECiotn7caN4QhWzs8jSBVWSNDPV/view?usp=sharing",
-          productId: "1",
-          weight_in_grams: "200",
-          quantity: 2,
-        },
-      ],
-    },
-    {
-      _id: "1",
-      deliveryAddress: {
-        address: "anna nagar",
-        city: "madurai",
-        pincode: "600028",
-        state: "Tamil Nadu",
-        landmark: "near park",
-      },
-      orderTotal: "2300",
-      orderStatus: "Shipped",
-      trackingId: "27147657398",
-      shippedToName: "Dhanalaksmi",
-      orderDate: "03-08-2024",
-      phoneNumber: "9566991210",
-      email: "kaviseyonfoods@gmail.com",
-      products: [
-        {
-          name: "Rice Moongdal Kichadi",
-          image:
-            "https://drive.google.com/file/d/1yP3s8ECiotn7caN4QhWzs8jSBVWSNDPV/view?usp=sharing",
-          productId: "1",
-          weight_in_grams: "200",
-          quantity: 2,
-        },
-        {
-          name: "Rice Moongdal Kichadi",
-          image:
-            "https://drive.google.com/file/d/1yP3s8ECiotn7caN4QhWzs8jSBVWSNDPV/view?usp=sharing",
-          productId: "1",
-          weight_in_grams: "200",
-          quantity: 2,
-        },
-      ],
-    },
-    {
-      _id: "132187878128939800564",
-      deliveryAddress: {
-        address: "anna nagar",
-        city: "madurai",
-        pincode: "600028",
-        state: "Tamil Nadu",
-        landmark: "near park",
-      },
-      orderTotal: "2300",
-      orderStatus: "Shipped",
-      trackingId: "27147657398",
-      shippedToName: "Dhanalaksmi",
-      orderDate: "03-08-2024",
-      phoneNumber: "9566991210",
-      email: "kaviseyonfoods@gmail.com",
-      products: [
-        {
-          name: "ragi",
-          image:
-            "https://drive.google.com/file/d/1yP3s8ECiotn7caN4QhWzs8jSBVWSNDPV/view?usp=sharing",
-          productId: "1",
-          weight_in_grams: "200",
-          quantity: 2,
-        },
-        {
-          name: "ragi",
-          image:
-            "https://drive.google.com/file/d/1yP3s8ECiotn7caN4QhWzs8jSBVWSNDPV/view?usp=sharing",
-          productId: "1",
-          weight_in_grams: "200",
-          quantity: 2,
-        },
-      ],
-    },
-  ];
+  
+  const getAllOrders = async() =>{
+    try {
+      const payload ={ params: {action : "getAllOrders" } }; 
+      const orders = await axios.get("api/OrdersAPI", payload);
+      console.log(orders);
+      setOrders(orders.data);
+    } catch (error) {
+      console.log(error)
+    }
+   
+  }
+
+  
   useEffect(() => {
     if (!kaviFoodUser?.isAdmin) {
       router.push("/");
     }
   }, [kaviFoodUser]);
+
+  useEffect(()=>{
+    if (kaviFoodUser?.isAdmin) {
+     getAllOrders();
+    }
+  },[])
 
   return (
     <div className="w-full flex justify-center">
@@ -140,9 +55,14 @@ function Page() {
           </div>
         ) : (
           <>
-            {orders.map((order: Order) => {
-              return <OrderProduct order={order} key={`${order._id}`} />;
-            })}
+          {
+            orders.length === 0 ? <div className="text-base text-themeColorDark h-96 w-full text-center ">
+              Hang in there, Dhana! Your orders are like fine wine—they just need a little time, and then they'll bring a big smile!
+            </div> : <>{orders.map((order: Order) => {
+              return <OrderProduct order={order} key={`${order._id}`} setOrders= {setOrders}/>;
+            })}</>
+          }
+            
           </>
         )}
       </div>

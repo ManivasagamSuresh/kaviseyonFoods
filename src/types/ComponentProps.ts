@@ -14,4 +14,5 @@ interface MobNavbarProps {
   
   interface OrderProductProps {
     order: Order;
+    setOrders?: any
   }

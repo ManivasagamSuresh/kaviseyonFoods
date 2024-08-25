@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/.dee", "src/Components/MainLayout/MainLayout.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/api/.dee", "src/Components/MainLayout/MainLayout.jsx", "src/app/api/verifyAuth.jsx"],
   "exclude": ["node_modules"]
 }
