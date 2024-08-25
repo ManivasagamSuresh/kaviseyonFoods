@@ -41,9 +41,12 @@ async function handleLogin({ email, password, cart }: SignInFormValues) {
       const token = await jwt.sign({id: user._id},JWT_SECRET);
       // console.log(token);
       // TODO
-      // add/update cart details from unregistered user local storage to the response. 
-      const addCartToUser = await mongoConnection?.collection('user').updateOne({email:email}, {$set:{cart: cart}});
-      user.cart = cart;
+      // add/update cart details from unregistered user local storage to the response.
+      if(cart){
+        const addCartToUser = await mongoConnection?.collection('user').updateOne({email:email}, {$set:{cart: cart}});
+        user.cart = cart;
+      } 
+     
       return NextResponse.json({ user: user , token: token }, { status: 200 });
     }else{
       return NextResponse.json({ message: 'Email/Phone or Password Incorrect', token: 'exampleToken' }, { status: 400 });
