@@ -15,11 +15,14 @@ function Page() {
   
   const getAllOrders = async() =>{
     try {
+      setLoading(true)
       const payload ={ params: {action : "getAllOrders" } }; 
       const orders = await axios.get("api/OrdersAPI", payload);
       console.log(orders);
       setOrders(orders.data);
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       console.log(error)
     }
    
@@ -43,7 +46,7 @@ function Page() {
       <div className="flex flex-col gap-10  px-5 md:px-10 lg:px-40 xl:px-80 py-10 lg:py-10 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)] pageMountAnimation w-full max-w-[1850px]">
         <div className="text-2xl font-semibold tracking-wide">All Orders</div>
         {loading ? (
-          <div className="h-96 w-full flex mt-28 lg:mt-20  justify-center">
+          <div className="h-96 w-full flex mt-28 lg:mt-20 justify-center">
             {" "}
             <SyncLoader
               color="#a5c667"

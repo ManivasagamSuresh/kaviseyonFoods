@@ -21,11 +21,14 @@ const router = useRouter();
 
   const getMyOrders = async () => {
     try {
+      setLoading(true)
       const payload = { params: { email: kaviFoodUser.email, action: "getMyOrders" } };
       const orders = await axios.get("api/OrdersAPI", payload);
       console.log(orders);
       setOrders(orders.data);
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       console.log(error);
     }
   };
