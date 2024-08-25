@@ -58,7 +58,7 @@ export const GuestSlice = createSlice({
       state.shippingAddress = null,
       state.cart.totalPrice = 0 ,
       state.cart.items = []
-    },
+    }
   },
 });
 

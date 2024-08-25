@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from "@/Components/ProductCard/ProductCard";
 import { useDispatch, useSelector } from "react-redux";
-import { EmptyGuestCart } from "@/redux/GuestSlice";
 import { EmptyUserCart } from "@/redux/UserSlice";
 import { SyncLoader } from "react-spinners";
 import Image from "next/image";
@@ -78,10 +77,6 @@ export default function Home() {
 
   useEffect(() => {
     getAllProducts();
-    // console.log(cart);
-    // TODO remove below commented code
-    // dispatch(EmptyUserCart());
-    // dispatch(EmptyGuestCart())
   }, []);
 
   return (
