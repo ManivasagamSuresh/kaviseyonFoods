@@ -1,7 +1,7 @@
 'use client'
 import axios from "axios";
 import { useFormik } from "formik";
-import { useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import {ClipLoader} from 'react-spinners'
@@ -11,9 +11,12 @@ import { SignInFormValues } from "@/types/profile";
 import { clearGuestUser } from "@/redux/GuestSlice";
 
 
+
 function Page() {
   const router = useRouter();
   const dispatch = useDispatch()
+  const params = useSearchParams();
+  const from = params.get('from');
   const [loading,setLoading] = useState<boolean>(false); 
   
   const { cart } = useSelector((state: any) => state.guestUser);
@@ -69,7 +72,11 @@ function Page() {
           localStorage.setItem('kavifoodsToken', response.data.token)
           toast.success(`Signed-in as ${response.data.user.name}`);
           // HandleNavigation('')
-          router.back();
+          if(from === 'forgot-password'){
+            router.push('/')
+          }else{
+            router.back();
+          }
         }
       } catch (error: any) {
         console.log(error);
@@ -93,7 +100,7 @@ function Page() {
           <input
             type="text"
             name="email"
-            placeholder="Email/Phone"
+            placeholder="Email"
             className="border-b w-3/4 placeholder:text-sm tracking-wider px-5 py-2 text-themeColorDark outline-none"
             value={formik.values.email}
             onChange={formik.handleChange}
@@ -117,7 +124,7 @@ function Page() {
           <button type="submit" className="bg-themeColorDark px-10 py-2 rounded-lg">{ loading ? <div className="flex items-center justify-center gap-4">Signing-In <ClipLoader loading={loading} color="#fff"  size={18}/></div> : 'Sign-In'  }</button>
         </form>
       </div>
-      <div>Forgot Password?</div>
+      <div onClick={()=>{HandleNavigation('ForgotPassword')}} className="underline cursor-pointer hover:text-themeColorDark">Forgot Password?</div>
       <div className="flex gap-3 text-lightGrey">
         Don't have an account?{" "}
         <div className="text-themeColorDark cursor-pointer font-semibold" onClick={() => { HandleNavigation('SignUp') }}>Sign Up</div>
