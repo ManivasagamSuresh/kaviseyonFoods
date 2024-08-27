@@ -36,7 +36,9 @@ const handleSendOtp = async (email: string) => {
       email: email
     }
     console.log(payload)
-    const sendMailtoUser = await axios.post('http://localhost:3000/api/ForgotPasswordOtpMail', payload); 
+    // const sendMailtoUser = await axios.post('http://localhost:3000/api/ForgotPasswordOtpMail', payload);
+    const sendMailtoUser = await axios.post('https://kaviseyon-foods.vercel.app', payload); 
+    
     // console.log(sendMailtoUser);
     const hashedOtp = await bcrypt.hash(otp, 10);
     const otpId = uuidv4();
