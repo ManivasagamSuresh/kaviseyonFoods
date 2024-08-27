@@ -14,9 +14,42 @@ const page = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [resendOtpComp, setResendOtpComp] = useState<boolean>(true);
+  const [timeLeft, setTimeLeft] = useState(120); // Initial time set to 2 minutes (120 seconds)
+
+
   const router = useRouter();
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (!resendOtpComp && timeLeft > 0) {
+      timer = setTimeout(() => {
+        setTimeLeft((prevTime) => prevTime - 1);
+      }, 1000);
+    } else if (timeLeft === 0) {
+      setResendOtpComp(true); // Allow resend OTP when timer ends
+    }
+
+    return () => clearInterval(timer); // Cleanup on component unmount or when timeLeft changes
+  }, [resendOtpComp, timeLeft]);
+
+  // Reset timer when resendOtpComp changes
+  useEffect(() => {
+    if (resendOtpComp) {
+      setTimeLeft(120); // Reset to 2 minutes
+    }
+  }, [resendOtpComp]);
+
+  // Format the time as MM:SS
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(
+      remainingSeconds
+    ).padStart(2, "0")}`;
+  };
+  
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -41,6 +74,27 @@ const page = () => {
     }
   };
 
+  const resendOtp = async () =>{
+    try {
+      const payload = {
+        action: "handleSendOtp",
+        email: email,
+      };
+      const sendOtp = await axios.post("/api/ForgotPasswordAPI", payload);
+      if(sendOtp.data.otpId){
+        setOtpId(sendOtp.data.otpId);
+        toast.success('Otp Resent successfully')
+        setResendOtpComp(false);
+        // handleRemoveResendComp();
+      }
+    } catch (error) {
+      
+      toast.error('Something went wrong. Try again later')
+    }
+  }
+
+
+
   const handleOtpSend = async () => {
     try {
       setLoading(true);
@@ -61,6 +115,7 @@ const page = () => {
       }
     } catch (error) {
       console.log(error);
+      setLoading(false);
       toast.error("Something went Wrong. Try again later");
     }
   };
@@ -197,6 +252,10 @@ const page = () => {
                   Submit OTP
                 </button>
               )}
+              {/* TODO resend Otp */}
+            {
+              resendOtpComp ? <span>Did'nt receive Otp? <span className="text-themeColorDark cursor-pointer" onClick={resendOtp}>Resend Otp</span></span>: <span>You can Resend the Otp in <span className="text-themeColorDark">{formatTime(timeLeft)}</span></span>
+            }  
             </div>
           )}
           {PasswordComponent && (
