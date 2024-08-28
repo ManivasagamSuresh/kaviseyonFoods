@@ -240,7 +240,7 @@ function page() {
         payload.products = cart.items;
       }
 
-      const receipt = `${kaviFoodUser._id}_${Date.now()}`;
+      const receipt = `${kaviFoodUser?._id || contact.email}_${Date.now()}`;
       const orderData: OrderPaymentData = {
         amount: Number(payload.orderTotal), // Amount in the smallest currency unit (paise for INR)
         currency: "INR",
