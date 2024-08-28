@@ -16,6 +16,8 @@ export const PATCH = async (request: NextRequest) => {
       return handleRemoveCart(_id, cartItem);
     case 'reduceQuantity':
       return handleReduceQuantity(_id, cartItem);
+      case 'EmptyCart':
+      return handleEmptyCart(_id);
     default:
       return NextResponse.json({ message: 'Invalid action' }, { status: 400 });
   }
@@ -133,3 +135,29 @@ const handleRemoveCart = async(_id: any, cartItem: any)=>{
      return NextResponse.json({ error: "Failed to Remove item" }, { status: 400 });
   }
 }
+
+const handleEmptyCart = async (_id: string) => {
+  try {
+    // Connect to the database
+    const db = await DBconnect();
+    
+    // Ensure that you are not closing the connection before running the query
+    const emptyCart = await db?.collection('user').updateOne(
+      { _id: new ObjectId(`${_id}`) },
+      { $set: { cart: { totalPrice: 0, items: [] } } }
+    );
+
+    // Close the connection after the query
+    await closeConnection();
+
+    if (emptyCart && emptyCart.modifiedCount && emptyCart.modifiedCount > 0) {
+      return NextResponse.json({ message: "Cart emptied successfully" }, { status: 200 });
+    } else {
+      return NextResponse.json({ error: "Failed to empty cart" }, { status: 400 });
+    }
+
+  } catch (error) {
+    console.error("Error emptying cart:", error); // Log the error for debugging
+    return NextResponse.json({ error: "Failed to empty cart" }, { status: 400 });
+  }
+};

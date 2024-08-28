@@ -83,7 +83,7 @@ const page = () => {
       const sendOtp = await axios.post("/api/ForgotPasswordAPI", payload);
       if(sendOtp.data.otpId){
         setOtpId(sendOtp.data.otpId);
-        toast.success('Otp Resent successfully')
+        toast.success('OTP Resent successfully')
         setResendOtpComp(false);
         // handleRemoveResendComp();
       }
@@ -109,7 +109,7 @@ const page = () => {
       //   console.log(email);
       setLoading(false);
       setOtpComponent(true);
-
+      toast.success('OTP sent successfully to your mail id')
       if (otpRefs.current[0]) {
         otpRefs.current[0].focus();
       }
@@ -142,7 +142,7 @@ const page = () => {
     } catch (error) {
       console.log(error);
       setLoading(false);
-      toast.error("Invalid Otp");
+      toast.error("Invalid OTP");
     }
   };
 
@@ -252,9 +252,9 @@ const page = () => {
                   Submit OTP
                 </button>
               )}
-              {/* TODO resend Otp */}
+             
             {
-              resendOtpComp ? <span>Did'nt receive Otp? <span className="text-themeColorDark cursor-pointer" onClick={resendOtp}>Resend Otp</span></span>: <span>You can Resend the Otp in <span className="text-themeColorDark">{formatTime(timeLeft)}</span></span>
+              resendOtpComp ? <span>Didn't Receive OTP? <span className="text-themeColorDark cursor-pointer" onClick={resendOtp}>Resend OTP</span></span>: <span>Resend OTP in <span className="text-themeColorDark">{formatTime(timeLeft)}</span></span>
             }  
             </div>
           )}

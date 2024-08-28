@@ -1,6 +1,6 @@
 "use client";
 import CheckoutProduct from "@/Components/CheckoutProduct/CheckoutProduct";
-import { changeAddress } from "@/redux/UserSlice";
+import { changeAddress, EmptyUserCart } from "@/redux/UserSlice";
 import { CartItem } from "@/types/profile";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -8,7 +8,7 @@ import { LiaRupeeSignSolid } from "react-icons/lia";
 import { useDispatch, useSelector } from "react-redux";
 import { LiaEditSolid } from "react-icons/lia";
 import { LuSave } from "react-icons/lu";
-import { AddPersonalDetails } from "@/redux/GuestSlice";
+import { AddPersonalDetails, EmptyGuestCart } from "@/redux/GuestSlice";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -36,9 +36,9 @@ function page() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  //   const navigateToCheckout = () =>{
-  //     router.push('/Checkout')
-  //   }
+  const handleNavigation = (url: string) => {
+    router.push(`/${url}`);
+  };
 
   function handleAddressChange(e: any) {
     console.log(e.target.name, e.target.value);
@@ -165,6 +165,27 @@ function page() {
     }
   };
 
+  const HandleEmptyCart = async() =>{
+    if(kaviFoodUser){
+      dispatch(EmptyUserCart());
+      try {
+         const payload = {
+          _id: kaviFoodUser._id,
+          action: 'EmptyCart'
+         }
+      const addCart = await axios.patch('/api/CartAPI', payload);
+
+      } catch (error) {
+        console.log(error);
+      }
+     
+    }
+    else{
+      dispatch(EmptyGuestCart());
+      
+    }
+  }
+
   const handleProceedtoPay = async () => {
     try {
       if (editAddress) {
@@ -185,8 +206,11 @@ function page() {
         orderTotal: "",
         orderStatus: "",
         trackingId: "",
-        orderDate: new Date().toLocaleDateString(), // Current date
+        orderDate: new Date().toLocaleDateString(), 
         products: [],
+        paymentStatus: "Successfull",
+        razorpay_order_id: "",
+        razorpay_paymentId: "",
       };
       if (kaviFoodUser) {
         console.log(kaviFoodUser);
@@ -204,9 +228,6 @@ function page() {
         };
         payload.orderTotal = kaviFoodUser.cart.totalPrice + 50;
         payload.products = kaviFoodUser.cart.items;
-        //TODO CALL THIS API ONLY AFTER PAYMENT IS DONE
-        const placeOrder = await axios.post("/api/OrdersAPI", payload);
-        //TODO NEED TO CLEAR CART, AND GO TO HOME SCREEN ONCE PAYMENT IS INTEGRATED
       } else {
         dispatch(
           AddPersonalDetails({ name: contact.name, mobile: contact.mobile, email: contact.email })
@@ -217,13 +238,66 @@ function page() {
         payload.deliveryAddress = address;
         payload.orderTotal = cart.totalPrice + 50;
         payload.products = cart.items;
-        //TODO CALL THIS API ONLY AFTER PAYMENT IS DONE
-        const placeOrder = await axios.post("/api/OrdersAPI", payload);
-        //TODO NEED TO CLEAR CART, AND GO TO HOME SCREEN ONCE PAYMENT IS INTEGRATED
       }
-      console.log(payload);
-      setLoading(false);
+
+      const receipt = `${kaviFoodUser._id}_${Date.now()}`;
+      const orderData: OrderPaymentData = {
+        amount: Number(payload.orderTotal), // Amount in the smallest currency unit (paise for INR)
+        currency: "INR",
+        receipt: receipt,
+      };
+      const { data } = await axios.post("/api/PaymentAPI", orderData);
+      console.log(data);
+      const options = {
+        key: process.env.RAZORPAY_KEYID, // Use your Razorpay Key ID
+        amount: data.amount,
+        currency: data.currency,
+        name: "Kavi Seyon Foods",
+        description: "Total Transaction Amount",
+        order_id: data.id,
+        handler: async (response: any) => {
+          // Success callback
+          // TODO modify the order payment status in future -> successfull.
+          // console.log('Payment successful', response);
+          (payload.razorpay_order_id = response.razorpay_order_id),
+            (payload.razorpay_paymentId = response.razorpay_payment_id);
+          const placeOrder = await axios.post("/api/OrdersAPI", payload);
+          console.log(placeOrder);
+          toast.success("Order placed Successfull");
+          setLoading(false);
+         HandleEmptyCart();
+         handleNavigation('OrderSummary')
+         // TODO NAVIGATE TO ORDER SUMMARY PAGE
+          // TODO add nodemailer for sending mails to user and admin
+          // Here you can update the payment status in your database
+        },
+        prefill: {
+          name: kaviFoodUser ? kaviFoodUser.name : contact.name,
+          email: kaviFoodUser ? kaviFoodUser.email : contact.email,
+          contact: kaviFoodUser ? kaviFoodUser.phone : contact.mobile,
+        },
+        notes: {
+          address: "Kaviseyon Foods Office",
+        },
+        theme: {
+          color: "#3399cc",
+        },
+        modal: {
+          ondismiss: () => {
+            setLoading(false);
+            toast.error("Payment was cancelled or failed. Please try again.");
+          },
+        },
+      };
+
+      var pay = new window.Razorpay(options);
+      pay.on("payment.failed", function (response: any) {
+        setLoading(false);
+        toast.error("Payment failed. Please try again.");
+      });
+      pay.open();
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -251,7 +325,7 @@ function page() {
   }, [name, mobile, email]);
 
   useEffect(() => {
-    console.log(name);
+    // console.log(name);
     if (kaviFoodUser) {
       setAddress({
         address: kaviFoodUser.address,

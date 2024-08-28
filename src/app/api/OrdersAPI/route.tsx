@@ -24,6 +24,8 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
+
+//TODO SORT ORDER BASED ON DATE ANDB TIMING
 export const GET = async (req: NextRequest) => {
   try {
     // Use req.nextUrl.searchParams to get query parameters from the request
@@ -75,7 +77,7 @@ const handleMyOrders = async (email: string) => {
   try {
     
     const db = await DBconnect();
-      
+      console.log('i came here',email);
     const order = await db?.collection("orders").find({email:email}).toArray();
     await closeConnection();
     return new NextResponse(JSON.stringify(order), {
@@ -85,8 +87,8 @@ const handleMyOrders = async (email: string) => {
       },
     });
   } catch (error) {
-
-    return new NextResponse("Error occurred", { status: 500 });
+    console.log(error);
+    return new NextResponse(JSON.stringify(error), { status: 500 });
 
   }
 };

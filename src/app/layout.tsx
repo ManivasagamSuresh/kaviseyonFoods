@@ -14,6 +14,7 @@ import Providers  from '@/Components/Provider/Provider'
 import { Provider } from "react-redux";
 import { persistor, store } from "@/redux/store";
 import { PersistGate } from "redux-persist/lib/integration/react";
+import Script from "next/script";
 // import { PersistGate } from "redux-persist/integration/react";
  
 // If loading a variable font, you don't need to specify the font weight
@@ -36,6 +37,7 @@ export default function RootLayout({
     
     <html lang="en">
       <body className={assistant.className} style={{overflow: "scroll"}}>
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" />
       <Providers>
         <div className="min-h-screen  flex flex-col scroll-auto">
           <Topbar />

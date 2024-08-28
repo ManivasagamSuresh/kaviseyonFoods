@@ -64,14 +64,14 @@ const OrderProduct: React.FC<OrderProductProps> = ({ order, setOrders }) => {
             <span className="font-semibold ">ORDER PLACED: </span>
             <span>{orderState.orderDate}</span>
           </div>
-          <div className="flex flex-row text-xs md:text-base gap-0 md:gap-1">
+          <div className="flex flex-row text-xs md:text-base gap-0 md:gap-1 h-fit items-center">
             <span className="font-semibold">TOTAL: </span>
             <span className="flex items-center "><LiaRupeeSignSolid className="text-xs ml-2 md:ml-0"/> {orderState.orderTotal}</span>
           </div>
           </div>
-          <div className="w-full text-[10px] md:text-base md:hidden">Order Id: {orderState._id}</div>          
+          <div className="w-full text-[10px] md:text-base md:hidden"><div>Order Id: {orderState._id}</div><div>Payment Id: {orderState.razorpay_paymentId}</div></div>          
         </div>
-        <div className="text-[10px] md:text-base hidden md:block">Order Id: {orderState._id}</div>
+        <div className="text-[10px] md:text-base hidden md:block"><div>Order Id: {orderState._id}</div><div>Payment Id: {orderState.razorpay_paymentId}</div></div>
       </div>
       <div className="flex flex-col gap-2 py-3 px-3 md:px-5">
         <div className="flex justify-between">
@@ -110,6 +110,7 @@ const OrderProduct: React.FC<OrderProductProps> = ({ order, setOrders }) => {
         }
         
           </div>
+          {/* TODO INCREASE THE WIDHT OF ADDRESS AND STIP TO COMPONENT */}
           <div className="md:flex flex-col w-48 hidden">
             <span className="font-semibold">Ship To</span>
             <span>{orderState.name}</span>

@@ -8,9 +8,10 @@ const initialState: GuestReduxInitial = {
   mobile: null,
   email: null,
   shippingAddress: null,
-  cart: { 
+  cart: {
     totalPrice: 0,
-    items: []}, // Rename cart to items to avoid confusion
+    items: [],
+  }, // Rename cart to items to avoid confusion
 };
 
 export const GuestSlice = createSlice({
@@ -18,9 +19,9 @@ export const GuestSlice = createSlice({
   initialState,
   reducers: {
     AddPersonalDetails: (state, action) => {
-      state.name = action.payload.name
-      state.mobile = action.payload.mobile
-      state.email = action.payload.email
+      state.name = action.payload.name;
+      state.mobile = action.payload.mobile;
+      state.email = action.payload.email;
     },
     AddGuestCart: (state, action) => {
       const cartIndex = state.cart.items.findIndex((prod) => prod._id === action.payload._id);
@@ -46,7 +47,8 @@ export const GuestSlice = createSlice({
       if (state.cart.items) {
         const cartIndex = state.cart.items.findIndex((prod) => prod._id === action.payload._id);
         if (cartIndex !== -1) {
-          state.cart.totalPrice -= state.cart.items[cartIndex].price * state.cart.items[cartIndex].quantity; // Update totalPrice
+          state.cart.totalPrice -=
+            state.cart.items[cartIndex].price * state.cart.items[cartIndex].quantity; // Update totalPrice
           state.cart.items.splice(cartIndex, 1);
         }
       }
@@ -55,10 +57,12 @@ export const GuestSlice = createSlice({
       state.name = null;
       state.mobile = null;
       state.email = null;
-      state.shippingAddress = null,
-      state.cart.totalPrice = 0 ,
-      state.cart.items = []
-    }
+      (state.shippingAddress = null), (state.cart.totalPrice = 0), (state.cart.items = []);
+    },
+    EmptyGuestCart: (state) => {
+      state.cart.totalPrice = 0;
+      state.cart.items.length = 0;
+    },
   },
 });
 
@@ -68,6 +72,7 @@ export const {
   clearGuestUser,
   AddPersonalDetails,
   ReduceGuestCartQuantity,
+  EmptyGuestCart,
 } = GuestSlice.actions;
 
 export default GuestSlice.reducer;
