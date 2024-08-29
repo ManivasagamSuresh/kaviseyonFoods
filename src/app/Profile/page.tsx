@@ -4,27 +4,28 @@ import { EditProfileFormValues, SignUpFormValues } from "@/types/profile";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
 function Page() {
   const [editMode, setEditMode] = useState<boolean>(false);
   const { kaviFoodUser } = useSelector((state: any) => state.user);
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
   const route = useRouter();
   const dispatch = useDispatch();
 
   const formik = useFormik<EditProfileFormValues>({
     initialValues: {
-      name: kaviFoodUser ? kaviFoodUser.name : '',
-      email: kaviFoodUser ? kaviFoodUser.email : '',
-      phone: kaviFoodUser ? kaviFoodUser.phone : '',
-      address: kaviFoodUser ? kaviFoodUser.address : '',
-      city: kaviFoodUser ? kaviFoodUser.city : '',
-      state: kaviFoodUser ? kaviFoodUser.state : '',
-      landmark: kaviFoodUser ? kaviFoodUser.landmark : '',
-      pincode: kaviFoodUser ? kaviFoodUser.pincode : '',
+      name: kaviFoodUser ? kaviFoodUser.name : "",
+      email: kaviFoodUser ? kaviFoodUser.email : "",
+      phone: kaviFoodUser ? kaviFoodUser.phone : "",
+      address: kaviFoodUser ? kaviFoodUser.address : "",
+      city: kaviFoodUser ? kaviFoodUser.city : "",
+      state: kaviFoodUser ? kaviFoodUser.state : "",
+      landmark: kaviFoodUser ? kaviFoodUser.landmark : "",
+      pincode: kaviFoodUser ? kaviFoodUser.pincode : "",
     },
     validate: (values) => {
       let error: Partial<SignUpFormValues> = {};
@@ -43,48 +44,37 @@ function Page() {
       if (values.phone && values.phone.length !== 10) {
         error.phone = "Please enter valid Mobile Number";
       }
-      // if (!values.password) {
-      //   error.password = "Please enter your Password";
-      // }
-      // if (values.password && values.password.length < 5) {
-      //   error.password = "Please enter at least 5 letters";
-      // }
-      // if (!values.confirmpassword) {
-      //   error.confirmpassword = "Please enter confirmpassword";
-      // }
+      if (values.phone && !/^\d+$/.test(values.phone)) {
+        error.phone = "Mobile Number should contain only digits";
+      }
 
-      // if (values.password && values.confirmpassword && values.password !== values.confirmpassword) {
-      //   error.confirmpassword = "Confirm password does not match";
-      // }
+      // Check for the presence of address, city, state, and pincode
+      const addressFields = [values.address, values.city, values.state, values.pincode];
+      const areAnyAddressFieldsFilled = addressFields.some((field) => field?.trim() !== "");
 
-       // Check for the presence of address, city, state, and pincode
-    const addressFields = [values.address, values.city, values.state, values.pincode];
-    const areAnyAddressFieldsFilled = addressFields.some(field => field?.trim() !== "");
-
-    // Ensure all address-related fields are filled or none
-    if (areAnyAddressFieldsFilled) {
-      if (!values.address) {
-        error.address = "Please enter your Address";
+      // Ensure all address-related fields are filled or none
+      if (areAnyAddressFieldsFilled) {
+        if (!values.address) {
+          error.address = "Please enter your Address";
+        }
+        if (!values.city) {
+          error.city = "Please enter your City";
+        }
+        if (!values.state) {
+          error.state = "Please enter your State";
+        }
+        if (!values.pincode) {
+          error.pincode = "Please enter your Pincode";
+        }
       }
-      if (!values.city) {
-        error.city = "Please enter your City";
-      }
-      if (!values.state) {
-        error.state = "Please enter your State";
-      }
-      if (!values.pincode) {
-        error.pincode = "Please enter your Pincode";
-      }
-    }
 
       return error;
     },
     onSubmit: async (values) => {
       try {
-       
-        setLoading(true)
-        dispatch(updateProfile(values));
-        const response = await axios.patch('/api/AuthenticationApi', {
+        setLoading(true);
+        
+        const response = await axios.patch("/api/AuthenticationApi", {
           _id: kaviFoodUser._id,
           name: values.name,
           email: values.email,
@@ -95,16 +85,17 @@ function Page() {
           pincode: values.pincode,
           landmark: values.landmark,
         });
-        if(response.status === 201){
+        if (response.status === 201) {
+          dispatch(updateProfile(values));
           toast.success(response.data.message);
-          console.log(response.data.message);
           setLoading(false);
         }
-        
+
         handleEditProfile();
       } catch (error: any) {
         setLoading(false);
-        toast.error(error.response?.data?.message );
+        toast.error('Oops, Something went wrong')
+        // toast.error(error.response?.data?.message);
       }
     },
   });
@@ -114,13 +105,17 @@ function Page() {
   };
 
   const handleNavigation = (url: string) => {
-    route.push(`/${url}`)
-  }
+    route.push(`/${url}`);
+  };
 
   // const handleSaveprofile = () => {
   //   formik.handleSubmit();
 
   // }
+
+  useEffect(()=>{
+    console.log(kaviFoodUser);
+  },[kaviFoodUser])
 
   return (
     <div className="w-full px-5 flex flex-col gap-4 py-10 justify-center items-center min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)]  pageMountAnimation ">
@@ -129,7 +124,7 @@ function Page() {
         <form onSubmit={formik.handleSubmit} className="flex flex-col gap-5 w-full items-center">
           <div className="w-full flex justify-center">
             <span className="bg-transparent tracking-wider text-base sm:text-lg text-right py-2 px-3 outline-none w-4/12 sm:w-5/12">
-              Name: {" "}
+              Name:{" "}
             </span>
             <input
               type="text"
@@ -149,7 +144,7 @@ function Page() {
           )}
           <div className="w-full flex justify-center">
             <span className="bg-transparent tracking-wider text-base sm:text-lg text-right py-2 px-3 outline-none w-4/12 sm:w-5/12">
-              Email: {" "}
+              Email:{" "}
             </span>
             <input
               type="text"
@@ -169,7 +164,7 @@ function Page() {
           )}
           <div className="w-full flex justify-center">
             <span className="bg-transparent tracking-wider text-base sm:text-lg text-right py-2 px-3 outline-none w-4/12 sm:w-5/12">
-              Phone: {" "}
+              Phone:{" "}
             </span>
             <input
               type="text"
@@ -187,9 +182,9 @@ function Page() {
           {formik.errors.phone && formik.touched.phone && (
             <div className="text-themeColorDark text-xs">{formik.errors.phone}</div>
           )}
-           <div className="w-full flex justify-center">
+          <div className="w-full flex justify-center">
             <span className="bg-transparent tracking-wider text-base sm:text-lg text-right py-2 px-3 outline-none w-4/12 sm:w-5/12">
-            Address: {" "}
+              Address:{" "}
             </span>
             <input
               type="text"
@@ -207,9 +202,9 @@ function Page() {
           {formik.errors.address && formik.touched.address && (
             <div className="text-themeColorDark text-xs">{formik.errors.address}</div>
           )}
-           <div className="w-full flex justify-center">
+          <div className="w-full flex justify-center">
             <span className="bg-transparent tracking-wider text-base sm:text-lg text-right py-2 px-3 outline-none w-4/12 sm:w-5/12">
-            City: {" "}
+              City:{" "}
             </span>
             <input
               type="text"
@@ -227,9 +222,9 @@ function Page() {
           {formik.errors.city && formik.touched.city && (
             <div className="text-themeColorDark text-xs">{formik.errors.city}</div>
           )}
-           <div className="w-full flex justify-center">
+          <div className="w-full flex justify-center">
             <span className="bg-transparent tracking-wider text-base sm:text-lg text-right py-2 px-3 outline-none w-4/12 sm:w-5/12">
-            State: {" "}
+              State:{" "}
             </span>
             <input
               type="text"
@@ -247,9 +242,9 @@ function Page() {
           {formik.errors.state && formik.touched.state && (
             <div className="text-themeColorDark text-xs">{formik.errors.state}</div>
           )}
-           <div className="w-full flex justify-center">
+          <div className="w-full flex justify-center">
             <span className="bg-transparent tracking-wider text-base sm:text-lg text-right py-2 px-3 outline-none w-4/12 sm:w-5/12">
-              Pincode: {" "}
+              Pincode:{" "}
             </span>
             <input
               type="text"
@@ -269,7 +264,7 @@ function Page() {
           )}
           <div className="w-full flex justify-center">
             <span className="bg-transparent tracking-wider text-base sm:text-lg text-right py-2 px-3 outline-none w-4/12 sm:w-5/12">
-              Landmark: {" "}
+              Landmark:{" "}
             </span>
             <input
               type="text"
@@ -284,34 +279,45 @@ function Page() {
               disabled={!editMode}
             />
           </div>
-          
-          {editMode ? (
-            <button
-            type="submit"
-              className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite"
-            >
-               {/* TODO ADD SPINNER HERE */}
-              Update Profile 
-            </button>
-          ) : (
-            
-            <div className="flex flex-col sm:flex-row items-center sm:justify-evenly w-full mt-10 gap-4 sm:gap-0">
 
-            <div  className="bg-themeColorDark px-6 py-2 rounded-lg cursor-pointer text-milkWhite w-[200px] sm:w-fit">
-              Change Password
-            </div>
-            <div
-              className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite w-[200px] sm:w-fit"
-              onClick={handleEditProfile}
-              >
-              Edit Profile
-            </div>
-            <div  className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite w-[200px] sm:w-fit" onClick={()=>{handleNavigation('MyOrders')}}>
-              My orders
-            </div>
-              
-                </div>
+          {editMode ? (
+            <>
+            {loading ? <div
+            className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite flex items-center justify-center gap-2"
+          >
+            <span>Updating</span> <span><ClipLoader loading={loading} color="#fff" size={16} /></span>
+
+          </div> : <button
+            type="submit"
+            className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite"
+          >
+            Update Profile
+
+          </button> 
             
+          }
+            </>
+            
+          ) : (
+            <div className="flex flex-col sm:flex-row items-center sm:justify-evenly w-full mt-10 gap-4 sm:gap-0">
+              <div className="bg-themeColorDark px-6 py-2 rounded-lg cursor-pointer text-milkWhite w-[200px] sm:w-fit">
+                Change Password
+              </div>
+              <div
+                className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite w-[200px] sm:w-fit"
+                onClick={handleEditProfile}
+              >
+                Edit Profile
+              </div>
+              <div
+                className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite w-[200px] sm:w-fit"
+                onClick={() => {
+                  handleNavigation("MyOrders");
+                }}
+              >
+                My orders
+              </div>
+            </div>
           )}
         </form>
       </div>

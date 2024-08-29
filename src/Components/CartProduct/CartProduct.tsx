@@ -9,6 +9,7 @@ import React from "react";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 interface ProductComponentProps {
   prod: CartItem;
@@ -17,21 +18,21 @@ interface ProductComponentProps {
 const CartProduct: React.FC<ProductComponentProps> = ({ prod }) => {
   const dispatch = useDispatch();
   const { kaviFoodUser } = useSelector((state: any) => state.user);
-  const router = useRouter()
+  const router = useRouter();
 
   const getImageSrc = (url: string) => {
     const id = url.match(/[-\w]{25,}/);
     return id ? `https://drive.google.com/uc?export=view&id=${id[0]}` : url;
   };
 
-  const reduceQuantityCount = async() => {
+  const reduceQuantityCount = async () => {
     if (kaviFoodUser) {
       if (prod.quantity > 1) {
         dispatch(ReduceUserCartQuantity(prod));
-        const cartItem = {...prod, quantity:1} 
-      const payload = {action: 'reduceQuantity', cartItem, _id: kaviFoodUser._id}
-      // console.log(payload);
-      const addCart = await axios.patch('/api/CartAPI', payload);
+        const cartItem = { ...prod, quantity: 1 };
+        const payload = { action: "reduceQuantity", cartItem, _id: kaviFoodUser._id };
+
+        const addCart = await axios.patch("/api/CartAPI", payload);
       }
     } else {
       if (prod.quantity > 1) {
@@ -40,43 +41,36 @@ const CartProduct: React.FC<ProductComponentProps> = ({ prod }) => {
     }
   };
 
-  const addQuantityCount = async() => {
+  const addQuantityCount = async () => {
     if (kaviFoodUser) {
       dispatch(AddUserCart({ ...prod, quantity: 1 }));
-      const cartItem = {...prod, quantity:1} 
-      const payload = {action: 'addCart', cartItem, _id: kaviFoodUser._id}
-      // console.log(payload);
-      const addCart = await axios.patch('/api/CartAPI', payload);
-      console.log(addCart);
-      
+      const cartItem = { ...prod, quantity: 1 };
+      const payload = { action: "addCart", cartItem, _id: kaviFoodUser._id };
+
+      const addCart = await axios.patch("/api/CartAPI", payload);
     } else {
       dispatch(AddGuestCart({ ...prod, quantity: 1 }));
     }
   };
 
-  const removeCart = async() => {
+  const removeCart = async () => {
     try {
       if (kaviFoodUser) {
-        //TODO ADD API CALL HERE 
         dispatch(RemoveUserCart(prod));
-        
-        
-       const payload = {cartItem:prod, _id: kaviFoodUser._id, action:"removeCart"}
-        const removeItem = await axios.patch('/api/CartAPI', payload)
-        console.log(removeItem)
-  
+
+        const payload = { cartItem: prod, _id: kaviFoodUser._id, action: "removeCart" };
+        const removeItem = await axios.patch("/api/CartAPI", payload);
       } else {
         dispatch(RemoveGuestCart(prod));
       }
     } catch (error) {
-      console.log("error removing cart")
+      toast.error("Error Removing Cart");
     }
-    
   };
 
-  const handleNavigation=(productId: string)=>{
-    router.push(`/Product/${productId}`)
-}
+  const handleNavigation = (productId: string) => {
+    router.push(`/Product/${productId}`);
+  };
 
   return (
     <div className="flex my-2 lg:my-4">
@@ -88,18 +82,29 @@ const CartProduct: React.FC<ProductComponentProps> = ({ prod }) => {
         </div>
         <div className="flex flex-col gap-4 px-1">
           <div className="flex flex-col gap-1 pr-1 md:pr-0">
-            <div className="text-sm md:text-base 2xl:text-lg hover:text-themeColorDark cursor-pointer" onClick={()=>{handleNavigation(`${prod._id}`)}}>{prod.name}</div>
+            <div
+              className="text-sm md:text-base 2xl:text-lg hover:text-themeColorDark cursor-pointer"
+              onClick={() => {
+                handleNavigation(`${prod._id}`);
+              }}
+            >
+              {prod.name}
+            </div>
             <div className="flex text-sm md:text-base 2xl:text-lg items-center">
               <LiaRupeeSignSolid className="w-[14px] h-[14px] lg:w-4 lg:h-4" /> {prod.price}
             </div>
           </div>
           <div className="flex gap-4 items-center h-fit md:hidden">
             <div className="border flex items-center justify-around h-fit py-0 w-20">
-              <span className="cursor-pointer" onClick={reduceQuantityCount}>-</span>
+              <span className="cursor-pointer" onClick={reduceQuantityCount}>
+                -
+              </span>
               <span className="text-base 2xl:text-lg">{prod.quantity}</span>
-              <span className="cursor-pointer" onClick={addQuantityCount}>+</span>
+              <span className="cursor-pointer" onClick={addQuantityCount}>
+                +
+              </span>
             </div>
-            <RiDeleteBin6Line className="" onClick={removeCart}/>
+            <RiDeleteBin6Line className="" onClick={removeCart} />
           </div>
         </div>
       </div>
@@ -113,11 +118,11 @@ const CartProduct: React.FC<ProductComponentProps> = ({ prod }) => {
             +
           </span>
         </div>
-        <RiDeleteBin6Line className="cursor-pointer" onClick={removeCart}/>
+        <RiDeleteBin6Line className="cursor-pointer" onClick={removeCart} />
       </div>
       <div className="w-3/12 md:w-2/12 flex items-center h-fit">
         <LiaRupeeSignSolid className="w-[14px] h-[14px] lg:w-4 lg:h-4" />{" "}
-        <span className="xl:text-lg 2xl:text-xl">{prod.price * prod.quantity }</span>
+        <span className="xl:text-lg 2xl:text-xl">{prod.price * prod.quantity}</span>
       </div>
     </div>
   );

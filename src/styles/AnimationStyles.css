@@ -28,8 +28,6 @@
   }
 }
 
-
-
 /* Animation for mobile Menu */
 
 .mobileMenuAnimation {
@@ -55,7 +53,7 @@
     opacity: 0;
     transform: translateX(-100vw);
   }
-  
+
   100% {
     opacity: 100;
     transform: translateX(0);
@@ -67,15 +65,15 @@
 }
 
 @keyframes MenuAnimeSecond {
-    0% {
-        opacity: 0;
-        transform: translateX(-100vw);
-      }
-      
-      100% {
-        opacity: 100;
-        transform: translateX(0);
-      }
+  0% {
+    opacity: 0;
+    transform: translateX(-100vw);
+  }
+
+  100% {
+    opacity: 100;
+    transform: translateX(0);
+  }
 }
 
 .MobileMenuAnimeThird {
@@ -83,15 +81,15 @@
 }
 
 @keyframes MenuAnimeThird {
-    0% {
-        opacity: 0;
-        transform: translateX(-100vw);
-      }
-      
-      100% {
-        opacity: 100;
-        transform: translateX(0);
-      }
+  0% {
+    opacity: 0;
+    transform: translateX(-100vw);
+  }
+
+  100% {
+    opacity: 100;
+    transform: translateX(0);
+  }
 }
 
 .MobileMenuAnimeFourth {
@@ -99,49 +97,47 @@
 }
 
 @keyframes MenuAnimeFourth {
-    0% {
-        opacity: 0;
-        transform: translateX(-100vw);
-      }
-      
-      100% {
-        opacity: 100;
-        transform: translateX(0);
-      }
+  0% {
+    opacity: 0;
+    transform: translateX(-100vw);
+  }
+
+  100% {
+    opacity: 100;
+    transform: translateX(0);
+  }
 }
 
 .MobileMenuAnimeFifth {
   animation: MenuAnimeFifth 1.2s ease;
- 
 }
 
 @keyframes MenuAnimeFifth {
-    0% {
-        opacity: 0;
-        transform: translateX(-100vw);
-      }
-      
-      100% {
-        opacity: 100;
-        transform: translateX(0);
-      }
+  0% {
+    opacity: 0;
+    transform: translateX(-100vw);
+  }
+
+  100% {
+    opacity: 100;
+    transform: translateX(0);
+  }
 }
 
 .MobileMenuAnimesixth {
   animation: MenuAnimesixth 1.3s ease;
- 
 }
 
 @keyframes MenuAnimesixth {
   0% {
-      opacity: 0;
-      transform: translateX(-100vw);
-    }
-    
-    100% {
-      opacity: 100;
-      transform: translateX(0);
-    }
+    opacity: 0;
+    transform: translateX(-100vw);
+  }
+
+  100% {
+    opacity: 100;
+    transform: translateX(0);
+  }
 }
 
 /* Animation for Card images scaling */
@@ -154,7 +150,7 @@
   transform: scale(1.06); /* Scale up to 1.2 times on hover */
 }
 
-.MobNavcategoryAnimation{
+.MobNavcategoryAnimation {
   animation: MobNavcategoryAnimationSlideDown 1s ease forwards;
 }
 

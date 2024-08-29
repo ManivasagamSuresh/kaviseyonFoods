@@ -24,14 +24,14 @@ export const POST = async (req: NextRequest) => {
   }
 };
 
-
 //TODO SORT ORDER BASED ON DATE ANDB TIMING
 export const GET = async (req: NextRequest) => {
   try {
     // Use req.nextUrl.searchParams to get query parameters from the request
     const params = req.nextUrl.searchParams;
-    const action = params.get('action');
-    const email = params.get('email');
+    const action = params.get("action");
+    const email = params.get("email");
+    const OrderId = params.get("OrderId");
 
     switch (action) {
       case "getAllOrders":
@@ -42,6 +42,13 @@ export const GET = async (req: NextRequest) => {
         } else {
           return NextResponse.json({ message: "Email is required" }, { status: 400 });
         }
+      case "getOrder":
+        if (OrderId) {
+          return handleGetOrder(OrderId);
+        } else {
+          return NextResponse.json({ message: "OrderId is required" }, { status: 400 });
+        }
+
       default:
         return NextResponse.json({ message: "Invalid action" }, { status: 400 });
     }
@@ -53,10 +60,9 @@ export const GET = async (req: NextRequest) => {
 
 const handleAllOrders = async () => {
   try {
-
     const db = await DBconnect();
-      
-    const orders= await db?.collection("orders").find().toArray();
+
+    const orders = await db?.collection("orders").find().toArray();
     await closeConnection();
     return new NextResponse(JSON.stringify(orders), {
       status: 200,
@@ -64,21 +70,15 @@ const handleAllOrders = async () => {
         "Content-Type": "application/json",
       },
     });
-    
   } catch (error) {
     return new NextResponse("Error occurred", { status: 500 });
-
   }
 };
 
-
-
-const handleMyOrders = async (email: string) => {
+const handleGetOrder = async (id: string) => {
   try {
-    
     const db = await DBconnect();
-      console.log('i came here',email);
-    const order = await db?.collection("orders").find({email:email}).toArray();
+    const order = await db?.collection("orders").findOne({ _id: new ObjectId(`${id}`) });
     await closeConnection();
     return new NextResponse(JSON.stringify(order), {
       status: 200,
@@ -87,19 +87,31 @@ const handleMyOrders = async (email: string) => {
       },
     });
   } catch (error) {
-    console.log(error);
     return new NextResponse(JSON.stringify(error), { status: 500 });
-
   }
 };
 
-export const PATCH = async(req: NextRequest) => {
+const handleMyOrders = async (email: string) => {
   try {
+    const db = await DBconnect();
+    const order = await db?.collection("orders").find({ email: email }).toArray();
+    await closeConnection();
+    return new NextResponse(JSON.stringify(order), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (error) {
+    return new NextResponse(JSON.stringify(error), { status: 500 });
+  }
+};
 
-    const {_id, orderStatus, trackingId } = await req.json();
+export const PATCH = async (req: NextRequest) => {
+  try {
+    const { _id, orderStatus, trackingId } = await req.json();
     const db = await DBconnect();
 
-    // Ensure we have a valid _id
     if (!_id) {
       return new NextResponse(JSON.stringify({ message: "Order ID is required" }), {
         status: 400,
@@ -107,22 +119,18 @@ export const PATCH = async(req: NextRequest) => {
       });
     }
 
-     // Prepare the update fields
-     const updateFields: any = { orderStatus };
+    const updateFields: any = { orderStatus };
 
-     // Only add trackingId to the update if it's provided
-     if (trackingId) {
-       updateFields.trackingId = trackingId;
-     }
-      
-    const order = await db?.collection("orders").updateOne(
-      { _id: new ObjectId(`${_id}`) },
-      { $set: updateFields }
-    );
+    if (trackingId) {
+      updateFields.trackingId = trackingId;
+    }
+
+    const order = await db
+      ?.collection("orders")
+      .updateOne({ _id: new ObjectId(`${_id}`) }, { $set: updateFields });
 
     await closeConnection();
 
-    // Check if the order was found and updated
     if (order?.modifiedCount === 0) {
       return new NextResponse(JSON.stringify({ message: "Order not found or not updated" }), {
         status: 404,
@@ -130,7 +138,6 @@ export const PATCH = async(req: NextRequest) => {
       });
     }
 
-    // Return a success response
     return new NextResponse(JSON.stringify({ message: "Order updated successfully" }), {
       status: 201,
       headers: { "Content-Type": "application/json" },
@@ -141,4 +148,4 @@ export const PATCH = async(req: NextRequest) => {
       headers: { "Content-Type": "application/json" },
     });
   }
-}
+};

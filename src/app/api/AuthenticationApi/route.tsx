@@ -1,105 +1,101 @@
 // src/app/api/AuthApi/route.tsx
-import { DBconnect, closeConnection } from '@/MongoDb/mongoDb';
-import { SignInFormValues, SignUpFormValues, User } from '@/types/profile';
-import { ObjectId } from 'mongodb';
-import { NextRequest, NextResponse } from 'next/server';
-var bcrypt = require('bcrypt');
-var jwt = require('jsonwebtoken');
+import { DBconnect, closeConnection } from "@/MongoDb/mongoDb";
+import { SignInFormValues, SignUpFormValues, User } from "@/types/profile";
+import { ObjectId } from "mongodb";
+import { NextRequest, NextResponse } from "next/server";
+var bcrypt = require("bcrypt");
+var jwt = require("jsonwebtoken");
 const JWT_SECRET = process.env.JWT_SECRET;
 
-
 export const POST = async (request: NextRequest) => {
-  const { action, email, password, name, phone, confirmpassword , cart} = await request.json();
-  
+  const { action, email, password, name, phone, confirmpassword, cart } = await request.json();
+
   switch (action) {
-    case 'signin':
+    case "signin":
       return handleLogin({ email, password, cart });
-    case 'signup':
+    case "signup":
       return handleSignup({ name, email, password, confirmpassword, phone });
-    case 'logout':
+    case "logout":
       return handleLogout();
     default:
-      return NextResponse.json({ message: 'Invalid action' }, { status: 400 });
+      return NextResponse.json({ message: "Invalid action" }, { status: 400 });
   }
-}
+};
 
 async function handleLogin({ email, password, cart }: SignInFormValues) {
-  // Add your authentication logic here
-  // console.log(email, password);
   const request: SignInFormValues = {
     email: email,
     password: password,
-  }
+  };
   const mongoConnection = await DBconnect();
-  const user = await mongoConnection?.collection('user').findOne({email:email});
-  // console.log(user);
-  if(user){
+  const user = await mongoConnection?.collection("user").findOne({ email: email });
+
+  if (user) {
     const compare = await bcrypt.compare(password, user.password);
-    // console.log('compare: ',compare);
-    if(compare){
-     
-      const token = await jwt.sign({id: user._id},JWT_SECRET);
-      // console.log(token);
+    if (compare) {
+      const token = await jwt.sign({ id: user._id }, JWT_SECRET);
       // TODO
       // add/update cart details from unregistered user local storage to the response.
-      if(cart){
-        const addCartToUser = await mongoConnection?.collection('user').updateOne({email:email}, {$set:{cart: cart}});
+      if (cart) {
+        const addCartToUser = await mongoConnection
+          ?.collection("user")
+          .updateOne({ email: email }, { $set: { cart: cart } });
         user.cart = cart;
-      } 
-     
-      return NextResponse.json({ user: user , token: token }, { status: 200 });
-    }else{
-      return NextResponse.json({ message: 'Email/Phone or Password Incorrect', token: 'exampleToken' }, { status: 400 });
+      }
+
+      return NextResponse.json({ user: user, token: token }, { status: 200 });
+    } else {
+      return NextResponse.json(
+        { message: "Email/Phone or Password Incorrect", token: "exampleToken" },
+        { status: 400 }
+      );
     }
-  }else{
-    return NextResponse.json({ message: 'Email Id not Found', token: 'exampleToken' }, { status: 400 });
+  } else {
+    return NextResponse.json(
+      { message: "Email Id not Found", token: "exampleToken" },
+      { status: 400 }
+    );
   }
-  
 }
 
 async function handleSignup({ name, email, password, phone }: SignUpFormValues) {
   const hashedPAssword = await bcrypt.hash(password, 10);
   const request: User = {
-    name:name,
+    name: name,
     email: email,
     password: hashedPAssword,
-    phone: phone ,
+    phone: phone,
     wishlist: [],
     cart: {
       totalPrice: 0,
-      items : []
+      items: [],
     },
     myOrder: [],
     isAdmin: false,
-    address: '',
-    city: '',
-    state:'',
-    pincode:'',
-    landmark:''  
-  }
-  const mongoConnection  = await DBconnect();
-  const user = await mongoConnection?.collection('user').findOne({
+    address: "",
+    city: "",
+    state: "",
+    pincode: "",
+    landmark: "",
+  };
+  const mongoConnection = await DBconnect();
+  const user = await mongoConnection?.collection("user").findOne({
     $or: [{ email: email }, { phone: phone }],
   });
   if (user) {
     await closeConnection();
     // Determine which field caused the conflict
-    const conflictField = user.email === email ? 'Email' : 'Mobile number';
-    return NextResponse.json(
-      { message: `${conflictField} already exists` },
-      { status: 409 }
-    );
+    const conflictField = user.email === email ? "Email" : "Mobile number";
+    return NextResponse.json({ message: `${conflictField} already exists` }, { status: 409 });
   }
-  const AddUser = await mongoConnection?.collection('user').insertOne(request);
+  const AddUser = await mongoConnection?.collection("user").insertOne(request);
 
   await closeConnection();
   return NextResponse.json({ message: "User Added Successfully" }, { status: 201 });
 }
 
 async function handleLogout() {
-  // Add your logout logic here
-  // console.log(localStorage)
-  return NextResponse.json({ message: 'Logout successful' });
+  return NextResponse.json({ message: "Logout successful" });
 }
 
 export const PATCH = async (req: Request) => {
@@ -118,23 +114,21 @@ export const PATCH = async (req: Request) => {
     if (email) updateData.email = email;
     if (phone) updateData.phone = phone;
 
-    if (address) updateData.address = address;
-    if (city) updateData.city = city;
-    if (state) updateData.state = state;
-    if (pincode) updateData.pincode = pincode;
-    if (landmark) updateData.landmark = landmark;
+    if (address) {updateData.address = address;}else{updateData.address = '';}
+    if (city) {updateData.city = city;}else{updateData.city = '';}
+    if (state) {updateData.state = state;}else{updateData.state = '';}
+    if (pincode) {updateData.pincode = pincode;}else{updateData.pincode = ''}
+    if (landmark) {updateData.landmark = landmark;}else{updateData.landmark = '';}
 
     if (Object.keys(updateData).length === 0) {
       return NextResponse.json({ error: "No fields to update" }, { status: 400 });
     }
     const mongoConnection = await DBconnect();
 
-    const updateResult = await mongoConnection?.collection('user').updateOne(
-      { _id: new ObjectId(`${_id}`) },
-      { $set: updateData }
-    );
+    const updateResult = await mongoConnection
+      ?.collection("user")
+      .updateOne({ _id: new ObjectId(`${_id}`) }, { $set: updateData });
 
-    
     await closeConnection();
 
     if (updateResult && updateResult.modifiedCount > 0) {

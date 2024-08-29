@@ -1,5 +1,5 @@
 // src/types.ts
-import { ObjectId } from 'mongodb';
+import { ObjectId } from "mongodb";
 
 export interface SignUpFormValues {
   name: string;
@@ -7,7 +7,7 @@ export interface SignUpFormValues {
   phone: string;
   password: string;
   confirmpassword: string;
-  address?:string;
+  address?: string;
   landmark?: string;
   city?: string;
   state?: string;
@@ -20,7 +20,7 @@ export interface EditProfileFormValues {
   phone: string;
   password?: string;
   confirmpassword?: string;
-  address:string;
+  address: string;
   landmark?: string;
   city: string;
   state: string;
@@ -30,7 +30,7 @@ export interface EditProfileFormValues {
 export interface SignInFormValues {
   email: string;
   password: string;
-  cart? : Cart;
+  cart?: Cart;
 }
 
 export interface User {
@@ -38,16 +38,16 @@ export interface User {
   email: string;
   password: string;
   phone: string;
-  wishlist: any[];   // Replace 'any' with the specific type if known
+  wishlist: any[]; // Replace 'any' with the specific type if known
   cart: Cart;
-  myOrder: any[];    // Replace 'any' with the specific type if known
+  myOrder: any[]; // Replace 'any' with the specific type if known
   isAdmin: boolean;
-  _id?: ObjectId;    // Use ObjectId type from mongodb package
+  _id?: ObjectId; // Use ObjectId type from mongodb package
   address?: string;
   city?: string;
   state?: string;
   pincode?: string;
-  landmark? :string 
+  landmark?: string;
 }
 
 export interface Cart {
@@ -76,7 +76,7 @@ export interface CartItem {
   price: number;
   image: string;
   quantity: number;
-  _id: ObjectId;      // Use ObjectId type from mongodb package
+  _id: ObjectId; // Use ObjectId type from mongodb package
   category: string;
   description: string;
   weight_in_grams: number;

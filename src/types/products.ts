@@ -47,7 +47,7 @@ interface Order {
 }
 
 interface OrderPaymentData {
-  amount: number; // Amount in the smallest currency unit (in paise for INR, so it should be an integer)
-  currency: string; // Currency code (e.g., 'INR')
-  receipt: string; // Unique receipt ID
+  amount: number; 
+  currency: string; 
+  receipt: string;
 }

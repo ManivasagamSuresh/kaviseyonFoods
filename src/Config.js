@@ -1,2 +1,0 @@
-API_URL='',
-MONGODB_URL = ''

@@ -7,10 +7,9 @@ import React, { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
-
 function Page() {
   const router = useRouter();
-  const [loading,setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
   const HandleNavigation = (prop: string) => {
     router.push(`/${prop}`);
   };
@@ -60,22 +59,22 @@ function Page() {
     },
     onSubmit: async (values) => {
       try {
-        setLoading(true)
-        const response = await axios.post('/api/AuthenticationApi', {
-          action: 'signup',
+        setLoading(true);
+        const response = await axios.post("/api/AuthenticationApi", {
+          action: "signup",
           name: values.name,
           email: values.email,
           phone: values.phone,
           password: values.password,
           confirmpassword: values.confirmpassword,
         });
-        if(response.status === 201){
+        if (response.status === 201) {
           toast.success(response.data.message);
-          setLoading(false)
-          HandleNavigation("SignIn");
+          setLoading(false);
+          HandleNavigation("SignIn?from=SignUp");
         }
       } catch (error: any) {
-        setLoading(false)
+        setLoading(false);
         toast.error(error.response.data.message);
       }
     },
@@ -150,7 +149,13 @@ function Page() {
             <div className="text-themeColorDark text-xs">{formik.errors.confirmpassword}</div>
           )}
           <button type="submit" className="bg-themeColorDark px-10 py-2 rounded-lg">
-          { loading ? <div className="flex items-center justify-center gap-4">Signing-Up <ClipLoader loading={loading} color="#fff"  size={18}/></div> : 'Sign-Up'  }
+            {loading ? (
+              <div className="flex items-center justify-center gap-4">
+                Signing-Up <ClipLoader loading={loading} color="#fff" size={18} />
+              </div>
+            ) : (
+              "Sign-Up"
+            )}
           </button>
         </form>
       </div>
@@ -159,7 +164,7 @@ function Page() {
         <div
           className="text-themeColorDark cursor-pointer font-semibold"
           onClick={() => {
-            HandleNavigation("SignIn");
+            HandleNavigation("SignIn?from=SignUp");
           }}
         >
           Sign In

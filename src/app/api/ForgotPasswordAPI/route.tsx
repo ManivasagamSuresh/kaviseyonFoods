@@ -30,16 +30,18 @@ const handleSendOtp = async (email: string) => {
 
     // Generate OTP and hash it for storage
     const otp = Math.floor(1000 + Math.random() * 9000).toString();
-    console.log(otp);
+
     const payload = {
       otp: otp,
-      email: email
-    }
-    console.log(payload)
+      email: email,
+    };
+
     // const sendMailtoUser = await axios.post('http://localhost:3000/api/ForgotPasswordOtpMail', payload);
-    const sendMailtoUser = await axios.post('https://kaviseyon-foods.vercel.app/api/ForgotPasswordOtpMail', payload); 
-    
-    // console.log(sendMailtoUser);
+    const sendMailtoUser = await axios.post(
+      "https://kaviseyon-foods.vercel.app/api/ForgotPasswordOtpMail",
+      payload
+    );
+
     const hashedOtp = await bcrypt.hash(otp, 10);
     const otpId = uuidv4();
     otpDatabase[otpId] = hashedOtp;
@@ -51,7 +53,6 @@ const handleSendOtp = async (email: string) => {
     //TODO Integrate Nodemailer here to send Otp.
     closeConnection();
     return new NextResponse(JSON.stringify({ otpId }), { status: 200 });
-       
   } catch (error) {
     console.error("Error sending OTP:", error);
     return new NextResponse("Internal Server Error", { status: 500 });
@@ -61,46 +62,43 @@ const handleSendOtp = async (email: string) => {
 const handleVerifyOtp = async (otpId: string, otp: string) => {
   try {
     if (!otpId || !otp) {
-      return new NextResponse('OTP and OTP ID are required', { status: 400 });
+      return new NextResponse("OTP and OTP ID are required", { status: 400 });
     }
 
     const storedHashedOtp = otpDatabase[otpId];
     if (!storedHashedOtp) {
-      return new NextResponse('Invalid or expired OTP', { status: 400 });
+      return new NextResponse("Invalid or expired OTP", { status: 400 });
     }
 
     const isOtpValid = await bcrypt.compare(otp, storedHashedOtp);
     if (isOtpValid) {
-        // OTP is valid, proceed with password reset
-        delete otpDatabase[otpId];
-        closeConnection();
-        return new NextResponse('OTP is valid', { status: 200 });
-      } else {
-        closeConnection();
-        return new NextResponse('Invalid OTP', { status: 400 });
-      }
-
+      delete otpDatabase[otpId];
+      closeConnection();
+      return new NextResponse("OTP is valid", { status: 200 });
+    } else {
+      closeConnection();
+      return new NextResponse("Invalid OTP", { status: 400 });
+    }
   } catch (error) {
-    console.error('Error verifying OTP:', error);
-    return new NextResponse('Internal Server Error', { status: 500 });
+    console.error("Error verifying OTP:", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
   }
 };
 
-
 export const PATCH = async (req: Request) => {
-    try {
-        const { email, password } = await req.json();
-        const mongoConnection = await DBconnect();
-        const hashedPAssword = await bcrypt.hash(password, 10);
-    const updateResult = await mongoConnection?.collection('user').updateOne(
+  try {
+    const { email, password } = await req.json();
+    const mongoConnection = await DBconnect();
+    const hashedPAssword = await bcrypt.hash(password, 10);
+    const updateResult = await mongoConnection?.collection("user").updateOne(
       { email: email },
-      { $set: {
-        password: hashedPAssword
-      } }
+      {
+        $set: {
+          password: hashedPAssword,
+        },
+      }
     );
     closeConnection();
-    return new NextResponse('Password Changed successfully', { status: 200 });
-    } catch (error) {
-        
-    }
-}
+    return new NextResponse("Password Changed successfully", { status: 200 });
+  } catch (error) {}
+};

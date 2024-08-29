@@ -19,7 +19,7 @@ const SearchInput = () => {
   return (
     <input
       type="text"
-      className= "w-full border-none bg-transparent outline-none text-textColor placeholder-black"
+      className="w-full border-none bg-transparent outline-none text-textColor placeholder-black"
       placeholder={placeholder}
     />
   );

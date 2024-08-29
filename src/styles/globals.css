@@ -1,23 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import './AnimationStyles.css';
+@import "./AnimationStyles.css";
 
-@import 'react-toastify/dist/ReactToastify.css';
+@import "react-toastify/dist/ReactToastify.css";
 
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: auto !important;
-  }
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: auto !important;
+}
 
-
-
-  /* Css for Navbar blur on Scrolling */
-  .fallback-blur {
-    background-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-  }
-  
+/* Css for Navbar blur on Scrolling */
+.fallback-blur {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}

@@ -6,30 +6,30 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { SyncLoader } from "react-spinners";
+import { toast } from "react-toastify";
 
 function Page() {
   const [loading, setLoading] = useState<boolean>(false);
-const router = useRouter();
+  const router = useRouter();
   const { kaviFoodUser } = useSelector((state: any) => state.user);
   const [orders, setOrders] = useState<Order[]>([]);
 
- 
-  const handleNavigateHome = () =>{
-    router.push('/')
-  }
-
+  const handleNavigateHome = () => {
+    router.push("/");
+  };
 
   const getMyOrders = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const payload = { params: { email: kaviFoodUser.email, action: "getMyOrders" } };
       const orders = await axios.get("api/OrdersAPI", payload);
-      console.log(orders);
+
       setOrders(orders.data);
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
-      console.log(error);
+      setLoading(false);
+      toast.error("Something Went Wrong Please try Again");
+      router.push("/");
     }
   };
 
@@ -58,7 +58,10 @@ const router = useRouter();
           <>
             {orders.length === 0 ? (
               <div className="text-base text-themeColorDark h-96 w-full text-center ">
-                No Orders Placed So Far.  <span className="underline cursor-pointer" onClick={handleNavigateHome}>Continue Shopping</span>
+                No Orders Placed So Far.{" "}
+                <span className="underline cursor-pointer" onClick={handleNavigateHome}>
+                  Continue Shopping
+                </span>
               </div>
             ) : (
               <>

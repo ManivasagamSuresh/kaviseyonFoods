@@ -17,7 +17,6 @@ const page = () => {
   const [resendOtpComp, setResendOtpComp] = useState<boolean>(true);
   const [timeLeft, setTimeLeft] = useState(120); // Initial time set to 2 minutes (120 seconds)
 
-
   const router = useRouter();
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -45,11 +44,8 @@ const page = () => {
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    return `${String(minutes).padStart(2, "0")}:${String(
-      remainingSeconds
-    ).padStart(2, "0")}`;
+    return `${String(minutes).padStart(2, "0")}:${String(remainingSeconds).padStart(2, "0")}`;
   };
-  
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -74,47 +70,41 @@ const page = () => {
     }
   };
 
-  const resendOtp = async () =>{
+  const resendOtp = async () => {
     try {
       const payload = {
         action: "handleSendOtp",
         email: email,
       };
       const sendOtp = await axios.post("/api/ForgotPasswordAPI", payload);
-      if(sendOtp.data.otpId){
+      if (sendOtp.data.otpId) {
         setOtpId(sendOtp.data.otpId);
-        toast.success('OTP Resent successfully')
+        toast.success("OTP Resent successfully");
         setResendOtpComp(false);
         // handleRemoveResendComp();
       }
     } catch (error) {
-      
-      toast.error('Something went wrong. Try again later')
+      toast.error("Something went wrong. Try again later");
     }
-  }
-
-
+  };
 
   const handleOtpSend = async () => {
     try {
       setLoading(true);
-      //   await wait(3000);
+
       const payload = {
         action: "handleSendOtp",
         email: email,
       };
       const sendOtp = await axios.post("/api/ForgotPasswordAPI", payload);
       setOtpId(sendOtp.data.otpId);
-      console.log(sendOtp.data);
-      //   console.log(email);
       setLoading(false);
       setOtpComponent(true);
-      toast.success('OTP sent successfully to your mail id')
+      toast.success("OTP sent successfully to your mail id");
       if (otpRefs.current[0]) {
         otpRefs.current[0].focus();
       }
     } catch (error) {
-      console.log(error);
       setLoading(false);
       toast.error("Something went Wrong. Try again later");
     }
@@ -123,24 +113,21 @@ const page = () => {
   const handleOtpVerify = async () => {
     try {
       setLoading(true);
-      //   await wait(3000);
       const otpString = otp.join("");
-      console.log("OTP entered:", otpString);
-      // Handle OTP verification
+
       const payload = {
         action: "handleVerifyOtp",
         otp: otpString,
         otpId,
       };
       const sendOtp = await axios.post("/api/ForgotPasswordAPI", payload);
-      console.log(sendOtp.data);
+
       if (sendOtp.data === "OTP is valid") {
         setLoading(false);
         setOtpComponent(false);
         setPasswordComponent(true);
       }
     } catch (error) {
-      console.log(error);
       setLoading(false);
       toast.error("Invalid OTP");
     }
@@ -149,9 +136,8 @@ const page = () => {
   const handleSetNewPassword = async () => {
     try {
       setLoading(true);
-      //   await wait(3000);
+
       if (password === confirmPassword) {
-        console.log("password is same");
         const payload = {
           email,
           password,
@@ -165,10 +151,8 @@ const page = () => {
       } else {
         setLoading(false);
         toast.error("password and confirm password are not same");
-        console.log("password and confirm password are not same");
       }
     } catch (error) {
-      console.log(error);
       toast.error("Something went Wrong. Try again later");
     }
   };
@@ -178,8 +162,6 @@ const page = () => {
       otpRefs.current[0].focus();
     }
   }, [OtpComponent]);
-
-  const wait = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
 
   return (
     <div className="w-full flex justify-center">
@@ -252,10 +234,19 @@ const page = () => {
                   Submit OTP
                 </button>
               )}
-             
-            {
-              resendOtpComp ? <span>Didn't Receive OTP? <span className="text-themeColorDark cursor-pointer" onClick={resendOtp}>Resend OTP</span></span>: <span>Resend OTP in <span className="text-themeColorDark">{formatTime(timeLeft)}</span></span>
-            }  
+
+              {resendOtpComp ? (
+                <span>
+                  Didn't Receive OTP?{" "}
+                  <span className="text-themeColorDark cursor-pointer" onClick={resendOtp}>
+                    Resend OTP
+                  </span>
+                </span>
+              ) : (
+                <span>
+                  Resend OTP in <span className="text-themeColorDark">{formatTime(timeLeft)}</span>
+                </span>
+              )}
             </div>
           )}
           {PasswordComponent && (

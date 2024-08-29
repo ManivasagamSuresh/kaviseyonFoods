@@ -5,41 +5,39 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { SyncLoader } from "react-spinners";
+import { toast } from "react-toastify";
 
 function Page() {
   const { kaviFoodUser } = useSelector((state: any) => state.user);
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(false);
-  const [orders,setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
 
-  
-  const getAllOrders = async() =>{
+  const getAllOrders = async () => {
     try {
-      setLoading(true)
-      const payload ={ params: {action : "getAllOrders" } }; 
+      setLoading(true);
+      const payload = { params: { action: "getAllOrders" } };
       const orders = await axios.get("api/OrdersAPI", payload);
-      console.log(orders);
       setOrders(orders.data);
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
-      setLoading(false)
-      console.log(error)
+      setLoading(false);
+      toast.error("Something Went Wrong Please try Again");
+      router.push("/");
     }
-   
-  }
+  };
 
-  
   useEffect(() => {
     if (!kaviFoodUser?.isAdmin) {
       router.push("/");
     }
   }, [kaviFoodUser]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (kaviFoodUser?.isAdmin) {
-     getAllOrders();
+      getAllOrders();
     }
-  },[])
+  }, []);
 
   return (
     <div className="w-full flex justify-center">
@@ -58,14 +56,18 @@ function Page() {
           </div>
         ) : (
           <>
-          {
-            orders.length === 0 ? <div className="text-base text-themeColorDark h-96 w-full text-center ">
-              Hang in there, Dhana! Your orders are like fine wine—they just need a little time, and then they'll bring a big smile!
-            </div> : <>{orders.map((order: Order) => {
-              return <OrderProduct order={order} key={`${order._id}`} setOrders= {setOrders}/>;
-            })}</>
-          }
-            
+            {orders.length === 0 ? (
+              <div className="text-base text-themeColorDark h-96 w-full text-center ">
+                Hang in there, Dhana! Your orders are like fine wine—they just need a little time,
+                and then they'll bring a big smile!
+              </div>
+            ) : (
+              <>
+                {orders.map((order: Order) => {
+                  return <OrderProduct order={order} key={`${order._id}`} setOrders={setOrders} />;
+                })}
+              </>
+            )}
           </>
         )}
       </div>

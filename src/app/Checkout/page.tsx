@@ -41,11 +41,7 @@ function page() {
   };
 
   function handleAddressChange(e: any) {
-    console.log(e.target.name, e.target.value);
     setAddress({ ...address, [e.target.name]: e.target.value });
-    if (kaviFoodUser) {
-    } else {
-    }
   }
 
   const handleSaveAddress = async () => {
@@ -59,7 +55,7 @@ function page() {
           ...address,
           _id: kaviFoodUser._id,
         });
-        console.log(saveAddress);
+
         dispatch(changeAddress(address));
         toast.success(saveAddress.data.message);
         setLoadingAdd(false);
@@ -106,19 +102,19 @@ function page() {
     };
 
     if (kaviFoodUser) {
-      if (!kaviFoodUser.address) {
+      if (!address.address) {
         toast.error("Address is required.");
         return false;
       }
-      if (!kaviFoodUser.city) {
+      if (!address.city) {
         toast.error("City is required.");
         return false;
       }
-      if (!kaviFoodUser.state) {
+      if (!address.state) {
         toast.error("State is required.");
         return false;
       }
-      if (!kaviFoodUser.pincode) {
+      if (!address.pincode) {
         toast.error("Pincode is required.");
         return false;
       }
@@ -165,39 +161,27 @@ function page() {
     }
   };
 
-  const HandleEmptyCart = async() =>{
-    if(kaviFoodUser){
+  const HandleEmptyCart = async () => {
+    if (kaviFoodUser) {
       dispatch(EmptyUserCart());
       try {
-         const payload = {
+        const payload = {
           _id: kaviFoodUser._id,
-          action: 'EmptyCart'
-         }
-      const addCart = await axios.patch('/api/CartAPI', payload);
-
+          action: "EmptyCart",
+        };
+        const addCart = await axios.patch("/api/CartAPI", payload);
       } catch (error) {
         console.log(error);
       }
-     
-    }
-    else{
+    } else {
       dispatch(EmptyGuestCart());
-      
     }
-  }
+  };
 
-  const handleProceedtoPay = async () => {
+  const createPayload = async () => {
     try {
-      if (editAddress) {
-        toast.error("Please Save the Delivery Address");
-        return;
-      }
-      setLoading(true);
-      if (!handleValidations()) {
-        setLoading(false);
-        return;
-      }
-      console.log(contact, address);
+      console.log('Starting to create payload');
+      
       const payload = {
         name: "",
         email: "",
@@ -206,29 +190,48 @@ function page() {
         orderTotal: "",
         orderStatus: "",
         trackingId: "",
-        orderDate: new Date().toLocaleDateString(), 
+        orderDate: new Date().toLocaleDateString(),
         products: [],
-        paymentStatus: "Successfull",
+        paymentStatus: "Successful",
         razorpay_order_id: "",
         razorpay_paymentId: "",
       };
+  
       if (kaviFoodUser) {
-        console.log(kaviFoodUser);
-
+        console.log('User is logged in, filling payload with user data');
         dispatch(changeAddress(address));
         payload.name = kaviFoodUser.name;
         payload.email = kaviFoodUser.email;
         payload.mobile = kaviFoodUser.phone;
-        payload.deliveryAddress = {
-          address: kaviFoodUser.address,
-          city: kaviFoodUser.city,
-          pincode: kaviFoodUser.pincode,
-          state: kaviFoodUser.state,
-          landmark: kaviFoodUser.landmark,
-        };
         payload.orderTotal = kaviFoodUser.cart.totalPrice + 50;
         payload.products = kaviFoodUser.cart.items;
+  
+        if (kaviFoodUser.address) {
+          console.log('User has an existing delivery address');
+          payload.deliveryAddress = {
+            address: kaviFoodUser.address,
+            city: kaviFoodUser.city,
+            pincode: kaviFoodUser.pincode,
+            state: kaviFoodUser.state,
+            landmark: kaviFoodUser.landmark,
+          };
+        } else {
+          console.log('No delivery address in user profile, saving new address');
+          try {
+            payload.deliveryAddress = address;
+            console.log('New address:', address);
+            const saveAddress = await axios.patch("/api/AuthenticationApi", {
+              ...address,
+              _id: kaviFoodUser._id,
+            });
+            console.log('Address saved:', saveAddress.data);
+          } catch (error) {
+            console.error('Failed to save address:', error);
+            toast.warn('Address not saved');
+          }
+        }
       } else {
+        console.log('User is not logged in, using contact information');
         dispatch(
           AddPersonalDetails({ name: contact.name, mobile: contact.mobile, email: contact.email })
         );
@@ -239,17 +242,59 @@ function page() {
         payload.orderTotal = cart.totalPrice + 50;
         payload.products = cart.items;
       }
+  
+      console.log('Payload created successfully:', payload);
+      return payload;
+    } catch (error) {
+      console.error('Error creating payload:', error);
+      throw error;
+    }
+  };
+  
+
+  const HandleSaveOrder = async (payload: any) => {
+    try {
+      const placeOrder = await axios.post("/api/OrdersAPI", payload);
+
+      toast.success("Order placed Successfull");
+      setLoading(false);
+      HandleEmptyCart();
+      handleNavigation(`OrderSummary/${placeOrder.data.insertedId}`);
+      // TODO add nodemailer for sending mails to user and admin
+      // Here you can update the payment status in your database
+      payload._id = placeOrder.data.insertedId;
+      const sendMailConfirmation = await axios.post("/api/OrderPlacedMail", payload);
+    } catch (error) {
+      toast.error("Something went Wrong. Please contact Support Team");
+    }
+  };
+
+  const handleProceedtoPay = async () => {
+    try {
+      if (editAddress) {
+        toast.error("Please Save the Delivery Address");
+        return;
+      }
+
+      setLoading(true);
+
+      if (!handleValidations()) {
+        setLoading(false);
+        return;
+      }
+      console.log('called payload creating function')
+      const payload = await createPayload();
+      console.log(payload);
 
       const receipt = `${kaviFoodUser?._id || contact.email}_${Date.now()}`;
       const orderData: OrderPaymentData = {
-        amount: Number(payload.orderTotal), // Amount in the smallest currency unit (paise for INR)
+        amount: Number(payload.orderTotal),
         currency: "INR",
         receipt: receipt,
       };
       const { data } = await axios.post("/api/PaymentAPI", orderData);
-      console.log(data);
       const options = {
-        key: process.env.RAZORPAY_KEYID, // Use your Razorpay Key ID
+        key: process.env.RAZORPAY_KEYID,
         amount: data.amount,
         currency: data.currency,
         name: "Kavi Seyon Foods",
@@ -258,18 +303,10 @@ function page() {
         handler: async (response: any) => {
           // Success callback
           // TODO modify the order payment status in future -> successfull.
-          // console.log('Payment successful', response);
+
           (payload.razorpay_order_id = response.razorpay_order_id),
             (payload.razorpay_paymentId = response.razorpay_payment_id);
-          const placeOrder = await axios.post("/api/OrdersAPI", payload);
-          console.log(placeOrder);
-          toast.success("Order placed Successfull");
-          setLoading(false);
-         HandleEmptyCart();
-         handleNavigation('OrderSummary')
-         // TODO NAVIGATE TO ORDER SUMMARY PAGE
-          // TODO add nodemailer for sending mails to user and admin
-          // Here you can update the payment status in your database
+          HandleSaveOrder(payload);
         },
         prefill: {
           name: kaviFoodUser ? kaviFoodUser.name : contact.name,
@@ -298,7 +335,6 @@ function page() {
       pay.open();
     } catch (error) {
       setLoading(false);
-      console.log(error);
     }
   };
 
@@ -325,7 +361,6 @@ function page() {
   }, [name, mobile, email]);
 
   useEffect(() => {
-    // console.log(name);
     if (kaviFoodUser) {
       setAddress({
         address: kaviFoodUser.address,

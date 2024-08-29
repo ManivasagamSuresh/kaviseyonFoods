@@ -1,8 +1,8 @@
 // components/Viewer/Viewer.tsx
-import React from 'react';
-import { MDXRemote } from 'next-mdx-remote';
-import { MDXRemoteSerializeResult } from 'next-mdx-remote';
-import { serialize } from 'next-mdx-remote/serialize';
+import React from "react";
+import { MDXRemote } from "next-mdx-remote";
+import { MDXRemoteSerializeResult } from "next-mdx-remote";
+import { serialize } from "next-mdx-remote/serialize";
 
 interface ViewerProps {
   desc: string;

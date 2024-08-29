@@ -1,12 +1,12 @@
-import ProductPage from '@/Components/ProductPage/ProductPage'
-import React from 'react'
+import ProductPage from "@/Components/ProductPage/ProductPage";
+import React from "react";
 
 function page() {
   return (
     <div>
-        <ProductPage/>
+      <ProductPage />
     </div>
-  )
+  );
 }
 
-export default page
+export default page;

@@ -30,7 +30,7 @@ export const userSlice = createSlice({
       state.error = false;
     },
     updateProfile: (state, action) => {
-      if(state.kaviFoodUser){
+      if (state.kaviFoodUser) {
         if (action.payload.name) {
           state.kaviFoodUser.name = action.payload.name;
         }
@@ -42,23 +42,32 @@ export const userSlice = createSlice({
         }
         if (action.payload.address) {
           state.kaviFoodUser.address = action.payload.address;
+        }else{
+          state.kaviFoodUser.address = '';
         }
         if (action.payload.city) {
           state.kaviFoodUser.city = action.payload.city;
+        }else{
+          state.kaviFoodUser.city = '';
         }
         if (action.payload.state) {
           state.kaviFoodUser.state = action.payload.state;
+        }else{
+          state.kaviFoodUser.state = '';
         }
         if (action.payload.pincode) {
           state.kaviFoodUser.pincode = action.payload.pincode;
+        }else{
+          state.kaviFoodUser.pincode = '';
         }
         if (action.payload.landmark) {
           state.kaviFoodUser.landmark = action.payload.landmark;
+        }else{
+          state.kaviFoodUser.landmark = '';
         }
       }
-      },
+    },
     changeAddress: (state, action) => {
-      // console.log(action.payload);
       if (state.kaviFoodUser) {
         if (action.payload.address) {
           state.kaviFoodUser.address = action.payload.address;
@@ -80,12 +89,11 @@ export const userSlice = createSlice({
     AddwishlistR: (state, action) => {},
     RemovewishlistR: (state, action) => {},
     AddUserCart: (state, action) => {
-      // console.log("AddUserCart action.payload:", action.payload);
       if (state.kaviFoodUser) {
         const indexCart = state.kaviFoodUser.cart.items.findIndex(
           (prod) => prod._id === action.payload._id
         );
-        // console.log("indexCart:", indexCart);
+
         if (indexCart !== -1) {
           state.kaviFoodUser.cart.items[indexCart].quantity += 1;
         } else {
@@ -113,7 +121,9 @@ export const userSlice = createSlice({
           return prod._id === action.payload._id;
         });
         if (indexCart !== -1) {
-          state.kaviFoodUser.cart.totalPrice -= state.kaviFoodUser.cart.items[indexCart].price * state.kaviFoodUser.cart.items[indexCart].quantity;
+          state.kaviFoodUser.cart.totalPrice -=
+            state.kaviFoodUser.cart.items[indexCart].price *
+            state.kaviFoodUser.cart.items[indexCart].quantity;
           state.kaviFoodUser.cart.items.splice(indexCart, 1);
         }
       }
@@ -124,7 +134,6 @@ export const userSlice = createSlice({
         state.kaviFoodUser.cart.totalPrice = 0;
       }
     },
-   
   },
 });
 

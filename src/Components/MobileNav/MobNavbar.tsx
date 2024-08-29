@@ -22,19 +22,17 @@ const MobNavbar: React.FC<MobNavbarProps> = ({ setMobNav }) => {
     handleNavigation(`Category/${cat}`);
   };
 
-  const HandleSignout = async() =>{
+  const HandleSignout = async () => {
     try {
-      handleNavigation('');
+      handleNavigation("");
       dispatch(logout());
-      localStorage.removeItem('kavifoodsAdmin')
-      localStorage.removeItem('kavifoodsToken')
-      toast.success('Logged-out Successfully')
-     
+      localStorage.removeItem("kavifoodsAdmin");
+      localStorage.removeItem("kavifoodsToken");
+      toast.success("Logged-out Successfully");
     } catch (error: any) {
-      toast.error('Something Went Wrong')
+      toast.error("Something Went Wrong");
     }
-  }
-
+  };
 
   return (
     <div className="w-full flex lg:hidden absolute left-0 top-[64px] z-10 h-[calc(100vh-88px)] mobileMenuAnimation">
@@ -76,13 +74,13 @@ const MobNavbar: React.FC<MobNavbarProps> = ({ setMobNav }) => {
             <div
               className="text-xl sm:text-lg font-semibold  MobileMenuAnimeThird"
               onClick={() => {
-                handleNavigation(`${kaviFoodUser.isAdmin ? "AllOrders": "MyOrders"}`);
+                handleNavigation(`${kaviFoodUser.isAdmin ? "AllOrders" : "MyOrders"}`);
               }}
             >
-               {kaviFoodUser.isAdmin ?  "All Orders" : 'My Orders'}
+              {kaviFoodUser.isAdmin ? "All Orders" : "My Orders"}
             </div>
             {/* <hr className="w-48 sm:w-48" /> */}
-        {/* <div
+            {/* <div
           className={`text-xl sm:text-lg font-semibold MobileMenuAnimeFourth`}
           onClick={() => {
             handleNavigation("Wishlist");
@@ -127,7 +125,7 @@ const MobNavbar: React.FC<MobNavbarProps> = ({ setMobNav }) => {
             <option value="Adults">Adults</option>
           </select>
         </div> */}
-        
+
         <hr className="w-48 sm:w-48" />
         <div
           className={`text-xl sm:text-lg font-semibold ${
@@ -142,7 +140,12 @@ const MobNavbar: React.FC<MobNavbarProps> = ({ setMobNav }) => {
         {kaviFoodUser && (
           <>
             <hr className="w-48 sm:w-48" />
-            <div className="text-xl sm:text-lg font-semibold MobileMenuAnimesixth" onClick={HandleSignout}>Logout</div>
+            <div
+              className="text-xl sm:text-lg font-semibold MobileMenuAnimesixth"
+              onClick={HandleSignout}
+            >
+              Logout
+            </div>
           </>
         )}
       </div>
