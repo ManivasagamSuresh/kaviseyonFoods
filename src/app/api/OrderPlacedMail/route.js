@@ -51,7 +51,7 @@ export const POST = async (request) => {
 
                 <p>Thank you for shopping with us!</p>
 
-                <p>Regards,<br>Your Company Name</p>
+                <p>Regards,<br>Kavi Seyon Foods</p>
             `,
     };
 

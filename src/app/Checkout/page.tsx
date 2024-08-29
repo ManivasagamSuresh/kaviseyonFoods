@@ -1,13 +1,14 @@
 "use client";
 import CheckoutProduct from "@/Components/CheckoutProduct/CheckoutProduct";
 import { changeAddress, EmptyUserCart } from "@/redux/UserSlice";
-import { CartItem } from "@/types/profile";
+import { Cart, CartItem } from "@/types/profile";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { LiaRupeeSignSolid } from "react-icons/lia";
 import { useDispatch, useSelector } from "react-redux";
 import { LiaEditSolid } from "react-icons/lia";
 import { LuSave } from "react-icons/lu";
+import { MdOutlineCheckCircle } from "react-icons/md";
 import { AddPersonalDetails, EmptyGuestCart } from "@/redux/GuestSlice";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
@@ -19,6 +20,8 @@ function page() {
   const { kaviFoodUser } = useSelector((state: any) => state.user);
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingAdd, setLoadingAdd] = useState<boolean>(false);
+  const [orderPlaced, setOrderPlaced] = useState<boolean>(true);
+  const [orderProducts, SetOrderProducts] = useState<Cart>(); 
   const [contact, setContact] = useState({
     name: "",
     mobile: "",
@@ -180,8 +183,7 @@ function page() {
 
   const createPayload = async () => {
     try {
-      console.log('Starting to create payload');
-      
+            
       const payload = {
         name: "",
         email: "",
@@ -198,7 +200,7 @@ function page() {
       };
   
       if (kaviFoodUser) {
-        console.log('User is logged in, filling payload with user data');
+        
         dispatch(changeAddress(address));
         payload.name = kaviFoodUser.name;
         payload.email = kaviFoodUser.email;
@@ -207,7 +209,7 @@ function page() {
         payload.products = kaviFoodUser.cart.items;
   
         if (kaviFoodUser.address) {
-          console.log('User has an existing delivery address');
+          
           payload.deliveryAddress = {
             address: kaviFoodUser.address,
             city: kaviFoodUser.city,
@@ -216,15 +218,15 @@ function page() {
             landmark: kaviFoodUser.landmark,
           };
         } else {
-          console.log('No delivery address in user profile, saving new address');
+          
           try {
             payload.deliveryAddress = address;
-            console.log('New address:', address);
+            
             const saveAddress = await axios.patch("/api/AuthenticationApi", {
               ...address,
               _id: kaviFoodUser._id,
             });
-            console.log('Address saved:', saveAddress.data);
+            
           } catch (error) {
             console.error('Failed to save address:', error);
             toast.warn('Address not saved');
@@ -243,7 +245,7 @@ function page() {
         payload.products = cart.items;
       }
   
-      console.log('Payload created successfully:', payload);
+     
       return payload;
     } catch (error) {
       console.error('Error creating payload:', error);
@@ -255,15 +257,16 @@ function page() {
   const HandleSaveOrder = async (payload: any) => {
     try {
       const placeOrder = await axios.post("/api/OrdersAPI", payload);
-
-      toast.success("Order placed Successfull");
-      setLoading(false);
-      HandleEmptyCart();
-      handleNavigation(`OrderSummary/${placeOrder.data.insertedId}`);
-      // TODO add nodemailer for sending mails to user and admin
-      // Here you can update the payment status in your database
+//TODO ADD CART ITEMS TO ORDERS STATE AND USE IT IN SUMMARY SIDE
+      // SetOrderProducts(cartItems);
+      await HandleEmptyCart();
+      
       payload._id = placeOrder.data.insertedId;
       const sendMailConfirmation = await axios.post("/api/OrderPlacedMail", payload);
+      toast.success("Order placed Successfull");
+      setLoading(false);
+      setOrderPlaced(true);
+      // handleNavigation(`OrderSummary/${placeOrder.data.insertedId}`);
     } catch (error) {
       toast.error("Something went Wrong. Please contact Support Team");
     }
@@ -282,9 +285,9 @@ function page() {
         setLoading(false);
         return;
       }
-      console.log('called payload creating function')
+      
       const payload = await createPayload();
-      console.log(payload);
+      
 
       const receipt = `${kaviFoodUser?._id || contact.email}_${Date.now()}`;
       const orderData: OrderPaymentData = {
@@ -306,7 +309,7 @@ function page() {
 
           (payload.razorpay_order_id = response.razorpay_order_id),
             (payload.razorpay_paymentId = response.razorpay_payment_id);
-          HandleSaveOrder(payload);
+         await HandleSaveOrder(payload);
         },
         prefill: {
           name: kaviFoodUser ? kaviFoodUser.name : contact.name,
@@ -509,12 +512,23 @@ function page() {
               </>
             )}
           </div>
-          <div
+          {
+            orderPlaced ?
+            <><div
+            className=" flex items-center justify-center gap-4 text-themeColorDark border border-themeColorDark text-center px-20 py-3 rounded-md text-lg lg:text-xl font-semibold cursor-pointer"
+            
+          >
+           <> Order Placed</> <><MdOutlineCheckCircle /></>
+          </div>
+         <div className="text-center text-sm text-themeColorDark">Redirecting you to Home in 5 secs</div> 
+          </> :<div
             className="bg-themeColorDark flex items-center justify-center gap-4 text-milkWhite text-center px-20 py-3 rounded-md text-lg lg:text-xl font-semibold cursor-pointer"
             onClick={handleProceedtoPay}
           >
             Pay Now <>{loading && <ClipLoader loading={loading} color="#fff" size={18} />}</>
           </div>
+          }
+          
         </div>
         <div className="w-full lg:w-1/2 bg-themeColorLight flex flex-col gap-4 lg:gap-6 p-6 md:px-20 md:py-8  lg:py-4 lg:px-12 xl:pr-32 xl:pl-20">
           <div className="text-lg lg:text-xl font-semibold">Order Summary</div>
@@ -528,7 +542,7 @@ function page() {
               <span>Subtotal</span>{" "}
               <span className="flex items-center h-fit">
                 <LiaRupeeSignSolid className="w-[14px] h-[14px] lg:w-4 lg:h-4" />{" "}
-                {kaviFoodUser ? kaviFoodUser.cart.totalPrice : cart.totalPrice}
+               {orderProducts ? <>{orderProducts.totalPrice}</> : <>{kaviFoodUser ? kaviFoodUser.cart.totalPrice : cart.totalPrice}</>} 
               </span>
             </div>
             <div className="flex justify-between">
