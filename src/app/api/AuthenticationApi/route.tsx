@@ -35,7 +35,7 @@ async function handleLogin({ email, password, cart }: SignInFormValues) {
     if (compare) {
       const token = await jwt.sign({ id: user._id }, JWT_SECRET);
       // TODO
-      // add/update cart details from unregistered user local storage to the response.
+      // coNFIRM LOGIN WITH MOBILE NUMBER ALSO
       if (cart) {
         const addCartToUser = await mongoConnection
           ?.collection("user")

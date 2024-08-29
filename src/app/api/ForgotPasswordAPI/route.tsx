@@ -50,7 +50,6 @@ const handleSendOtp = async (email: string) => {
       delete otpDatabase[otpId];
     }, 600000);
 
-    //TODO Integrate Nodemailer here to send Otp.
     closeConnection();
     return new NextResponse(JSON.stringify({ otpId }), { status: 200 });
   } catch (error) {

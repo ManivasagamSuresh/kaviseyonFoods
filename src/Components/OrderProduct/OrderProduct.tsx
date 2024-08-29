@@ -145,7 +145,6 @@ const OrderProduct: React.FC<OrderProductProps> = ({ order, setOrders }) => {
               <></>
             )}
           </div>
-          {/* TODO INCREASE THE WIDHT OF ADDRESS AND STIP TO COMPONENT */}
           <div className="md:flex flex-col w-48 md:w-64 hidden">
             <span className="font-semibold">Ship To</span>
             <span>{orderState.name}</span>

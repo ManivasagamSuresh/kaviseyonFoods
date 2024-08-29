@@ -20,8 +20,9 @@ function page() {
   const { kaviFoodUser } = useSelector((state: any) => state.user);
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingAdd, setLoadingAdd] = useState<boolean>(false);
-  const [orderPlaced, setOrderPlaced] = useState<boolean>(true);
-  const [orderProducts, SetOrderProducts] = useState<Cart>(); 
+  const [orderPlaced, setOrderPlaced] = useState<boolean>(false);
+  const [orderProducts, SetOrderProducts] = useState<Cart>();
+  const [countDown, setCountDown] = useState(5);
   const [contact, setContact] = useState({
     name: "",
     mobile: "",
@@ -47,13 +48,25 @@ function page() {
     setAddress({ ...address, [e.target.name]: e.target.value });
   }
 
+  const handleCountDown = () => {
+    const interval = setInterval(() => {
+      setCountDown((prevCount) => {
+        if (prevCount > 1) {
+          return prevCount - 1;
+        } else {
+          clearInterval(interval);
+          handleNavigation("");
+          return 1;
+        }
+      });
+    }, 1000);
+  };
+
   const handleSaveAddress = async () => {
     try {
       if (handleAddressValidations()) {
         handleEditAddress();
         setLoadingAdd(true);
-        //TODO
-        // Add API for editing and adding address
         const saveAddress = await axios.patch("/api/AuthenticationApi", {
           ...address,
           _id: kaviFoodUser._id,
@@ -183,7 +196,6 @@ function page() {
 
   const createPayload = async () => {
     try {
-            
       const payload = {
         name: "",
         email: "",
@@ -198,18 +210,16 @@ function page() {
         razorpay_order_id: "",
         razorpay_paymentId: "",
       };
-  
+
       if (kaviFoodUser) {
-        
         dispatch(changeAddress(address));
         payload.name = kaviFoodUser.name;
         payload.email = kaviFoodUser.email;
         payload.mobile = kaviFoodUser.phone;
         payload.orderTotal = kaviFoodUser.cart.totalPrice + 50;
         payload.products = kaviFoodUser.cart.items;
-  
+
         if (kaviFoodUser.address) {
-          
           payload.deliveryAddress = {
             address: kaviFoodUser.address,
             city: kaviFoodUser.city,
@@ -218,22 +228,20 @@ function page() {
             landmark: kaviFoodUser.landmark,
           };
         } else {
-          
           try {
             payload.deliveryAddress = address;
-            
+
             const saveAddress = await axios.patch("/api/AuthenticationApi", {
               ...address,
               _id: kaviFoodUser._id,
             });
-            
           } catch (error) {
-            console.error('Failed to save address:', error);
-            toast.warn('Address not saved');
+            console.error("Failed to save address:", error);
+            toast.warn("Address not saved");
           }
         }
       } else {
-        console.log('User is not logged in, using contact information');
+        console.log("User is not logged in, using contact information");
         dispatch(
           AddPersonalDetails({ name: contact.name, mobile: contact.mobile, email: contact.email })
         );
@@ -244,28 +252,27 @@ function page() {
         payload.orderTotal = cart.totalPrice + 50;
         payload.products = cart.items;
       }
-  
-     
+
       return payload;
     } catch (error) {
-      console.error('Error creating payload:', error);
+      console.error("Error creating payload:", error);
       throw error;
     }
   };
-  
 
   const HandleSaveOrder = async (payload: any) => {
     try {
       const placeOrder = await axios.post("/api/OrdersAPI", payload);
-//TODO ADD CART ITEMS TO ORDERS STATE AND USE IT IN SUMMARY SIDE
-      // SetOrderProducts(cartItems);
       await HandleEmptyCart();
-      
       payload._id = placeOrder.data.insertedId;
       const sendMailConfirmation = await axios.post("/api/OrderPlacedMail", payload);
       toast.success("Order placed Successfull");
+      if(!kaviFoodUser){
+        toast.info(`Sign up with ${contact.email} to view your orders in the future.`)
+      }
       setLoading(false);
       setOrderPlaced(true);
+      handleCountDown();
       // handleNavigation(`OrderSummary/${placeOrder.data.insertedId}`);
     } catch (error) {
       toast.error("Something went Wrong. Please contact Support Team");
@@ -285,9 +292,8 @@ function page() {
         setLoading(false);
         return;
       }
-      
+
       const payload = await createPayload();
-      
 
       const receipt = `${kaviFoodUser?._id || contact.email}_${Date.now()}`;
       const orderData: OrderPaymentData = {
@@ -304,12 +310,11 @@ function page() {
         description: "Total Transaction Amount",
         order_id: data.id,
         handler: async (response: any) => {
-          // Success callback
           // TODO modify the order payment status in future -> successfull.
 
           (payload.razorpay_order_id = response.razorpay_order_id),
             (payload.razorpay_paymentId = response.razorpay_payment_id);
-         await HandleSaveOrder(payload);
+          await HandleSaveOrder(payload);
         },
         prefill: {
           name: kaviFoodUser ? kaviFoodUser.name : contact.name,
@@ -356,6 +361,14 @@ function page() {
   const handleNavigate = (route: string) => {
     router.push(`/${route}`);
   };
+
+  useEffect(() => {
+    if (kaviFoodUser) {
+      SetOrderProducts(kaviFoodUser.cart);
+    } else {
+      SetOrderProducts(cart);
+    }
+  }, []);
 
   useEffect(() => {
     if (!kaviFoodUser) {
@@ -512,37 +525,55 @@ function page() {
               </>
             )}
           </div>
-          {
-            orderPlaced ?
-            <><div
-            className=" flex items-center justify-center gap-4 text-themeColorDark border border-themeColorDark text-center px-20 py-3 rounded-md text-lg lg:text-xl font-semibold cursor-pointer"
-            
-          >
-           <> Order Placed</> <><MdOutlineCheckCircle /></>
-          </div>
-         <div className="text-center text-sm text-themeColorDark">Redirecting you to Home in 5 secs</div> 
-          </> :<div
-            className="bg-themeColorDark flex items-center justify-center gap-4 text-milkWhite text-center px-20 py-3 rounded-md text-lg lg:text-xl font-semibold cursor-pointer"
-            onClick={handleProceedtoPay}
-          >
-            Pay Now <>{loading && <ClipLoader loading={loading} color="#fff" size={18} />}</>
-          </div>
-          }
-          
+          {orderPlaced ? (
+            <>
+              <div className=" flex items-center justify-center gap-4 text-themeColorDark border border-themeColorDark text-center px-20 py-3 rounded-md text-lg lg:text-xl font-semibold cursor-pointer">
+                <> Order Placed</>{" "}
+                <>
+                  <MdOutlineCheckCircle />
+                </>
+              </div>
+              <div className="text-center text-sm text-themeColorDark">{`Redirecting you to Home in ${countDown} secs`}</div>
+            </>
+          ) : (
+            <div
+              className="bg-themeColorDark flex items-center justify-center gap-4 text-milkWhite text-center px-20 py-3 rounded-md text-lg lg:text-xl font-semibold cursor-pointer"
+              onClick={handleProceedtoPay}
+            >
+              Pay Now <>{loading && <ClipLoader loading={loading} color="#fff" size={18} />}</>
+            </div>
+          )}
         </div>
         <div className="w-full lg:w-1/2 bg-themeColorLight flex flex-col gap-4 lg:gap-6 p-6 md:px-20 md:py-8  lg:py-4 lg:px-12 xl:pr-32 xl:pl-20">
           <div className="text-lg lg:text-xl font-semibold">Order Summary</div>
           <div className="flex flex-col gap-5">
-            {cartItems.map((item: CartItem) => (
-              <CheckoutProduct key={`${item._id}`} item={item} />
-            ))}
+            <>
+              {orderPlaced && orderProducts ? (
+                <>
+                  {orderProducts?.items.map((item: CartItem) => (
+                    <CheckoutProduct key={`${item._id}`} item={item} />
+                  ))}
+                </>
+              ) : (
+                <>
+                  {" "}
+                  {cartItems.map((item: CartItem) => (
+                    <CheckoutProduct key={`${item._id}`} item={item} />
+                  ))}
+                </>
+              )}
+            </>
           </div>
           <div className="flex flex-col gap-1 mt-5">
             <div className="flex justify-between">
               <span>Subtotal</span>{" "}
               <span className="flex items-center h-fit">
                 <LiaRupeeSignSolid className="w-[14px] h-[14px] lg:w-4 lg:h-4" />{" "}
-               {orderProducts ? <>{orderProducts.totalPrice}</> : <>{kaviFoodUser ? kaviFoodUser.cart.totalPrice : cart.totalPrice}</>} 
+                {orderProducts ? (
+                  <>{orderProducts.totalPrice}</>
+                ) : (
+                  <>{kaviFoodUser ? kaviFoodUser.cart.totalPrice : cart.totalPrice}</>
+                )}
               </span>
             </div>
             <div className="flex justify-between">

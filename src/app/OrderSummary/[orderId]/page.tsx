@@ -37,8 +37,7 @@ function page() {
   useEffect(() => {
     handleGetOrderSummary();
   }, []);
-  // TODO FIX THAT ONLOADING API ISSUE
-  // TODO add text like please signup to check your order details.
+  
   return (
     <div className="w-full flex justify-center">
       <div className="flex flex-col gap-10 px-5 md:px-10 lg:px-40 xl:px-80 py-10 lg:py-10  min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)]  w-full max-w-[1850px]">
