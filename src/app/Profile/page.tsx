@@ -73,7 +73,7 @@ function Page() {
     onSubmit: async (values) => {
       try {
         setLoading(true);
-        
+
         const response = await axios.patch("/api/AuthenticationApi", {
           _id: kaviFoodUser._id,
           name: values.name,
@@ -94,8 +94,7 @@ function Page() {
         handleEditProfile();
       } catch (error: any) {
         setLoading(false);
-        toast.error('Oops, Something went wrong')
-        // toast.error(error.response?.data?.message);
+        toast.error("Oops, Something went wrong");
       }
     },
   });
@@ -107,15 +106,6 @@ function Page() {
   const handleNavigation = (url: string) => {
     route.push(`/${url}`);
   };
-
-  // const handleSaveprofile = () => {
-  //   formik.handleSubmit();
-
-  // }
-
-  useEffect(()=>{
-    console.log(kaviFoodUser);
-  },[kaviFoodUser])
 
   return (
     <div className="w-full px-5 flex flex-col gap-4 py-10 justify-center items-center min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)]  pageMountAnimation ">
@@ -282,41 +272,53 @@ function Page() {
 
           {editMode ? (
             <>
-            {loading ? <div
-            className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite flex items-center justify-center gap-2"
-          >
-            <span>Updating</span> <span><ClipLoader loading={loading} color="#fff" size={16} /></span>
-
-          </div> : <button
-            type="submit"
-            className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite"
-          >
-            Update Profile
-
-          </button> 
-            
-          }
+              {loading ? (
+                <div className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite flex items-center justify-center gap-2">
+                  <span>Updating</span>{" "}
+                  <span>
+                    <ClipLoader loading={loading} color="#fff" size={16} />
+                  </span>
+                </div>
+              ) : (
+                <>
+                  <button
+                    type="submit"
+                    className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite"
+                  >
+                    Update Profile
+                  </button>
+                  <div
+                    className="bg-milkWhite px-10 py-2 rounded-lg cursor-pointer border border-themeColorDark text-themeColorDark"
+                    onClick={handleEditProfile}
+                  >
+                    Cancel
+                  </div>
+                </>
+              )}
             </>
-            
           ) : (
             <div className="flex flex-col sm:flex-row items-center sm:justify-evenly w-full mt-10 gap-4 sm:gap-0">
-              <div className="bg-themeColorDark px-6 py-2 rounded-lg cursor-pointer text-milkWhite w-[200px] sm:w-fit">
+              {/* <div className="bg-themeColorDark px-6 py-2 rounded-lg cursor-pointer text-milkWhite w-[200px] sm:w-fit">
                 Change Password
-              </div>
+              </div> */}
               <div
                 className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite w-[200px] sm:w-fit"
                 onClick={handleEditProfile}
               >
                 Edit Profile
               </div>
-              <div
-                className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite w-[200px] sm:w-fit"
-                onClick={() => {
-                  handleNavigation("MyOrders");
-                }}
-              >
-                My orders
-              </div>
+              {kaviFoodUser && kaviFoodUser.isAdmin ? (
+                <></>
+              ) : (
+                <div
+                  className="bg-themeColorDark px-10 py-2 rounded-lg cursor-pointer text-milkWhite w-[200px] sm:w-fit"
+                  onClick={() => {
+                    handleNavigation("MyOrders");
+                  }}
+                >
+                  My orders
+                </div>
+              )}
             </div>
           )}
         </form>

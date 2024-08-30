@@ -32,7 +32,7 @@ function ProductPage() {
     try {
       setLoading(true);
       const response = await axios.get(`/api/productsAPi?productId=${productId}`);
-      // console.log("GET response:", response.data);
+      console.log("GET response:", response.data);
       setProduct(response.data);
       setLoading(false);
       return response.data;
@@ -49,11 +49,20 @@ function ProductPage() {
     return id ? `https://drive.google.com/uc?export=view&id=${id[0]}` : url;
   };
 
-  const addToCart = () => {
-    if (kaviFoodUser) {
-      dispatch(AddUserCart({ ...product, quantity: 1 }));
-    } else {
-      dispatch(AddGuestCart({ ...product, quantity: 1 }));
+
+  const addToCart = async () => {
+    try {
+      if (kaviFoodUser) {
+        dispatch(AddUserCart({ ...product, quantity: 1 }));
+        const cartItem = { ...product, quantity: 1 };
+        const payload = { action: "addCart", cartItem, _id: kaviFoodUser._id };
+
+        const addCart = await axios.patch("/api/CartAPI", payload);
+      } else {
+        dispatch(AddGuestCart({ ...product, quantity: 1 }));
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -136,6 +145,9 @@ function ProductPage() {
                 </div>
               </div>
             </div> */}
+
+            {
+           kaviFoodUser && kaviFoodUser.isAdmin ? <></> : <>
               {isAdded ? (
                 <div
                   className="flex w-full lg:w-[400px] h-fit py-2 items-center justify-center gap-2 border rounded-sm text-milkWhite bg-themeColorDark border-themeColorDark"
@@ -148,13 +160,17 @@ function ProductPage() {
                 </div>
               ) : (
                 <div
-                  className="flex w-full lg:w-[480px] h-fit py-2 items-center justify-center gap-2 border rounded-sm text-milkWhite bg-themeColorDark border-themeColorDark"
+                  className="flex w-full cursor-pointer lg:w-[480px] h-fit py-2 items-center justify-center gap-2 border rounded-sm text-milkWhite bg-themeColorDark border-themeColorDark"
                   onClick={addToCart}
                 >
-                  <div className="cursor-pointer">Add to Cart </div>
+                  <div className="">Add to Cart </div>
                   <FaCartPlus />
                 </div>
               )}
+              
+              </>
+            }
+              
               <div className="mt-5">{product && <Viewer desc={product.description} />}</div>
             </div>
           </div>

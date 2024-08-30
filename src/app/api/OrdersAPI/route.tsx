@@ -64,7 +64,22 @@ const handleAllOrders = async () => {
 
     const orders = await db?.collection("orders").find().toArray();
     await closeConnection();
-    return new NextResponse(JSON.stringify(orders), {
+    
+    if (!orders) {
+      return new NextResponse(JSON.stringify({ message: "No orders found" }), {
+        status: 404,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
+    const sortedOrder = orders?.sort((a, b) => {
+      const dateA = new Date(a.orderDate);
+      const dateB = new Date(b.orderDate);
+      return dateB.getTime() - dateA.getTime(); // Latest orders first
+    });
+    
+    return new NextResponse(JSON.stringify(sortedOrder), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
@@ -96,7 +111,22 @@ const handleMyOrders = async (email: string) => {
     const db = await DBconnect();
     const order = await db?.collection("orders").find({ email: email }).toArray();
     await closeConnection();
-    return new NextResponse(JSON.stringify(order), {
+
+    if (!order) {
+      return new NextResponse(JSON.stringify({ message: "No orders found" }), {
+        status: 404,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
+    const sortedOrder = order?.sort((a, b) => {
+      const dateA = new Date(a.orderDate);
+      const dateB = new Date(b.orderDate);
+      return dateB.getTime() - dateA.getTime(); // Latest orders first
+    });
+    
+    return new NextResponse(JSON.stringify(sortedOrder), {
       status: 200,
       headers: {
         "Content-Type": "application/json",

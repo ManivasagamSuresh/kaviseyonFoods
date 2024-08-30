@@ -57,7 +57,6 @@ const OrderProduct: React.FC<OrderProductProps> = ({ order, setOrders }) => {
   useEffect(() => {
     const dateForOrder = new Date(order.orderDate).toLocaleDateString('en-GB');
     setDateOrder(dateForOrder);
-    console.log(dateForOrder);
     setOrderState(order);
   }, []);
 
@@ -154,7 +153,7 @@ const OrderProduct: React.FC<OrderProductProps> = ({ order, setOrders }) => {
           <div className="flex flex-col gap-5 mt-2 mb-2">
             {orderState.products.map((prod) => {
               return (
-                <div className="flex gap-4">
+                <div className="flex gap-4" key={`${prod.productId}`}>
                   <div className="w-16 h-20 relative">
                     <Image src={getImageSrc(prod.image)} alt="Product Image" fill={true} />
                   </div>

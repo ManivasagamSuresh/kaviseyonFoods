@@ -70,7 +70,6 @@ async function handleSignup({ name, email, password, phone }: SignUpFormValues) 
       totalPrice: 0,
       items: [],
     },
-    myOrder: [],
     isAdmin: false,
     address: "",
     city: "",

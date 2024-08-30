@@ -38,11 +38,10 @@ export interface User {
   email: string;
   password: string;
   phone: string;
-  wishlist: any[]; // Replace 'any' with the specific type if known
+  wishlist: any[];
   cart: Cart;
-  myOrder: any[]; // Replace 'any' with the specific type if known
   isAdmin: boolean;
-  _id?: ObjectId; // Use ObjectId type from mongodb package
+  _id?: ObjectId; 
   address?: string;
   city?: string;
   state?: string;
