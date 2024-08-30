@@ -10,7 +10,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: auto !important;
+  /* overflow: auto !important; */
 }
 
 /* Css for Navbar blur on Scrolling */

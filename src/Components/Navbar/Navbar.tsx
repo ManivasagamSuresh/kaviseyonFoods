@@ -25,6 +25,7 @@ function Navbar() {
   const [Category, setCategory] = useState<boolean>(false);
   const [profilePop, setprofilePop] = useState<boolean>(false);
   const router = useRouter();
+  const routerng = useRouter();
   const pathname = usePathname();
   const { kaviFoodUser } = useSelector((state: any) => state.user);
   const { cart } = useSelector((state: any) => state.guestUser);
@@ -37,9 +38,11 @@ function Navbar() {
     setPathName(pathname);
   }, [pathname]);
 
+ 
+
   return (
     <div className="w-full flex justify-center sticky top-6 lg:top-10 z-50">
-      <div className="w-full bg-white fallback-blur text-textColor flex items-center justify-between  h-16 lg:h-16 xl:h-20 sticky top-6 lg:top-10 z-50 px-5 py-3 sm:px-10 lg:px-8 xl:px-16 shadow shadow-themeColorLight max-w-[1850px]">
+      <div className="w-full bg-white fallback-blur text-textColor flex items-center justify-between  h-16 lg:h-16 xl:h-20  px-5 py-3 sm:px-10 lg:px-8 xl:px-16 shadow shadow-themeColorLight max-w-[1850px]">
         {search ? (
           <div className="flex gap-1 justify-end items-center w-full SearchInputAnimation ">
             <div className="bg-white rounded-lg w-full flex items-center gap-2 px-2 py-2 border border-themeColorDark">

@@ -15,7 +15,7 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
   const dispatch = useDispatch();
   const { mobile, email, cart, shippingAddress } = useSelector((state: any) => state.guestUser);
-  // TODO: make me to server side props fetching, or ill call twice
+  
   const getAllProducts = async () => {
     try {
       setLoading(true);

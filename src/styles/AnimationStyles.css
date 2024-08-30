@@ -15,18 +15,18 @@
 /* Animation for page mount */
 
 .pageMountAnimation {
-  transition: 1s;
-  animation: pageMount 1.5s ease;
+  animation: pageMount 1.5s ease forwards;
 }
 
 @keyframes pageMount {
   0% {
-    transform: translateY(-100vw);
+    transform: translateY(-100%);
   }
   100% {
     transform: translateY(0);
   }
 }
+
 
 /* Animation for mobile Menu */
 

@@ -96,7 +96,7 @@ function ProductPage() {
   return (
     <div className="w-full flex justify-center">
       {loading ? (
-        <div className="w-screen flex justify-center items-center h-[calc(100vh-220px)] md:h-[calc(100vh-200px)] lg:h-[calc(100vh-220px)] xl:h-[calc(100vh-240px)]">
+        <div className="w-screen flex justify-center items-center min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)]">
           <SyncLoader
             color="#a5c667"
             loading={loading}
