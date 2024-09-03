@@ -1,3 +1,4 @@
+import { clearGuestUser } from "@/redux/GuestSlice";
 import { logout } from "@/redux/UserSlice";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -28,6 +29,7 @@ const ProfilePopup: React.FC<ProfilePopupProps> = ({ setprofilePop }) => {
       localStorage.removeItem("kavifoodsAdmin");
       localStorage.removeItem("kavifoodsToken");
       dispatch(logout());
+      dispatch(clearGuestUser());
       toast.success("Logged-out Successfully");
     } catch (error: any) {
       toast.error(error.response.data.message);

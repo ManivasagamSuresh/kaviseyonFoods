@@ -9,7 +9,7 @@ import Image from "next/image";
 // import ProductCardH from "@/Components/ProductCardH/ProductCardH";
 
 // TODO REMOVE ALL THE UNWANTED CODE AND FORMAT ALL THE DOCUMENTS
-
+// TODO : BUG- ADDED TO CART NOT REFLECTING AFTER LOGOUT
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);

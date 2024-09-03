@@ -11,7 +11,7 @@ const initialState: GuestReduxInitial = {
   cart: {
     totalPrice: 0,
     items: [],
-  }, // Rename cart to items to avoid confusion
+  }, 
 };
 
 export const GuestSlice = createSlice({
@@ -57,7 +57,9 @@ export const GuestSlice = createSlice({
       state.name = null;
       state.mobile = null;
       state.email = null;
-      (state.shippingAddress = null), (state.cart.totalPrice = 0), (state.cart.items = []);
+      state.shippingAddress = null;
+      state.cart.totalPrice = 0;
+      state.cart.items.length = 0;
     },
     EmptyGuestCart: (state) => {
       state.cart.totalPrice = 0;
