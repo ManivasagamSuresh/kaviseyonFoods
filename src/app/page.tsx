@@ -15,7 +15,7 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
   const dispatch = useDispatch();
   const { mobile, email, cart, shippingAddress } = useSelector((state: any) => state.guestUser);
-  
+
   const getAllProducts = async () => {
     try {
       setLoading(true);
@@ -78,35 +78,54 @@ export default function Home() {
 
   return (
     <div className="w-full flex justify-center p-4">
-      <div className="text-lg  flex flex-col items-center gap-4 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)] w-full max-w-[1850px]">
-        <div className="w-full h-40 min-[560px]:h-48 relative min-[560px]:w-3/4 lg:h-64 lg:w-5/6 xl:w-[75%] xl:h-80">
-          <Image src="/Images/happybabySample.jpg" fill alt="logo" />
-        </div>
+      <div className="text-lg  flex flex-col items-center gap-4 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)] w-full  max-w-[1850px]">
+        <div className="min-[560px]:w-3/4 lg:w-5/6 xl:w-[75%] min-[1600px]:w-[1400px] h-full">
+          <div className="w-full h-40 min-[560px]:h-48 relative  lg:h-64 xl:h-80">
+            <Image src="/Images/happybabySample.jpg" fill alt="logo" />
+          </div>
 
-        {loading ? (
-          <>
-            <SyncLoader
-              color="#a5c667"
-              loading={loading}
-              margin={6}
-              size={16}
-              speedMultiplier={0.7}
-            />
-          </>
-        ) : (
-          <div className="w-full flex flex-col gap-4 min-[560px]:w-3/4  lg:w-5/6 xl:w-[75%] min-[1600px]:w-[1400px] mb-20">
-            <div className="text-2xl lg:text-3xl text-themeColorDark  font-semibold">
-              Our Products
+          <div className="my-16">
+            <div className="text-themeColorDark text-2xl lg:text-3xl font-semibold text-center">
+              Welcome to Kaviseyon Foods!
             </div>
-            <div className=" w-full flex flex-wrap gap-4 justify-center items-center lg:gap-2 sm:flex-row sm:items-start  lg:justify-start">
-              {products?.map((prod) => {
-                return <ProductCard prod={prod} key={prod._id} />;
-              })}
+            <div className="indent-1.5 my-3 text-justify lg:text-center text-base lg:text-lg">
+              At Kaviseyon Foods, we believe that mealtime should be a joyful and nourishing
+              experience for kids. Our journey began with a simple yet powerful belief: that every
+              child deserves delicious, wholesome food that supports their growth and brings a smile
+              to their face. Our mission is to create high-quality, nutritious food products that
+              kids love and parents trust. With the finest ingredients and innovative recipes, we’re
+              committed to making mealtime easier, healthier, and more enjoyable for families
+              everywhere. Join us in our mission to bring joy and nutrition to your child’s plate,
+              one meal at a time
             </div>
           </div>
-        )}
 
-        {/* <button onClick={postproduct}>POST</button> <button onClick={getAllProducts}>GET</button> */}
+          
+            <div className="w-full flex flex-col gap-4 min-[1600px]:w-[1400px] mb-20">
+              <div className="text-2xl lg:text-3xl text-themeColorDark  font-semibold">
+                Our Products
+              </div>
+              {loading ? (
+            <div className="flex justify-center w-full h-72">
+              <SyncLoader
+                color="#a5c667"
+                loading={loading}
+                margin={6}
+                size={16}
+                speedMultiplier={0.7}
+              />
+            </div>
+          ) : (
+              <div className=" w-full flex flex-wrap gap-4 justify-center items-center lg:gap-2 sm:flex-row sm:items-start  lg:justify-start">
+                {products?.map((prod) => {
+                  return <ProductCard prod={prod} key={prod._id} />;
+                })}
+              </div> )}
+            </div>
+         
+
+          {/* <button onClick={postproduct}>POST</button> <button onClick={getAllProducts}>GET</button> */}
+        </div>
       </div>
     </div>
   );
