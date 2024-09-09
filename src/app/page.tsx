@@ -88,7 +88,7 @@ export default function Home() {
             <div className="text-themeColorDark text-2xl lg:text-3xl font-semibold text-center">
               Welcome to Kaviseyon Foods!
             </div>
-            <div className="indent-1.5 my-3 text-justify lg:text-center text-base lg:text-lg">
+            <div className="indent-1.5 my-3 text-justify lg:text-center text-base lg:text-lg hidden lg:block">
               At Kaviseyon Foods, we believe that mealtime should be a joyful and nourishing
               experience for kids. Our journey began with a simple yet powerful belief: that every
               child deserves delicious, wholesome food that supports their growth and brings a smile
@@ -97,6 +97,9 @@ export default function Home() {
               committed to making mealtime easier, healthier, and more enjoyable for families
               everywhere. Join us in our mission to bring joy and nutrition to your child’s plate,
               one meal at a time
+            </div>
+            <div className="indent-1.5 my-3 text-justify lg:text-center text-base lg:text-lg lg:hidden"> 
+            We’re passionate about making mealtime joyful and nutritious for kids. Our journey started with the belief that every child deserves wholesome, delicious food that supports their growth and brings happiness to every bite.
             </div>
           </div>
 
