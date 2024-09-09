@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 function ProductCard({ prod }: any) {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [isHovered, setIsHovered] = useState<boolean>(false); // State to track hover
+  const [isHovered, setIsHovered] = useState<boolean>(false); 
   const [isAdded, setIsAdded] = useState<boolean>(false);
   const { kaviFoodUser } = useSelector((state: any) => state.user);
   const { cart } = useSelector((state: any) => state.guestUser);
@@ -51,15 +51,14 @@ function ProductCard({ prod }: any) {
   };
 
   useEffect(() => {
+    setIsAdded(false);
     if (kaviFoodUser) {
       const added = kaviFoodUser.cart.items.findIndex((p: any) => p._id === prod._id);
-
       if (added !== -1) {
         setIsAdded(true);
       }
     } else {
       const added = cart.items.findIndex((p: any) => p._id === prod._id);
-
       if (added !== -1) {
         setIsAdded(true);
       }
