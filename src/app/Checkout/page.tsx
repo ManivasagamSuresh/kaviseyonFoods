@@ -266,7 +266,7 @@ function page() {
       await HandleEmptyCart();
       payload._id = placeOrder.data.insertedId;
       const sendMailConfirmation = await axios.post("/api/OrderPlacedMail", payload);
-      toast.success("Order placed Successfull");
+      toast.success("Order placed Successfully");
       if(!kaviFoodUser){
         toast.info(`Sign up with ${contact.email} to view your orders in the future.`)
       }
