@@ -6,6 +6,7 @@ interface Product {
   weight_in_grams: number;
   image: string;
   description: string;
+  productImage:string
 }
 
 interface CartProduct {

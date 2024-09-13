@@ -39,6 +39,7 @@ export default function Home() {
         category: "Baby Food",
         weight_in_grams: 200,
         image: "https://drive.google.com/file/d/1uKw2Cm7ZQ7TBVdYZVBFCGeytMTxWkkcN/view?usp=sharing",
+        productImage: "https://drive.google.com/file/d/1uKw2Cm7ZQ7TBVdYZVBFCGeytMTxWkkcN/view?usp=sharing",
         description: `
           ### **Ragi: A Nutrient Powerhouse**
           - **High in calcium, dietary fiber, iron, and multinutrients**
@@ -81,7 +82,7 @@ export default function Home() {
       <div className="text-lg  flex flex-col items-center gap-4 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)] w-full  max-w-[1850px]">
         <div className="min-[560px]:w-3/4 lg:w-5/6 xl:w-[75%] min-[1600px]:w-[1400px] h-full">
           <div className="w-full h-40 min-[560px]:h-48 relative  lg:h-64 xl:h-80">
-            <Image src="/Images/happybabySample.jpg" fill alt="logo" />
+            <Image src="/Images/mainBanner.jpeg" fill alt="logo" />
           </div>
 
           <div className="my-16">

@@ -109,7 +109,7 @@ function ProductPage() {
         <div className="w-full max-w-[1850px] py-4 lg:px-10 flex flex-col md:flex-row gap-1 lg:gap-0 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)] pageMountAnimation">
           <div className="w-full h-fit py-2 lg:px-4 lg:w-1/2 lg:height-2/4 flex justify-center items-center">
             <div className="relative w-60 h-[280px] lg:h-[520px] lg:w-[440px]">
-              <Image src={getImageSrc(product?.image)} fill alt="" />
+              <Image src={getImageSrc(product?.productImage)} fill alt="" />
             </div>
           </div>
 
