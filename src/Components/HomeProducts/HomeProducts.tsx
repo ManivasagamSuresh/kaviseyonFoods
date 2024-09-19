@@ -28,7 +28,7 @@ function HomeProducts() {
   }, []);
 
   return (
-    <div className="w-full flex flex-col gap-12 min-[1600px]:w-[1400px] my-10 lg:my-32 py-10">
+    <div className="w-full flex flex-col gap-7 lg:gap-12 min-[1600px]:w-[1400px] lg:my-32 py-10">
       <div className="text-2xl lg:text-3xl text-themeColorDark w-full text-center  font-semibold">
         Our Products
       </div>
