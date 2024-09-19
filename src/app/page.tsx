@@ -10,6 +10,7 @@ import HomeMission from "@/Components/HomeMission/HomeMission";
 import WhyKaviFoods from "@/Components/WhyKaviFoods/WhyKaviFoods";
 import HomeProducts from "@/Components/HomeProducts/HomeProducts";
 import HomeHeroSection from "@/Components/HomeHeroSection/HomeHeroSection";
+import Testimonials from "@/Components/Testimonials/Testimonials";
 // import ProductCardH from "@/Components/ProductCardH/ProductCardH";
 
 // TODO REMOVE ALL THE UNWANTED CODE AND FORMAT ALL THE DOCUMENTS
@@ -75,6 +76,7 @@ export default function Home() {
           <HomeMission />
           <div id="products">
           <HomeProducts />
+          <Testimonials/>
           </div>
           {/* <button onClick={postproduct}>POST</button> */}
         </div>
