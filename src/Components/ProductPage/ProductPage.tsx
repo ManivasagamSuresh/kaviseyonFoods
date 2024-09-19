@@ -14,7 +14,6 @@ import { AddUserCart } from "@/redux/UserSlice";
 import { AddGuestCart } from "@/redux/GuestSlice";
 
 function ProductPage() {
-  // const [count, setCount] = useState<number>(1);
   const [product, setProduct] = useState<Product>();
   const [loading, setLoading] = useState<boolean>(true);
   const params = useParams();
@@ -67,6 +66,7 @@ function ProductPage() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (params.productId) {
       const productId = Array.isArray(params.productId) ? params.productId[0] : params.productId;
       getProductData(productId);
@@ -109,7 +109,7 @@ function ProductPage() {
         <div className="w-full max-w-[1850px] py-4 lg:px-10 flex flex-col md:flex-row gap-1 lg:gap-0 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)] pageMountAnimation">
           <div className="w-full h-fit py-2 lg:px-4 lg:w-1/2 lg:height-2/4 flex justify-center items-center">
             <div className="relative w-60 h-[280px] lg:h-[520px] lg:w-[440px]">
-              <Image src={getImageSrc(product?.productImage)} fill alt="" />
+              <Image src={getImageSrc(product?.productImage)} fill alt="" priority={true} loading="eager"/>
             </div>
           </div>
 

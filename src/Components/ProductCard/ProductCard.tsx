@@ -75,8 +75,9 @@ function ProductCard({ prod }: any) {
         <Image
           src={getImageSrc(prod.image)}
           alt="Product Image"
-          className={isHovered ? "hoveredImage" : ""}
-          fill // Ensures the Image fills its container
+          className={`${isHovered ? "hoveredImage" : ""} object-cover`}
+           fill // Ensures the Image fills its container
+
         />
       </div>
       <div className="px-4 py-2 sm:py-4 text-left flex flex-col gap-2 cursor-pointer">

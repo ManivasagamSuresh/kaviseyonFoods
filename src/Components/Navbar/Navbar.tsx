@@ -64,7 +64,7 @@ function Navbar() {
         ) : (
           <>
             <div className="hidden lg:flex gap-4 items-center justify-start h-full xl:gap-8 2xl:gap-10 flex-1">
-              <div className="w-14 h-14 relative xl:w-20 xl:h-14">
+              <div className="w-16 h-8 relative xl:w-20 xl:h-10">
                 <Image src="/Images/KaviseyonLogo.png" fill alt="logo" />
               </div>
               <Link
@@ -95,6 +95,7 @@ function Navbar() {
               >
                 About Us
               </Link>
+              
               {/* <Link
               href="/Contact"
               className={`cursor-pointer text-text-textColor lg:text-sm xl:text-base hover:underline decoration-themeColorDark underline-offset-4 ${
@@ -127,7 +128,7 @@ function Navbar() {
           </div> */}
 
             <div className="lg:hidden flex flex-1 justify-center">
-              <div className="lg:hidden h-[65px] w-20 sm:h-14 sm:w-20 relative">
+              <div className="lg:hidden h-10 w-20 relative">
                 <Image src="/Images/KaviseyonLogo.png" alt="logo" fill />
               </div>
             </div>

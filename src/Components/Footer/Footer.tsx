@@ -17,7 +17,7 @@ function Footer() {
     <div className=" w-full flex justify-center  items-center">
       <div className="h-fit px-3 sm:px-10 lg:px-40 py-5 flex justify-around text-textColor w-full max-w-[1850px] bg-[#F0F0F0] rounded-t-3xl md:rounded-t-[36px]">
         <div className="flex flex-col md:flex-row gap-4 justify-center  md:items-center md:gap-20 ">
-          <div className="relative hidden md:block w-16 h-20 lg:w-16 lg:h-20">
+          <div className="relative hidden md:block w-20 h-10">
             <Image src="/Images/KaviseyonLogo.png" alt="logo" fill />
           </div>
           <div>
@@ -40,7 +40,7 @@ function Footer() {
           <div className="flex flex-col gap-2">
             <div className="font-semibold 2xl:text-lg">Follow us on</div>
             <div className="flex gap-3">
-              {/* TODO ADD LINKS FOR SOCIAL MEDIA */}
+              {/* TODO ADD LINKS FOR SOCIAL MEDIA(YouTube) */}
               <div>
                 <Link href={"https://www.instagram.com/kaviseyonfoods/"} target="blank">
                   <RiInstagramLine className="w-5 h-5 cursor-pointer" />
