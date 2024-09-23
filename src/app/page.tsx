@@ -71,7 +71,9 @@ export default function Home() {
             We’re passionate about making mealtime joyful and nutritious for kids. Our journey started with the belief that every child deserves wholesome, delicious food that supports their growth and brings happiness to every bite.
             </div>
           </div> */}
+          <div className="p-4">
           <HomeHeroSection/>
+          </div>
           <WhyKaviFoods />
           <HomeMission />
           <div id="products">
