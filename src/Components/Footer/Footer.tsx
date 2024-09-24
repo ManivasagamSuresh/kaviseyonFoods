@@ -90,7 +90,7 @@ function Footer() {
             </div>
           </div>
         </div>
-        <div className="flex-col gap-2 flex w-full md:w-fit items-center justify-center md:justify-start">
+        <div className="flex-col gap-2 flex w-full mt-5 md:mt-0 md:w-fit items-center justify-center md:justify-start">
           <div className="flex flex-col gap-2">
             <div className="font-semibold 2xl:text-lg text-center md:text-left">Follow us on</div>
             <div className="flex gap-3">
