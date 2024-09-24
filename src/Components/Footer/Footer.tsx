@@ -4,6 +4,10 @@ import React from "react";
 import { RiInstagramLine } from "react-icons/ri";
 import { FaYoutube } from "react-icons/fa";
 import { useRouter } from "next/navigation";
+import { IoCall } from "react-icons/io5";
+import { MdEmail } from "react-icons/md";
+import { FaLocationDot } from "react-icons/fa6";
+
 import Link from "next/link";
 
 function Footer() {
@@ -15,30 +19,80 @@ function Footer() {
 
   return (
     <div className=" w-full flex justify-center  items-center">
-      <div className="h-fit px-3 sm:px-10 lg:px-40 py-5 flex justify-around text-textColor w-full max-w-[1850px] bg-[#F0F0F0] rounded-t-3xl md:rounded-t-[36px]">
-        <div className="flex flex-col md:flex-row gap-4 justify-center  md:items-center md:gap-20 ">
+      <div className="h-fit px-10 lg:px-40 py-5 flex flex-col md:flex-row gap-6 items-center md:items-start justify-around text-textColor w-full max-w-[1850px] bg-[#F0F0F0] rounded-t-3xl md:rounded-t-[36px]">
+        <div className="flex flex-col md:flex-row gap-4 justify-center md:gap-20 ">
           <div className="relative hidden md:block w-20 h-10">
             <Image src="/Images/KaviseyonLogo.png" alt="logo" fill />
           </div>
-          <div>
-            <div className="font-semibold 2xl:text-lg">Call/WhatsApp</div>
-            <div className="text-sm 2xl:text-base">+91 7010099780</div>
+          <div className="flex flex-col gap-2 ">
+            <div className="text-xl font-semibold text-center md:text-left">Contact Us</div>
+
+            <div>
+              <div className="flex gap-2 items-center h-fit">
+                <span>
+                  <IoCall />
+                </span>{" "}
+                <span className="text-sm 2xl:text-base">+91 7010099780</span>
+              </div>
+            </div>
+            <div>
+              <div className="flex gap-2 items-center h-fit">
+                {" "}
+                <span>
+                  {" "}
+                  <MdEmail />{" "}
+                </span>{" "}
+                <span className="text-sm 2xl:text-base"> kaviseyonfoods@gmail.com</span>
+              </div>
+            </div>
+
+            <div>
+              <div className="flex gap-2 items-start h-fit">
+                {" "}
+                <span>
+                  {" "}
+                  <FaLocationDot />{" "}
+                </span>{" "}
+                <span className="text-sm 2xl:text-base w-48">
+                  2/1077-1, Manikandan street, Thasildhar Nagar, Madurai. Tamil Nadu - 625020{" "}
+                </span>
+              </div>
+            </div>
           </div>
-          <div>
-            <div className="font-semibold 2xl:text-lg">Email</div>
-            <div className="text-sm 2xl:text-base">kaviseyonfoods@gmail.com</div>
-          </div>
-          {/* <div className='flex flex-col gap-2 sm:hidden'>
-          <div className='font-semibold 2xl:text-lg'>Follow us on</div>
-          <div className='flex gap-3'>
-            <div><RiInstagramLine className='w-5 h-5 2xl:w-6 2xl:h-6'/></div>
-            <div><FaYoutube className='w-5 h-5 2xl:w-6 2xl:h-6'/></div>
-          </div>
-        </div> */}
         </div>
-        <div className="flex-col gap-2 sm:flex items-center justify-center">
+        <div className="flex flex-col gap-2">
+          <div className="text-lg lg:text-xl font-semibold text-center md:text-left">Policies</div>
+          <div className="flex flex-col text-sm gap-1">
+            {/* <div className='cursor-pointer'>Contact us</div> */}
+            <div
+              className="cursor-pointer hover:underline"
+              onClick={() => {
+                handleNavigation("PrivacyPolicy");
+              }}
+            >
+              Privacy Policy and TC
+            </div>
+            <div
+              className="cursor-pointer hover:underline"
+              onClick={() => {
+                handleNavigation("CancellationPolicy");
+              }}
+            >
+              Cancellation Policy
+            </div>
+            <div
+              className="cursor-pointer hover:underline"
+              onClick={() => {
+                handleNavigation("ShippingPolicy");
+              }}
+            >
+              Shipping Policy
+            </div>
+          </div>
+        </div>
+        <div className="flex-col gap-2 sm:flex items-center ">
           <div className="flex flex-col gap-2">
-            <div className="font-semibold 2xl:text-lg">Follow us on</div>
+            <div className="font-semibold 2xl:text-lg text-center md:text-left">Follow us on</div>
             <div className="flex gap-3">
               {/* TODO ADD LINKS FOR SOCIAL MEDIA(YouTube) */}
               <div>
@@ -52,16 +106,6 @@ function Footer() {
             </div>
           </div>
         </div>
-        {/* <div className='flex flex-col gap-2'>
-        <div className='text-lg lg:text-xl font-semibold'>Help & About</div>
-        <div className='flex flex-col text-sm gap-1'>
-          <div className='cursor-pointer'>Contact us</div>
-          <div className='cursor-pointer'>Privacy Policy</div>
-          <div className='cursor-pointer'>Terms of Service</div>
-          <div className='cursor-pointer'>Return Policy</div>
-          <div className='cursor-pointer'>FAQs</div>
-        </div>
-      </div> */}
       </div>
     </div>
   );
