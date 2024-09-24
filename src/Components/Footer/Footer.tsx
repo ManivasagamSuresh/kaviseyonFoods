@@ -19,13 +19,13 @@ function Footer() {
 
   return (
     <div className=" w-full flex justify-center  items-center">
-      <div className="h-fit px-10 lg:px-40 py-5 flex flex-col md:flex-row gap-6 items-center md:items-start justify-around text-textColor w-full max-w-[1850px] bg-[#F0F0F0] rounded-t-3xl md:rounded-t-[36px]">
+      <div className="h-fit px-4 md:px-10 lg:px-40 py-5 flex flex-wrap md:flex-row gap-0 md:gap-6 md:justify-around text-textColor w-full max-w-[1850px] bg-[#F0F0F0] rounded-t-3xl md:rounded-t-[36px]">
         <div className="flex flex-col md:flex-row gap-4 justify-center md:gap-20 ">
           <div className="relative hidden md:block w-20 h-10">
             <Image src="/Images/KaviseyonLogo.png" alt="logo" fill />
           </div>
           <div className="flex flex-col gap-2 ">
-            <div className="text-xl font-semibold text-center md:text-left">Contact Us</div>
+            <div className="text-lg font-semibold ">Contact Us</div>
 
             <div>
               <div className="flex gap-2 items-center h-fit">
@@ -53,7 +53,7 @@ function Footer() {
                   {" "}
                   <FaLocationDot />{" "}
                 </span>{" "}
-                <span className="text-sm 2xl:text-base w-48">
+                <span className="text-xs 2xl:text-base w-48">
                   2/1077-1, Manikandan street, Thasildhar Nagar, Madurai. Tamil Nadu - 625020{" "}
                 </span>
               </div>
@@ -61,7 +61,7 @@ function Footer() {
           </div>
         </div>
         <div className="flex flex-col gap-2">
-          <div className="text-lg lg:text-xl font-semibold text-center md:text-left">Policies</div>
+          <div className="text-lg lg:text-xl font-semibold ">Policies</div>
           <div className="flex flex-col text-sm gap-1">
             {/* <div className='cursor-pointer'>Contact us</div> */}
             <div
@@ -90,7 +90,7 @@ function Footer() {
             </div>
           </div>
         </div>
-        <div className="flex-col gap-2 sm:flex items-center ">
+        <div className="flex-col gap-2 flex w-full md:w-fit items-center justify-center md:justify-start">
           <div className="flex flex-col gap-2">
             <div className="font-semibold 2xl:text-lg text-center md:text-left">Follow us on</div>
             <div className="flex gap-3">
