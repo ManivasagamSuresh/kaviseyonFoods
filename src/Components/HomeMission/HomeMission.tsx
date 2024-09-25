@@ -16,7 +16,7 @@ function HomeMission() {
         </div>
       </div>
       <div className="flex flex-1 justify-center items-center h-full relative">
-        <div className="relative h-5/6 lg:h-full w-8/12 sm:w-7/12 lg:w-10/12">
+        <div className="relative h-5/6 md:h-full xl:h-full w-8/12 sm:w-7/12 lg:w-10/12">
           <Image src={"/Images/EatingBaby1.png"} fill alt="Image" />
         </div>
       </div>
