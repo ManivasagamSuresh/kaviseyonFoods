@@ -11,7 +11,7 @@ function HomeHeroSection() {
             <Image src={'/Images/mainBannerDesktop.png'} alt='' fill />
         </div>
         {/* h-[580px]  */}
-        <div className="w-full h-[calc(100vh-88px)] sm:h-[calc(100vh-108px)] relative lg:hidden">
+        <div className="w-full h-[calc(100vh-108px)] sm:h-[calc(100vh-108px)] relative lg:hidden">
             <Image src={'/Images/mainBannerMobile.png'} alt='image' fill />
         </div>
     </div>
