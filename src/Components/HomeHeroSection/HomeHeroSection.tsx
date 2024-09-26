@@ -7,10 +7,11 @@ function HomeHeroSection() {
 
   return (
     <div>
-        <div className="w-full lg:h-[calc(100vh-244px)] xl:h-[calc(100vh-210px)] relative hidden lg:block bg-themeColorDark shadow-md">
+        <div className="w-full lg:h-[calc(100vh-244px)] xl:h-[calc(100vh-210px)] relative hidden lg:block  shadow-md">
             <Image src={'/Images/mainBannerDesktop.png'} alt='' fill />
         </div>
-        <div className="w-full h-[580px] sm:h-[860px] md:h-[960px] relative lg:hidden bg-themeColorDark ">
+        {/* h-[580px]  */}
+        <div className="w-full h-[calc(100vh-88px)] sm:h-[calc(100vh-108px)] relative lg:hidden">
             <Image src={'/Images/mainBannerMobile.png'} alt='image' fill />
         </div>
     </div>
