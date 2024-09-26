@@ -1,11 +1,15 @@
 "use client";
 import axios from "axios";
-import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
 function Page() {
     const [loading, setLoading] = useState<boolean>(false);
+    const { kaviFoodUser } = useSelector((state: any) => state.user);
+    const router = useRouter();
   const [formValues, setFormValues] = useState<Product>({
     name: "",
     price: 0,
@@ -60,6 +64,14 @@ function Page() {
       setLoading(false);
     }
   };
+
+
+  useEffect(() => {
+    if (!kaviFoodUser?.isAdmin) {
+      router.push("/");
+    }
+  }, [kaviFoodUser]);
+
 
   return (
     <div className="w-full max-w-xl mx-auto p-6 bg-white shadow-lg rounded-md my-20">
