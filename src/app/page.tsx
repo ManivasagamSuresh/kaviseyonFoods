@@ -59,7 +59,7 @@ export default function Home() {
   // };
 
   return (
-    <div className="w-full flex justify-center p-4">
+    <div className="w-full flex justify-center ">
       <div className="text-lg  flex flex-col items-center gap-4 min-h-[calc(100vh-88px)] lg:min-h-[calc(100vh-104px)] xl:min-h-[calc(100vh-120px)] w-full  max-w-[1850px]">
         <div className="min-[560px]:w-3/4 lg:w-5/6 xl:w-[75%] min-[1600px]:w-[1400px] h-full">
           {/* <div className="my-16 ">
@@ -71,7 +71,7 @@ export default function Home() {
             We’re passionate about making mealtime joyful and nutritious for kids. Our journey started with the belief that every child deserves wholesome, delicious food that supports their growth and brings happiness to every bite.
             </div>
           </div> */}
-          <div className="p-4">
+          <div className="lg:p-4">
           <HomeHeroSection/>
           </div>
           <WhyKaviFoods />
