@@ -95,15 +95,22 @@ function Navbar() {
               >
                 About Us
               </Link>
-              
-              {/* <Link
-              href="/Contact"
+           {
+             kaviFoodUser && 
+              kaviFoodUser.isAdmin ? <>
+              <Link
+              href="/AddProduct"
               className={`cursor-pointer text-text-textColor lg:text-sm xl:text-base hover:underline decoration-themeColorDark underline-offset-4 ${
-                pathName === "/Contact" && "bg-themeColorDark rounded-md py-1 px-3 text-white"
+                pathName === "/AddProduct" && "bg-themeColorDark rounded-md py-1 px-3 text-white"
               }`}
             >
-              FAQs
-            </Link> */}
+              Add Product
+            </Link>
+              
+              </>: <></>
+           
+           }   
+              
             </div>
             <div
               className="block lg:hidden flex-1"

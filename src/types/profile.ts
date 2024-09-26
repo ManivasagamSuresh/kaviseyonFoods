@@ -79,6 +79,7 @@ export interface CartItem {
   category: string;
   description: string;
   weight_in_grams: number;
+  productImage: string
 }
 
 export interface GuestReduxInitial {

@@ -22,7 +22,7 @@ function CheckoutProduct({ item }: CheckoutProductProps) {
           <div className="absolute top-[-12px] right-[-8px] bg-themeColorDark text-milkWhite rounded-full text-xs flex justify-center items-center z-10 h-5 w-5">
             {item.quantity}
           </div>
-          <Image src={getImageSrc(item.image)} alt="Product Image" fill={true} />
+          <Image src={getImageSrc(item.productImage)} alt="Product Image" fill={true} />
         </div>
         <div>
           <div>{item.name}</div>

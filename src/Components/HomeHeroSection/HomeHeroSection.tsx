@@ -3,8 +3,6 @@ import React from 'react'
 
 function HomeHeroSection() {
 
-  //TODO: REMOVE BORDER AND BACKGROUND
-
   return (
     <div>
         <div className="w-full lg:h-[calc(100vh-244px)] xl:h-[calc(100vh-210px)] relative hidden lg:block  shadow-md">

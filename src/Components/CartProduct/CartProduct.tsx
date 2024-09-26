@@ -72,12 +72,14 @@ const CartProduct: React.FC<ProductComponentProps> = ({ prod }) => {
     router.push(`/Product/${productId}`);
   };
 
+  console.log(prod)
+
   return (
     <div className="flex my-2 lg:my-4">
       <div className="w-9/12 md:w-6/12 lg:w-7/12 flex gap-5 lg:gap-6">
         <div className="w-4/12 lg:w-3/12">
           <div className="w-24 h-28 lg:w-24 lg:h-28 2xl:w-32 2xl:h-40 relative">
-            <Image src={getImageSrc(prod.image)} alt="Product Image" fill={true} />
+            <Image src={getImageSrc(prod.productImage)} alt="Product Image" fill={true} />
           </div>
         </div>
         <div className="flex flex-col gap-4 px-1">
