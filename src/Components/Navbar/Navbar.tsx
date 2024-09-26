@@ -128,7 +128,7 @@ function Navbar() {
           </div> */}
 
             <div className="lg:hidden flex flex-1 justify-center">
-              <div className="lg:hidden h-10 w-20 relative">
+              <div className="lg:hidden h-9 w-20 relative">
                 <Image src="/Images/KaviseyonLogo.png" alt="logo" fill />
               </div>
             </div>
