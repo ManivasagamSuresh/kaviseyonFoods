@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { LiaRupeeSignSolid } from "react-icons/lia";
+import { LiaEditSolid, LiaRupeeSignSolid } from "react-icons/lia";
 // import "../../styles/AnimationStyles.css"
 // import '@/styles/AnimationStyles.css'
 import { FaCartPlus } from "react-icons/fa6";
@@ -15,7 +15,7 @@ import { toast } from "react-toastify";
 function ProductCard({ prod }: any) {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [isHovered, setIsHovered] = useState<boolean>(false); 
+  const [isHovered, setIsHovered] = useState<boolean>(false);
   const [isAdded, setIsAdded] = useState<boolean>(false);
   const { kaviFoodUser } = useSelector((state: any) => state.user);
   const { cart } = useSelector((state: any) => state.guestUser);
@@ -50,6 +50,10 @@ function ProductCard({ prod }: any) {
     router.push("/myCart");
   };
 
+  const handleNavigateToEdit = (productId: string) => {
+    router.push(`/EditProduct/${productId}`);
+  };
+
   useEffect(() => {
     setIsAdded(false);
     if (kaviFoodUser) {
@@ -76,8 +80,7 @@ function ProductCard({ prod }: any) {
           src={getImageSrc(prod.image)}
           alt="Product Image"
           className={`${isHovered ? "hoveredImage" : ""} object-cover`}
-           fill // Ensures the Image fills its container
-
+          fill // Ensures the Image fills its container
         />
       </div>
       <div className="px-4 py-2 sm:py-4 text-left flex flex-col gap-2 cursor-pointer">
@@ -91,23 +94,29 @@ function ProductCard({ prod }: any) {
             <div className="text-xs sm:text-sm">Net Wt: {prod.weight_in_grams}g</div>
           </div>
         </div>
-        {
-          kaviFoodUser && kaviFoodUser.isAdmin ? <></> : <>
-          
-          {isAdded ? (
-          <div className="flex justify-center items-center w-full h-fit gap-2 sm:mt-4 text-xs sm:text-sm font-semibold bg-themeColorDark text-milkWhite rounded-sm px-2 py-1 text-center">
-            <div onClick={OpenCart}>Added To Cart</div>
-            <FaArrowUpRightFromSquare />
+        {kaviFoodUser && kaviFoodUser.isAdmin ? (
+          <div
+            className="flex justify-center items-center w-full h-fit gap-2 sm:mt-4 text-xs sm:text-sm font-semibold bg-themeColorDark text-milkWhite rounded-sm px-2 py-1 text-center"
+            onClick={()=>{handleNavigateToEdit(prod._id)}}
+          >
+            <span className=""> Edit Product Details</span>
+            <LiaEditSolid className="cursor-pointer" />
           </div>
         ) : (
-          <div className="flex justify-center items-center w-full h-fit gap-2 sm:mt-4 text-xs sm:text-sm font-semibold bg-themeColorDark text-milkWhite rounded-sm px-2 py-1 text-center">
-            <div onClick={addToCart}>Add To Cart</div>
-            <FaCartPlus />
-          </div>
-        )}
+          <>
+            {isAdded ? (
+              <div className="flex justify-center items-center w-full h-fit gap-2 sm:mt-4 text-xs sm:text-sm font-semibold bg-themeColorDark text-milkWhite rounded-sm px-2 py-1 text-center">
+                <div onClick={OpenCart}>Added To Cart</div>
+                <FaArrowUpRightFromSquare />
+              </div>
+            ) : (
+              <div className="flex justify-center items-center w-full h-fit gap-2 sm:mt-4 text-xs sm:text-sm font-semibold bg-themeColorDark text-milkWhite rounded-sm px-2 py-1 text-center">
+                <div onClick={addToCart}>Add To Cart</div>
+                <FaCartPlus />
+              </div>
+            )}
           </>
-        }
-       
+        )}
       </div>
     </div>
   );
