@@ -30,7 +30,7 @@ export const GuestSlice = createSlice({
       } else {
         state.cart.items.push(action.payload);
       }
-      state.cart.totalPrice += action.payload.price; // Update totalPrice
+      state.cart.totalPrice += Number(action.payload.price); // Update totalPrice
     },
     ReduceGuestCartQuantity: (state, action) => {
       if (state.cart.items) {
@@ -38,7 +38,7 @@ export const GuestSlice = createSlice({
         if (cartIndex !== -1) {
           if (state.cart.items[cartIndex].quantity > 1) {
             state.cart.items[cartIndex].quantity -= 1;
-            state.cart.totalPrice -= state.cart.items[cartIndex].price; // Update totalPrice
+            state.cart.totalPrice -= Number(state.cart.items[cartIndex].price); // Update totalPrice
           }
         }
       }
@@ -48,7 +48,7 @@ export const GuestSlice = createSlice({
         const cartIndex = state.cart.items.findIndex((prod) => prod._id === action.payload._id);
         if (cartIndex !== -1) {
           state.cart.totalPrice -=
-            state.cart.items[cartIndex].price * state.cart.items[cartIndex].quantity; // Update totalPrice
+            +state.cart.items[cartIndex].price * state.cart.items[cartIndex].quantity; // Update totalPrice
           state.cart.items.splice(cartIndex, 1);
         }
       }

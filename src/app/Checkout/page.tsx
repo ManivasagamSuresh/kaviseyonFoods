@@ -303,7 +303,7 @@ function page() {
       };
       const { data } = await axios.post("/api/PaymentAPI", orderData);
       const options = {
-        key: process.env.RAZORPAY_KEYID,
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEYID,
         amount: data.amount,
         currency: data.currency,
         name: "Kavi Seyon Foods",

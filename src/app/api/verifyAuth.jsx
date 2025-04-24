@@ -1,6 +1,6 @@
 // import jwt from "jsonwebtoken";
 
-// const JWT_SECRET = process.env.JWT_SECRET; // Ensure the correct casing and name for the environment variable
+// const NEXT_PUBLIC_JWT_SECRET = process.env.NEXT_PUBLIC_JWT_SECRET; // Ensure the correct casing and name for the environment variable
 
 // const verifyAuth = (req, res, next) => {
 //   // Check if authorization header is present
@@ -16,7 +16,7 @@
 
 //   try {
 //     // Verify the token using the secret
-//     jwt.verify(token, JWT_SECRET, (err, user) => {
+//     jwt.verify(token, NEXT_PUBLIC_JWT_SECRET, (err, user) => {
 //       if (err) {
 //         return res.status(401).json({ message: "Unauthorized: Token verification failed" });
 //       }

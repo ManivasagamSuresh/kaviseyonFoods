@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import { NextRequest, NextResponse } from "next/server";
-const emailUser = process.env.EMAIL_USER; // Replace with actual environment variable for email
-const emailPassword = process.env.EMAIL_PASSWORD;
+const emailUser = process.env.NEXT_PUBLIC_EMAIL_USER; // Replace with actual environment variable for email
+const emailPassword = process.env.NEXT_PUBLIC_EMAIL_PASSWORD;
 
 export const POST = async (request) => {
   try {

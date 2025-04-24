@@ -1,6 +1,6 @@
 import { MongoClient, Db } from "mongodb";
 
-const url = process.env.MONGODB_URL;
+const url = process.env.NEXT_PUBLIC_MONGODB_URL;
 const mongoclient = new MongoClient(url);
 
 let db: Db | null = null;

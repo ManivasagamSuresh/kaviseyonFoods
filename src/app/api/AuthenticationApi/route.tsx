@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb";
 import { NextRequest, NextResponse } from "next/server";
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
-const JWT_SECRET = process.env.JWT_SECRET;
+const NEXT_PUBLIC_JWT_SECRET = process.env.NEXT_PUBLIC_JWT_SECRET;
 
 export const POST = async (request: NextRequest) => {
   const { action, email, password, name, phone, confirmpassword, cart } = await request.json();
@@ -33,7 +33,7 @@ async function handleLogin({ email, password, cart }: SignInFormValues) {
   if (user) {
     const compare = await bcrypt.compare(password, user.password);
     if (compare) {
-      const token = await jwt.sign({ id: user._id }, JWT_SECRET);
+      const token = await jwt.sign({ id: user._id }, NEXT_PUBLIC_JWT_SECRET);
       // TODO
       // coNFIRM LOGIN WITH MOBILE NUMBER ALSO
       if (cart) {
